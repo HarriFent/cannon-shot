@@ -8,7 +8,8 @@ import java.awt.image.BufferedImage;
  * @author Harrison Fenton-Fearn
  */
 
-public class Animation {
+public class Animation
+{
 
     private BufferedImage animImage;
 

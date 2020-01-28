@@ -9,8 +9,8 @@ import java.awt.*;
  * Blank basic game framework
  */
 
-public class Window extends JFrame{
-
+public class Window extends JFrame
+{
     //Set whether it is full screen
     private final boolean FULLSCREEN = false;
 

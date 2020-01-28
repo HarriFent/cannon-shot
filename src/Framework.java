@@ -1,16 +1,19 @@
 package src;
 
+import src.scenes.Game;
+import src.scenes.Scene;
+
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
- /**
+/**
  * @author Harrison Fenton-Fearn
  * Framework that controls the game (Game.java) that created it, update it and draw it on the screen.
  */
 
-public class Framework extends Canvas {
+public class Framework extends Canvas
+{
 
     //Width of the frame.
     public static int frameWidth;
@@ -35,8 +38,8 @@ public class Framework extends Canvas {
     //Used for calculating elapsed time.
     private long lastTime;
 
-    private Game game;
-    
+    private HashMap<String, Scene> scenes = new HashMap<String, Scene>();
+
     public Framework ()
     {
         super();
@@ -93,7 +96,7 @@ public class Framework extends Canvas {
                 case PLAYING:
                     gameTime += System.nanoTime() - lastTime;
                     
-                    game.UpdateGame(gameTime, mousePosition());
+                    scenes.get("Game").Update(gameTime, mousePosition());
                     
                     lastTime = System.nanoTime();
                 break;
@@ -159,7 +162,7 @@ public class Framework extends Canvas {
         switch (gameState)
         {
             case PLAYING:
-                game.Draw(g2d, mousePosition());
+                scenes.get("Game").Draw(g2d, mousePosition());
             break;
             case GAMEOVER:
                 //...
@@ -181,8 +184,11 @@ public class Framework extends Canvas {
         // We set the gameTime to 0 and the lastTime to current time for later calculations.
         gameTime = 0;
         lastTime = System.nanoTime();
-        
-        game = new Game();
+
+        if (scenes.get("Game") != null)
+            scenes.remove("Game");
+
+        scenes.put("Game", new Game());
     }
 
     private void restartGame()
@@ -191,7 +197,7 @@ public class Framework extends Canvas {
         gameTime = 0;
         lastTime = System.nanoTime();
         
-        game.RestartGame();
+        scenes.get("Game").Reset();
         
         // We change game status so that the game can start.
         gameState = GameState.PLAYING;

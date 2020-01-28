@@ -19,7 +19,8 @@ public class ImageHandler {
         try
         {
             URL url = ImageHandler.class.getResource(imgName);
-            if (url == null) {
+            if (url == null)
+            {
                 System.out.println("Cannot find URL from image name: \"" + imgName + "\"");
                 return null;
             }

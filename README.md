@@ -1,2 +1,2 @@
-# Simple Blank Game Framework
-A Simple game framework to use as a foundation for creating a Java Game
+# Cannon Shot Game
+A Simple game where the object is to shoot the cannon ball into the basket.

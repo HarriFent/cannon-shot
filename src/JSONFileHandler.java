@@ -11,7 +11,13 @@ public class JSONFileHandler {
 
     private JSONObject object;
 
+    private final static String baseFileURL = "/resources/files/";
+
     public JSONFileHandler(String fileName) {
+
+        if (!fileName.endsWith(".json"))
+            fileName = baseFileURL + fileName + ".json";
+
         URL fileURL = this.getClass().getResource(fileName);
         String file = GetFile(fileURL);
         try {

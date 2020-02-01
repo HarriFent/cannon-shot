@@ -63,7 +63,7 @@ public class Framework extends Canvas
      */
     private void Initialize()
     {
-
+        scenes.put("Menu", new MainMenu(this));
     }
     
     /**
@@ -95,7 +95,7 @@ public class Framework extends Canvas
             {
                 case PLAYING:
                     gameTime += System.nanoTime() - lastTime;
-                    
+
                     scenes.get("Game").Update(gameTime, mousePosition());
                     
                     lastTime = System.nanoTime();
@@ -105,6 +105,7 @@ public class Framework extends Canvas
                 break;
                 case MAIN_MENU:
                     //...
+                    scenes.get("Menu").Update(gameTime, mousePosition());
                 break;
                 case OPTIONS:
                     //...
@@ -168,7 +169,7 @@ public class Framework extends Canvas
                 //...
             break;
             case MAIN_MENU:
-                //...
+                scenes.get("Menu").Draw(g2d, mousePosition());
             break;
             case OPTIONS:
                 //...
@@ -179,7 +180,7 @@ public class Framework extends Canvas
         }
     }
 
-    private void newGame()
+    public void newGame()
     {
         // We set the gameTime to 0 and the lastTime to current time for later calculations.
         gameTime = 0;
@@ -191,7 +192,7 @@ public class Framework extends Canvas
         scenes.put("Game", new Game());
     }
 
-    private void restartGame()
+    public void restartGame()
     {
         // We set gameTime to zero and lastTime to current time for later calculations.
         gameTime = 0;

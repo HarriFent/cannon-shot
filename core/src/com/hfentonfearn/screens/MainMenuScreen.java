@@ -3,6 +3,7 @@ package com.hfentonfearn.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -12,12 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.hfentonfearn.CannonShot;
+import com.hfentonfearn.helpers.AssetLoader;
 
 public class MainMenuScreen implements Screen {
 
     private Stage stage;
     private Table table;
     private CannonShot game;
+
+    private Sprite background;
 
     private SpriteBatch batcher;
 
@@ -27,21 +31,26 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        System.out.println("MainMenu");
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
+        CreateUITable(new Skin(Gdx.files.internal("skin/level-plane-ui.json")));
+
+        background = new Sprite(AssetLoader.bgMainMenu);
+        background.setOriginCenter();
+        background.setScale(2);
+
+        batcher = new SpriteBatch();
+    }
+
+    private void CreateUITable(Skin skin) {
         table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
         table.setDebug(false);
-
-        Skin mySkin = new Skin(Gdx.files.internal("skin/level-plane-ui.json"));
-
         table.add().expand().colspan(3);
         table.row();
-
-        TextButton txtPlayButton = new TextButton("Play",mySkin);
+        TextButton txtPlayButton = new TextButton("Play",skin, "big-1");
         txtPlayButton.addListener(new InputListener() {
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
@@ -49,8 +58,7 @@ public class MainMenuScreen implements Screen {
             }
         });
         table.add(txtPlayButton).pad(25,50,50,25);
-
-        TextButton txtOptionButton = new TextButton("Options",mySkin);
+        TextButton txtOptionButton = new TextButton("Options",skin, "big-1");
         txtOptionButton.addListener(new InputListener() {
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
@@ -58,10 +66,7 @@ public class MainMenuScreen implements Screen {
             }
         });
         table.add(txtOptionButton).pad(25,25,50,25);
-
         table.add().expandX();
-
-        batcher = new SpriteBatch();
     }
 
     @Override
@@ -72,8 +77,10 @@ public class MainMenuScreen implements Screen {
         stage.act();
 
         batcher.begin();
-        stage.draw();
+        background.draw(batcher);
         batcher.end();
+
+        stage.draw();
     }
 
     @Override

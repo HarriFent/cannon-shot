@@ -22,7 +22,6 @@ public class SplashScreen implements Screen {
 
     @Override
     public void show() {
-        System.out.println("SplashScreen");
         timer = 255;
         sprite = new Sprite(AssetLoader.splash);
         sprite.setColor(1, 1, 1, 0);

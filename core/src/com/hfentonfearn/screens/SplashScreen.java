@@ -37,7 +37,7 @@ public class SplashScreen implements Screen {
     @Override
     public void render(float delta) {
         if (updateTimer())
-            game.setScreen(new MainMenuScreen());
+            game.setScreen(new MainMenuScreen(game));
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -48,7 +48,7 @@ public class SplashScreen implements Screen {
 
     private boolean updateTimer() {
         sprite.setAlpha(timer);
-        timer -= 2;
+        timer -= 30;
          return !(timer > 0);
     }
 

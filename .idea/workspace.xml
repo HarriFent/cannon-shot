@@ -1,76 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="63363cda-aca6-4a42-9e18-3762d134fb61" name="Default Changelist" comment="Init Commit - A big change using libGDX as the base framework">
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileChanges/last-build.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/java_json.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/assets/flipflopSplash.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/assets/skin/font-export.fnt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/assets/skin/font-subtitle-export.fnt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/assets/skin/font-title-export.fnt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/assets/skin/level-plane-ui.atlas" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/assets/skin/level-plane-ui.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/assets/skin/level-plane-ui.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/out/production/classes/com/hfentonfearn/CannonShot.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/out/production/classes/com/hfentonfearn/helpers/AssetLoader.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/out/production/classes/com/hfentonfearn/screens/MainMenuScreen.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/out/production/classes/com/hfentonfearn/screens/SplashScreen.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/com/hfentonfearn/CannonShot.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/com/hfentonfearn/helpers/AssetLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/com/hfentonfearn/screens/MainMenuScreen.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/com/hfentonfearn/screens/SplashScreen.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/out/production/classes/com/hfentonfearn/desktop/DesktopLauncher.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/out/production/resources/flipflopSplash.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/out/production/resources/skin/font-export.fnt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/out/production/resources/skin/font-subtitle-export.fnt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/out/production/resources/skin/font-title-export.fnt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/out/production/resources/skin/level-plane-ui.atlas" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/out/production/resources/skin/level-plane-ui.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/out/production/resources/skin/level-plane-ui.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/desktop/src/com/hfentonfearn/desktop/DesktopLauncher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+    <list default="true" id="63363cda-aca6-4a42-9e18-3762d134fb61" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cannon-shot.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jars/java-json.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/files/world1.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/bgMainMenu.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/buttons/btnPlay0.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/buttons/btnPlay1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/buttons/btnPlay2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/ship.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/textureGrass.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/textureSea.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Animation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Canvas.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Framework.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ImageHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/JSONFileHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MainMenu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Ship.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sprite.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Window.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ImageButton.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/Game.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenes/Scene.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/out/production/classes/com/hfentonfearn/screens/MainMenuScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/out/production/classes/com/hfentonfearn/screens/MainMenuScreen.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -104,11 +37,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="17">
-              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+              <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -118,15 +51,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="289">
               <caret line="25" column="28" lean-forward="true" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/core/assets/skin/level-plane-ui.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="5" lean-forward="true" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -144,8 +68,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/core/src/com/hfentonfearn/screens/MainMenuScreen.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -170,58 +94,6 @@
               <item name="cannon-shot-git" type="b2602c69:ProjectViewProjectNode" />
               <item name="cannon-shot-git" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="core" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="cannon-shot-git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cannon-shot-git" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="core" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="assets" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="cannon-shot-git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cannon-shot-git" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="core" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="assets" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="skin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cannon-shot-git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cannon-shot-git" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="core" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cannon-shot-git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cannon-shot-git" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="core" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="hfentonfearn" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cannon-shot-git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cannon-shot-git" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="core" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="hfentonfearn" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cannon-shot-git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cannon-shot-git" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="desktop" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="cannon-shot-git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cannon-shot-git" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="desktop" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cannon-shot-git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cannon-shot-git" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="desktop" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="desktop" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -283,15 +155,31 @@
       <option name="presentableId" value="Default" />
       <updated>1581002024225</updated>
       <workItem from="1581002027484" duration="121000" />
-      <workItem from="1581002155988" duration="942000" />
+      <workItem from="1581002155988" duration="1194000" />
     </task>
+    <task id="LOCAL-00001" summary="Init Commit - A big change using libGDX as the base framework">
+      <created>1581003203506</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1581003203506</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Init Commit - A big change using libGDX as the base framework">
+      <created>1581003329545</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1581003329545</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1063000" />
+    <option name="totallyTimeSpent" value="1315000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="2560" height="1413" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25179" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -334,10 +222,19 @@
     <option name="LAST_COMMIT_MESSAGE" value="Init Commit - A big change using libGDX as the base framework" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/core/assets/skin/level-plane-ui.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="102">
+          <caret line="6" column="38" lean-forward="true" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/out/production/classes/com/hfentonfearn/screens/MainMenuScreen.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#1748#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -348,10 +245,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/assets/skin/level-plane-ui.json">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="5" lean-forward="true" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+        <state relative-caret-position="17">
+          <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
         </state>
       </provider>
     </entry>

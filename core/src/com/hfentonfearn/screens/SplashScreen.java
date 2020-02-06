@@ -48,7 +48,7 @@ public class SplashScreen implements Screen {
 
     private boolean updateTimer() {
         sprite.setAlpha(timer);
-        timer -= 30;
+        timer -= 2;
          return !(timer > 0);
     }
 

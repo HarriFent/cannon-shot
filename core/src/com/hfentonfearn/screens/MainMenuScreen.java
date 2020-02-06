@@ -34,11 +34,11 @@ public class MainMenuScreen implements Screen {
         table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-        table.setDebug(true);
+        table.setDebug(false);
 
         Skin mySkin = new Skin(Gdx.files.internal("skin/level-plane-ui.json"));
 
-        table.add().expand().colspan(2);
+        table.add().expand().colspan(3);
         table.row();
 
         TextButton txtPlayButton = new TextButton("Play",mySkin);
@@ -48,16 +48,16 @@ public class MainMenuScreen implements Screen {
                 game.setScreen(new GameScreen(game));
             }
         });
-        table.add(txtPlayButton).pad(20);
+        table.add(txtPlayButton).pad(25,50,50,25);
 
-        TextButton txtOptionButton = new TextButton("Play",mySkin);
+        TextButton txtOptionButton = new TextButton("Options",mySkin);
         txtOptionButton.addListener(new InputListener() {
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new OptionScreen(game));
             }
         });
-        table.add(txtOptionButton).pad(20);
+        table.add(txtOptionButton).pad(25,25,50,25);
 
         table.add().expandX();
 

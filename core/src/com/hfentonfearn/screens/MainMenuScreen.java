@@ -42,7 +42,6 @@ public class MainMenuScreen implements Screen {
         table.row();
 
         TextButton txtPlayButton = new TextButton("Play",mySkin);
-        txtPlayButton.setSize(400,100);
         txtPlayButton.addListener(new InputListener() {
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
@@ -50,6 +49,15 @@ public class MainMenuScreen implements Screen {
             }
         });
         table.add(txtPlayButton).pad(20);
+
+        TextButton txtOptionButton = new TextButton("Play",mySkin);
+        txtOptionButton.addListener(new InputListener() {
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new OptionScreen(game));
+            }
+        });
+        table.add(txtOptionButton).pad(20);
 
         table.add().expandX();
 

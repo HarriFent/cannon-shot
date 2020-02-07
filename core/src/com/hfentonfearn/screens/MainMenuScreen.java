@@ -27,12 +27,12 @@ public class MainMenuScreen implements Screen {
 
     MainMenuScreen(CannonShot game) {
         this.game = game;
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void show() {
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
 
         CreateUITable(new Skin(Gdx.files.internal("skin/level-plane-ui.json")));
 
@@ -50,19 +50,21 @@ public class MainMenuScreen implements Screen {
         table.setDebug(false);
         table.add().expand().colspan(3);
         table.row();
-        TextButton txtPlayButton = new TextButton("Play",skin, "big-1");
+        TextButton txtPlayButton = new TextButton("Play",skin);
         txtPlayButton.addListener(new InputListener() {
             @Override
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new GameScreen(game));
+                return true;
             }
         });
         table.add(txtPlayButton).pad(25,50,50,25);
-        TextButton txtOptionButton = new TextButton("Options",skin, "big-1");
+        TextButton txtOptionButton = new TextButton("Options",skin);
         txtOptionButton.addListener(new InputListener() {
             @Override
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new OptionScreen(game));
+                return true;
             }
         });
         table.add(txtOptionButton).pad(25,25,50,25);
@@ -74,12 +76,12 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act();
 
         batcher.begin();
         background.draw(batcher);
         batcher.end();
 
+        stage.act();
         stage.draw();
     }
 

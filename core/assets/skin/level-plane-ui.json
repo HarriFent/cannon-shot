@@ -722,12 +722,6 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		fontColor: white
 		up: button-small-3
 		down: button-small-3-down
-	},
-	big-1: {
-		font: title
-		fontColor: white,
-		up: button-big-1
-		down: button-big-1-down
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {

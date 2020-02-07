@@ -11,7 +11,7 @@ import com.hfentonfearn.helpers.AssetLoader;
 
 public class SplashScreen implements Screen {
 
-    private SpriteBatch batcher;
+    private SpriteBatch batch;
     private Sprite sprite;
     private CannonShot game;
     private long timer;
@@ -30,7 +30,7 @@ public class SplashScreen implements Screen {
         x = (Gdx.graphics.getWidth() - sprite.getWidth()) / 2;
         y = (Gdx.graphics.getHeight() - sprite.getHeight()) / 2;
         sprite.setPosition(x,y);
-        batcher = new SpriteBatch();
+        batch = new SpriteBatch();
     }
 
     @Override
@@ -40,9 +40,9 @@ public class SplashScreen implements Screen {
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batcher.begin();
-        sprite.draw(batcher);
-        batcher.end();
+        batch.begin();
+        sprite.draw(batch);
+        batch.end();
     }
 
     private boolean updateTimer() {
@@ -73,7 +73,7 @@ public class SplashScreen implements Screen {
 
     @Override
     public void dispose() {
-        batcher.dispose();
+        batch.dispose();
         game.dispose();
     }
 }

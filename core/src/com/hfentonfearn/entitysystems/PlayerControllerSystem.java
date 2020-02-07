@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.hfentonfearn.components.AccelerationComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.TransformComponent;
+import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.helpers.MappersHandler;
 
 public class PlayerControllerSystem extends EntitySystem {
@@ -23,26 +24,36 @@ public class PlayerControllerSystem extends EntitySystem {
         float speed = deltaTime;
         for (Entity player : players) {
             AccelerationComponent acceleration = MappersHandler.acceleration.get(player);
-            TransformComponent transform = MappersHandler.transform.get(player);
             acceleration.clear();
-            boolean moving = false;
+            boolean moveTangent = false;
+            boolean moveAngle = false;
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 acceleration.setTangentAcc(speed);
-                moving = true;
+                moveTangent = true;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 acceleration.setTangentAcc(-speed);
-                moving = true;
+                moveTangent = true;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 acceleration.setAngleAcc(speed);
-                moving = true;
+                moveAngle = true;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 acceleration.setAngleAcc(-speed);
-                moving = true;
+                moveAngle = true;
             }
-
+            VelocityComponent velocity = MappersHandler.velocity.get(player);
+            if (!moveTangent) {
+                float newAcc = velocity.getTangentVel() / Math.abs(velocity.getTangentVel());
+                if (Math.abs(velocity.getTangentVel()) > 0)
+                    acceleration.setTangentAcc(-newAcc * speed);
+            }
+            if (!moveAngle) {
+                float newAcc = velocity.getAngleVel() / Math.abs(velocity.getAngleVel());
+                if (Math.abs(velocity.getAngleVel()) > 0)
+                    acceleration.setAngleAcc(-newAcc * speed);
+            }
         }
     }
 }

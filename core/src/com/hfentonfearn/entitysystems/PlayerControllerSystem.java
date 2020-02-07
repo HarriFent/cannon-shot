@@ -7,15 +7,11 @@ import com.badlogic.gdx.Input;
 import com.hfentonfearn.components.AccelerationComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.TransformComponent;
-import com.hfentonfearn.components.VelocityComponent;
+import com.hfentonfearn.helpers.MappersHandler;
 
 public class PlayerControllerSystem extends EntitySystem {
 
     private ImmutableArray<Entity> players;
-
-    private ComponentMapper<AccelerationComponent> am = ComponentMapper.getFor(AccelerationComponent.class);
-    private ComponentMapper<VelocityComponent> vm = ComponentMapper.getFor(VelocityComponent.class);
-    private ComponentMapper<TransformComponent> pm = ComponentMapper.getFor(TransformComponent.class);
 
     public PlayerControllerSystem() {}
 
@@ -26,8 +22,8 @@ public class PlayerControllerSystem extends EntitySystem {
     public void update(float deltaTime) {
         float speed = deltaTime;
         for (Entity player : players) {
-            AccelerationComponent acceleration = am.get(player);
-            TransformComponent transform = pm.get(player);
+            AccelerationComponent acceleration = MappersHandler.acceleration.get(player);
+            TransformComponent transform = MappersHandler.transform.get(player);
             acceleration.clear();
             boolean moving = false;
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {

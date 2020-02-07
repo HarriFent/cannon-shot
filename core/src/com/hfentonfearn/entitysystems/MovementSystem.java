@@ -5,14 +5,11 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.hfentonfearn.components.AccelerationComponent;
 import com.hfentonfearn.components.TransformComponent;
 import com.hfentonfearn.components.VelocityComponent;
+import com.hfentonfearn.helpers.MappersHandler;
 
 public class MovementSystem extends EntitySystem {
 
     private ImmutableArray<Entity> entities;
-
-    private ComponentMapper<TransformComponent> pm = ComponentMapper.getFor(TransformComponent.class);
-    private ComponentMapper<VelocityComponent> vm = ComponentMapper.getFor(VelocityComponent.class);
-    private ComponentMapper<AccelerationComponent> am = ComponentMapper.getFor(AccelerationComponent.class);
 
     public MovementSystem() {}
 
@@ -24,20 +21,20 @@ public class MovementSystem extends EntitySystem {
         for (int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
 
-            TransformComponent position = pm.get(entity);
-            VelocityComponent velocity = vm.get(entity);
-            AccelerationComponent acceleration = am.get(entity);
+            TransformComponent transform = MappersHandler.transform.get(entity);
+            VelocityComponent velocity = MappersHandler.velocity.get(entity);
+            AccelerationComponent acceleration = MappersHandler.acceleration.get(entity);
 
             velocity.incVelocity(acceleration.getTangentAcc());
             velocity.incAngle(acceleration.getAngleAcc());
 
             float dx, dy;
 
-            dx = (float) (velocity.getTangentVel() * Math.sin(Math.toRadians(position.getAngle())));
-            dy = (float) (velocity.getTangentVel() * Math.cos(Math.toRadians(position.getAngle()))) * -1;
+            dx = (float) (velocity.getTangentVel() * Math.sin(Math.toRadians(transform.getAngle())));
+            dy = (float) (velocity.getTangentVel() * Math.cos(Math.toRadians(transform.getAngle()))) * -1;
 
-            position.incPosition(dx,dy);
-            position.incAngle(velocity.getAngleVel());
+            transform.incPosition(dx,dy);
+            transform.incAngle(velocity.getAngleVel());
         }
     }
 }

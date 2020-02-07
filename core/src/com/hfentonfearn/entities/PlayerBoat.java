@@ -1,13 +1,10 @@
 package com.hfentonfearn.entities;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.hfentonfearn.components.*;
 import com.hfentonfearn.helpers.AssetLoader;
 
 public class PlayerBoat extends Entity {
-
-    private ComponentMapper<TransformComponent> pm = ComponentMapper.getFor(TransformComponent.class);
 
     public PlayerBoat() {
         this.add(new TransformComponent(300,300));

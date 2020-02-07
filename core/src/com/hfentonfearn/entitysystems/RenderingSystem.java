@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.*;
+import com.hfentonfearn.helpers.MappersHandler;
 
 public class RenderingSystem extends EntitySystem {
 
@@ -22,14 +23,8 @@ public class RenderingSystem extends EntitySystem {
     private OrthographicCamera cam;
     private ImmutableArray<Entity> players;
 
-    private ComponentMapper<TextureComponent> textureM;
-    private ComponentMapper<TransformComponent> positionM;
-
     public RenderingSystem(SpriteBatch batch) {
         this.family = Family.all(TransformComponent.class, TextureComponent.class).get();
-
-        textureM = ComponentMapper.getFor(TextureComponent.class);
-        positionM = ComponentMapper.getFor(TransformComponent.class);
 
         renderQueue = new Array<Entity>();
 
@@ -59,8 +54,7 @@ public class RenderingSystem extends EntitySystem {
         Entity player;
         if (players.get(0) != null) {
             player = players.get(0);
-            ComponentMapper<TransformComponent> trans = ComponentMapper.getFor(TransformComponent.class);
-            TransformComponent tm = trans.get(player);
+            TransformComponent tm = MappersHandler.transform.get(player);
             cam.position.set(tm.getX(), tm.getY(),0);
         }
 
@@ -70,8 +64,8 @@ public class RenderingSystem extends EntitySystem {
         batch.begin();
 
         for (Entity entity : renderQueue) {
-            TextureComponent tex = textureM.get(entity);
-            TransformComponent pos = positionM.get(entity);
+            TextureComponent tex = MappersHandler.texture.get(entity);
+            TransformComponent trans = MappersHandler.transform.get(entity);
 
             if (tex.region == null) {
                 continue;
@@ -83,7 +77,7 @@ public class RenderingSystem extends EntitySystem {
             float originX = width/2f;
             float originY = height/2f;
 
-            batch.draw(tex.region,pos.getX()-originX, pos.getY() - originY, originX, originY, width, height, pos.getScaleX(), pos.getScaleY(), pos.getAngle());
+            batch.draw(tex.region,trans.getX()-originX, trans.getY() - originY, originX, originY, width, height, trans.getScaleX(), trans.getScaleY(), trans.getAngle());
         }
 
         batch.end();

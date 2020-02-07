@@ -1,13 +1,15 @@
 package com.hfentonfearn.entitysystems;
 
 import com.badlogic.ashley.core.*;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.*;
+import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.MappersHandler;
 
 public class RenderingSystem extends EntitySystem {
@@ -15,13 +17,14 @@ public class RenderingSystem extends EntitySystem {
     private Family family;
     private ImmutableArray<Entity> entities;
 
-    static final float WINDOW_WIDTH = Gdx.graphics.getWidth();
-    static final float WINDOW_HEIGHT = Gdx.graphics.getHeight();
+    static final float WINDOW_WIDTH = Gdx.graphics.getWidth()*2;
+    static final float WINDOW_HEIGHT = Gdx.graphics.getHeight()*2;
 
     private SpriteBatch batch;
     private Array<Entity> renderQueue;
     private OrthographicCamera cam;
     private ImmutableArray<Entity> players;
+    private TiledMapRenderer mapRenderer;
 
     public RenderingSystem(SpriteBatch batch) {
         this.family = Family.all(TransformComponent.class, TextureComponent.class).get();
@@ -31,7 +34,8 @@ public class RenderingSystem extends EntitySystem {
         this.batch = batch;
 
         cam = new OrthographicCamera(WINDOW_WIDTH, WINDOW_HEIGHT);
-        cam.position.set(WINDOW_WIDTH / 2f, WINDOW_HEIGHT / 2f, 0);
+
+        this.mapRenderer = new OrthogonalTiledMapRenderer(AssetLoader.map,this.batch);
     }
 
     @Override
@@ -59,6 +63,8 @@ public class RenderingSystem extends EntitySystem {
         }
 
         cam.update();
+        mapRenderer.setView(cam);
+        mapRenderer.render();
         batch.setProjectionMatrix(cam.combined);
         batch.enableBlending();
         batch.begin();

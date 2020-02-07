@@ -7,7 +7,7 @@ import com.hfentonfearn.helpers.AssetLoader;
 public class PlayerBoat extends Entity {
 
     public PlayerBoat() {
-        this.add(new TransformComponent(300,300));
+        this.add(new TransformComponent(1000,1000));
         this.add(new VelocityComponent(10,1));
         this.add(new AccelerationComponent());
         this.add(new PlayerComponent());

@@ -3,7 +3,9 @@ package com.hfentonfearn.gameworld;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.hfentonfearn.entities.PlayerBoat;
+import com.hfentonfearn.components.TextureComponent;
+import com.hfentonfearn.objects.Map;
+import com.hfentonfearn.objects.PlayerBoat;
 import com.hfentonfearn.entitysystems.MovementSystem;
 import com.hfentonfearn.entitysystems.PlayerControllerSystem;
 import com.hfentonfearn.entitysystems.RenderingSystem;
@@ -12,6 +14,7 @@ public class GameWorld {
 
     private Engine engine;
     private PlayerBoat playerBoat;
+    private Map map;
 
     public GameWorld(SpriteBatch batch) {
 
@@ -23,6 +26,8 @@ public class GameWorld {
         engine.addSystem(new RenderingSystem(batch));
 
         //Add Entities
+        map = new Map();
+        engine.addEntity(map);
         playerBoat = new PlayerBoat();
         engine.addEntity(playerBoat);
     }

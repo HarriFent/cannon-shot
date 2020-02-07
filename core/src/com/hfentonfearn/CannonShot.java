@@ -14,7 +14,7 @@ public class CannonShot extends Game {
 	@Override
 	public void create () {
 		AssetLoader.load();
-		setScreen(new GameScreen(this));
+		setScreen(new SplashScreen(this));
 	}
 
 	@Override

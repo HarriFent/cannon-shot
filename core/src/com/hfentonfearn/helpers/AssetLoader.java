@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
     private static Texture texture;
-    public static TextureRegion splash, bgMainMenu, shipWhite, shipBlack;
+    public static TextureRegion splash, bgMainMenu, shipWhite, shipBlack, bgSea;
 
     public static void load() {
 
@@ -20,6 +20,10 @@ public class AssetLoader {
 
         shipWhite = getTexture("objects/shipWhite.png");
         shipBlack = getTexture("objects/shipBlack.png");
+
+        texture = new Texture(Gdx.files.internal("backgrounds/tiles/SeaTile.png"));
+        texture.setWrap(TextureWrap.Repeat,TextureWrap.Repeat);
+        bgSea = new TextureRegion(texture);
     }
 
     private static TextureRegion getTexture(String imgDir) {

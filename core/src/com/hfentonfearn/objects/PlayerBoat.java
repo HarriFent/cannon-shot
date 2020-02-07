@@ -1,4 +1,4 @@
-package com.hfentonfearn.entities;
+package com.hfentonfearn.objects;
 
 import com.badlogic.ashley.core.Entity;
 import com.hfentonfearn.components.*;

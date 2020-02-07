@@ -12,6 +12,7 @@ public class PlayerBoat extends Entity {
     public PlayerBoat() {
         this.add(new PositionComponent());
         this.add(new VelocityComponent());
+        this.add(new AccelerationComponent());
         this.add(new PlayerComponent());
         this.add(new TextureComponent(AssetLoader.shipWhite));
 

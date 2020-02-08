@@ -3,3 +3,4 @@
 /desktop/out/
 /.idea/
 /.gradle/
+*.iml

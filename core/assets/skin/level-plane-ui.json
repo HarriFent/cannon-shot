@@ -687,6 +687,12 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: button-1
 		down: button-1-down
 	}
+	"big-1": {
+		font: title
+		fontColor: black
+		up: button-big-1,
+		down: button-big-1-down
+	}
 	c2: {
 		font: subtitle
 		fontColor: black

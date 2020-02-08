@@ -50,21 +50,27 @@ public class MainMenuScreen implements Screen {
         table.setDebug(false);
         table.add().expand().colspan(3);
         table.row();
-        TextButton txtPlayButton = new TextButton("Play",skin);
+        TextButton txtPlayButton = new TextButton("Play",skin,"big-1");
         txtPlayButton.addListener(new InputListener() {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
                 return true;
+            }
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new GameScreen(game));
             }
         });
         table.add(txtPlayButton).pad(25,50,50,25);
-        TextButton txtOptionButton = new TextButton("Options",skin);
+        TextButton txtOptionButton = new TextButton("Options",skin,"big-1");
         txtOptionButton.addListener(new InputListener() {
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new OptionScreen(game));
                 return true;
+            }
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new OptionScreen(game));
             }
         });
         table.add(txtOptionButton).pad(25,25,50,25);

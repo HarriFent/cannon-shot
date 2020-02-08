@@ -22,7 +22,7 @@ public class TransformComponent implements Component {
         this.height = h;
     }
 
-    public void incPosition(float x, float y) {
+    public void translate(float x, float y) {
         this.x += x;
         this.y += y;
     }
@@ -47,7 +47,7 @@ public class TransformComponent implements Component {
         return scaleY;
     }
 
-    public void incAngle(float angle) {
+    public void rotate(float angle) {
         this.angle +=  angle;
     }
 

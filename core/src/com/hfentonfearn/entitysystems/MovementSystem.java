@@ -3,9 +3,11 @@ package com.hfentonfearn.entitysystems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.hfentonfearn.components.AccelerationComponent;
+import com.hfentonfearn.components.CollisionComponent;
 import com.hfentonfearn.components.TransformComponent;
 import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.helpers.MappersHandler;
+import com.hfentonfearn.helpers.MathsHandler;
 
 public class MovementSystem extends EntitySystem {
 
@@ -24,17 +26,19 @@ public class MovementSystem extends EntitySystem {
             TransformComponent transform = MappersHandler.transform.get(entity);
             VelocityComponent velocity = MappersHandler.velocity.get(entity);
             AccelerationComponent acceleration = MappersHandler.acceleration.get(entity);
+            CollisionComponent collision = MappersHandler.collision.get(entity);
 
             velocity.incVelocity(acceleration.getTangentAcc());
             velocity.incAngle(acceleration.getAngleAcc());
 
-            float dx, dy;
+            if (collision.isColliding){
+                velocity.setVelocity(velocity.getTangentVel()/10);
+                velocity.setAngle(velocity.getAngleVel()/10);
+            }
 
-            dx = (float) (velocity.getTangentVel() * Math.sin(Math.toRadians(transform.getAngle())));
-            dy = (float) (velocity.getTangentVel() * Math.cos(Math.toRadians(transform.getAngle()))) * -1;
-
-            transform.incPosition(dx,dy);
-            transform.incAngle(velocity.getAngleVel());
+            transform.rotate(velocity.getAngleVel());
+            float[] target = MathsHandler.getEntityTarget(entity);
+            transform.translate(target[0], target[1]);
         }
     }
 }

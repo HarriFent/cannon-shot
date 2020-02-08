@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Polygon;
 
 public class CollisionComponent implements Component {
     public Polygon collisionShape;
+    public boolean isColliding;
 
     public CollisionComponent(Polygon poly) {
         collisionShape = poly;

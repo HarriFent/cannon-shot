@@ -22,6 +22,7 @@ import com.hfentonfearn.components.*;
 import com.hfentonfearn.gameworld.GameWorld;
 import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.MappersHandler;
+import com.hfentonfearn.helpers.MathsHandler;
 
 public class RenderingSystem extends EntitySystem {
 
@@ -119,20 +120,27 @@ public class RenderingSystem extends EntitySystem {
     private void renderDebug() {
         debugRenderer.setProjectionMatrix(cam.combined);
         debugRenderer.begin(ShapeType.Line);
-        Gdx.gl.glLineWidth(3);
 
-        debugRenderer.setColor(Color.RED);
         for (Entity e : renderQueue) {
+            debugRenderer.setColor(Color.RED);
+            Gdx.gl.glLineWidth(3);
             CollisionComponent colComponent = MappersHandler.collision.get(e);
             Polygon poly = colComponent.collisionShape;
             debugRenderer.polyline(poly.getTransformedVertices());
 
+            debugRenderer.setColor(Color.BLUE);
+            Gdx.gl.glLineWidth(1);
+            float[] target = MathsHandler.getEntityTarget(e);
+            poly.translate(target[0],target[1]);
+            debugRenderer.polyline(poly.getTransformedVertices());
+
             TransformComponent transformComponent = MappersHandler.transform.get(e);
-            debugRenderer.circle(transformComponent.getX(),transformComponent.getY(),3);
+            debugRenderer.circle(transformComponent.getX(),transformComponent.getY(),6);
         }
 
         debugRenderer.setColor(Color.YELLOW);
         MapObjects objects = AssetLoader.map.getLayers().get("collision").getObjects();
+        Gdx.gl.glLineWidth(3);
         for (MapObject obj: objects) {
             if (obj instanceof PolygonMapObject)
                 debugRenderer.polygon(((PolygonMapObject) obj).getPolygon().getTransformedVertices());
@@ -145,6 +153,8 @@ public class RenderingSystem extends EntitySystem {
         debugBatch.begin();
         font.setColor(Color.RED);
         font.draw(debugBatch,"DEBUG MODE",10, 20);
+        Entity e = players.get(0);
+        font.draw(debugBatch,"isColliding: " + e.getComponent(CollisionComponent.class).isColliding,10, 40);
         debugBatch.end();
     }
 

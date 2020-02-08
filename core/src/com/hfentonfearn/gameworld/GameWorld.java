@@ -23,10 +23,10 @@ public class GameWorld {
         engine = new Engine();
 
         //Add Engine Systems
-        engine.addSystem(new MovementSystem());
         engine.addSystem(new PlayerControllerSystem());
-        engine.addSystem(new RenderingSystem(batch));
         engine.addSystem(new CollisionSystem());
+        engine.addSystem(new MovementSystem());
+        engine.addSystem(new RenderingSystem(batch));
 
         //Add Entities
         playerBoat = new PlayerBoat(1000,1000);

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.hfentonfearn.CannonShot;
 import com.hfentonfearn.gameworld.GameWorld;
+import com.hfentonfearn.helpers.InputHandler;
 
 public class GameScreen implements Screen {
 
@@ -16,11 +17,11 @@ public class GameScreen implements Screen {
 
     public GameScreen(CannonShot game) {
         this.game = game;
-        System.out.println("Game Loaded");
     }
 
     @Override
     public void show() {
+        //Gdx.input.setInputProcessor(new InputHandler());
         batch = new SpriteBatch();
         gameWorld = new GameWorld(batch);
     }

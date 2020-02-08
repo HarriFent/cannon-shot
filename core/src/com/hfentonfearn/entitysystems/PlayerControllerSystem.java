@@ -3,18 +3,16 @@ package com.hfentonfearn.entitysystems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.hfentonfearn.components.AccelerationComponent;
 import com.hfentonfearn.components.PlayerComponent;
-import com.hfentonfearn.components.PositionComponent;
+import com.hfentonfearn.components.TransformComponent;
 import com.hfentonfearn.components.VelocityComponent;
-
-import java.awt.event.KeyEvent;
+import com.hfentonfearn.helpers.MappersHandler;
 
 public class PlayerControllerSystem extends EntitySystem {
 
     private ImmutableArray<Entity> players;
-
-    private ComponentMapper<PositionComponent> pm = ComponentMapper.getFor(PositionComponent.class);
-    private ComponentMapper<VelocityComponent> vm = ComponentMapper.getFor(VelocityComponent.class);
 
     public PlayerControllerSystem() {}
 
@@ -23,16 +21,38 @@ public class PlayerControllerSystem extends EntitySystem {
     }
 
     public void update(float deltaTime) {
+        float speed = deltaTime;
         for (Entity player : players) {
-            VelocityComponent velocity = vm.get(player);
-            if (Gdx.input.isKeyPressed(KeyEvent.VK_W)) {
-                velocity.y = deltaTime;
-            } else if (Gdx.input.isKeyPressed(KeyEvent.VK_S)) {
-                velocity.y = -deltaTime;
-            } else if (Gdx.input.isKeyPressed(KeyEvent.VK_A)) {
-                velocity.x = -deltaTime;
-            } else if (Gdx.input.isKeyPressed(KeyEvent.VK_D)) {
-                velocity.x = deltaTime;
+            AccelerationComponent acceleration = MappersHandler.acceleration.get(player);
+            acceleration.clear();
+            boolean moveTangent = false;
+            boolean moveAngle = false;
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                acceleration.setTangentAcc(speed);
+                moveTangent = true;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                acceleration.setTangentAcc(-speed);
+                moveTangent = true;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                acceleration.setAngleAcc(speed);
+                moveAngle = true;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                acceleration.setAngleAcc(-speed);
+                moveAngle = true;
+            }
+            VelocityComponent velocity = MappersHandler.velocity.get(player);
+            if (!moveTangent) {
+                float newAcc = velocity.getTangentVel() / Math.abs(velocity.getTangentVel());
+                if (Math.abs(velocity.getTangentVel()) > 0)
+                    acceleration.setTangentAcc(-newAcc * speed);
+            }
+            if (!moveAngle) {
+                float newAcc = velocity.getAngleVel() / Math.abs(velocity.getAngleVel());
+                if (Math.abs(velocity.getAngleVel()) > 0)
+                    acceleration.setAngleAcc(-newAcc * speed);
             }
         }
     }

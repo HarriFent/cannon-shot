@@ -69,6 +69,7 @@ public class RenderingSystem extends EntitySystem {
     @Override
     public void removedFromEngine (Engine engine) {
         entities = null;
+        players = null;
     }
 
     @Override
@@ -121,6 +122,7 @@ public class RenderingSystem extends EntitySystem {
         debugRenderer.setProjectionMatrix(cam.combined);
         debugRenderer.begin(ShapeType.Line);
 
+        //Render Render Queue
         for (Entity e : renderQueue) {
             debugRenderer.setColor(Color.RED);
             Gdx.gl.glLineWidth(3);
@@ -138,6 +140,7 @@ public class RenderingSystem extends EntitySystem {
             debugRenderer.circle(transformComponent.getX(),transformComponent.getY(),6);
         }
 
+        //Render Map Objects
         debugRenderer.setColor(Color.YELLOW);
         MapObjects objects = AssetLoader.map.getLayers().get("collision").getObjects();
         Gdx.gl.glLineWidth(3);
@@ -150,6 +153,8 @@ public class RenderingSystem extends EntitySystem {
             }
         }
         debugRenderer.end();
+
+        //Debug Overlay HUD
         debugBatch.begin();
         font.setColor(Color.RED);
         font.draw(debugBatch,"DEBUG MODE",10, 20);

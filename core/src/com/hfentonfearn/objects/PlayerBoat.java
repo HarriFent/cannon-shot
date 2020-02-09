@@ -22,13 +22,15 @@ public class PlayerBoat extends Entity {
         this.add(new VelocityComponent(10,1));
         this.add(new AccelerationComponent());
         this.add(new PlayerComponent());
-        float[] verts = {
+
+        // Collisions
+        /*float[] verts = {
                 -32,4,
                 0,56,
                 32,4,
                 0,-56,
                 -32,4
         };
-        this.add(new CollisionComponent(new Polygon(verts)));
+        this.add(new CollisionComponent(new Polygon(verts)));*/
     }
 }

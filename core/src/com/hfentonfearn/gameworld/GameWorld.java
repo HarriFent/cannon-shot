@@ -5,7 +5,11 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.World;
 import com.hfentonfearn.entitysystems.CollisionSystem;
+import com.hfentonfearn.helpers.Constants;
 import com.hfentonfearn.objects.PlayerBoat;
 import com.hfentonfearn.entitysystems.MovementSystem;
 import com.hfentonfearn.entitysystems.PlayerControllerSystem;
@@ -13,17 +17,22 @@ import com.hfentonfearn.entitysystems.RenderingSystem;
 
 public class GameWorld {
 
-    private Engine engine;
-    private PlayerBoat playerBoat;
+    private final World world;
+    private final Engine engine;
+    private final PlayerBoat playerBoat;
+
+    private float accumulator = 0;
 
     public static boolean DEBUGMODE = false;
 
     public GameWorld(SpriteBatch batch) {
 
+        Box2D.init();
+        world = new World(new Vector2(0,0), true);
         engine = new Engine();
 
         //Add Engine Systems
-        engine.addSystem(new PlayerControllerSystem());
+        //engine.addSystem(new PlayerControllerSystem());
         engine.addSystem(new CollisionSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(new RenderingSystem(batch));
@@ -36,6 +45,7 @@ public class GameWorld {
     public void update(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.B))
             DEBUGMODE = !DEBUGMODE;
+        doPhysicsStep(delta);
         engine.update(delta);
     }
 
@@ -45,11 +55,14 @@ public class GameWorld {
         engine.removeAllEntities();
     }
 
-    public ImmutableArray<Entity> getEntitiesFor(Family family) {
-        return engine.getEntitiesFor(family);
-    }
-
-    public ImmutableArray<Entity> getEntities() {
-        return engine.getEntities();
+    private void doPhysicsStep(float deltaTime) {
+        // fixed time step
+        // max frame time to avoid spiral of death (on slow devices)
+        float frameTime = Math.min(deltaTime, 0.25f);
+        accumulator += frameTime;
+        while (accumulator >= Constants.TIME_STEP) {
+            world.step(Constants.TIME_STEP, Constants.VELOCITY_ITERATIONS, Constants.POSITION_ITERATIONS);
+            accumulator -= Constants.TIME_STEP;
+        }
     }
 }

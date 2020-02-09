@@ -24,6 +24,7 @@ public class VelocityComponent implements Component {
         } else {
             this.tangentVel = dvel > 0 ? velLimit : -velLimit;
         }
+        if  (Math.abs(tangentVel) < 0.01) tangentVel = 0;
     }
 
     public void setVelocity(float vel) {
@@ -40,6 +41,7 @@ public class VelocityComponent implements Component {
         } else {
             this.angleVel = dvel > 0 ? angleLimit : -angleLimit;
         }
+        if  (Math.abs(angleVel) < 0.01) angleVel = 0;
     }
 
     public void setAngle(float vel) {

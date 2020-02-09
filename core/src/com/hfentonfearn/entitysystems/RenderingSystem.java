@@ -15,22 +15,22 @@ import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.*;
 import com.hfentonfearn.gameworld.GameWorld;
 import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.MappersHandler;
-import com.hfentonfearn.helpers.MathsHandler;
+
+import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_HEIGHT;
+import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_WIDTH;
 
 public class RenderingSystem extends EntitySystem {
 
     private Family family;
     private ImmutableArray<Entity> entities;
-
-    static final float WINDOW_WIDTH = Gdx.graphics.getWidth()*2;
-    static final float WINDOW_HEIGHT = Gdx.graphics.getHeight()*2;
 
     private SpriteBatch batch;
     private Array<Entity> renderQueue;
@@ -40,17 +40,19 @@ public class RenderingSystem extends EntitySystem {
 
     //For Debug Mode
     private ShapeRenderer debugRenderer;
+    private Box2DDebugRenderer debug2dRenderer;
     private SpriteBatch debugBatch;
     private BitmapFont font;
+    private World world;
 
-    public RenderingSystem(SpriteBatch batch) {
+    public RenderingSystem(SpriteBatch batch, World world) {
         this.family = Family.all(TransformComponent.class, TextureComponent.class).get();
 
         renderQueue = new Array<Entity>();
 
         this.batch = batch;
 
-        cam = new OrthographicCamera(WINDOW_WIDTH, WINDOW_HEIGHT);
+        cam = new OrthographicCamera(WORLD_PIXEL_WIDTH*2, WORLD_PIXEL_HEIGHT*2);
 
         this.mapRenderer = new OrthogonalTiledMapRenderer(AssetLoader.map,this.batch);
 
@@ -58,6 +60,8 @@ public class RenderingSystem extends EntitySystem {
         debugRenderer = new ShapeRenderer();
         font = new BitmapFont();
         debugBatch = new SpriteBatch();
+        this.world = world;
+        debug2dRenderer = new Box2DDebugRenderer();
     }
 
     @Override
@@ -119,6 +123,9 @@ public class RenderingSystem extends EntitySystem {
     }
 
     private void renderDebug() {
+        //Render Physics World
+        debug2dRenderer.render(world,cam.combined);
+
         debugRenderer.setProjectionMatrix(cam.combined);
         debugRenderer.begin(ShapeType.Line);
 

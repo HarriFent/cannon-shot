@@ -21,7 +21,7 @@ public class PlayerControllerSystem extends EntitySystem {
     }
 
     public void update(float deltaTime) {
-        float speed = deltaTime;
+        float speed = deltaTime * 10000;
         for (Entity player : players) {
             AccelerationComponent acceleration = MappersHandler.acceleration.get(player);
             acceleration.clear();
@@ -54,8 +54,6 @@ public class PlayerControllerSystem extends EntitySystem {
             if (newAngleAcc >= 0 && velocity.getAngleVel() < 0) {
                 newAngleAcc += speed;
             }
-            if (Math.abs(newTangAcc) < 0.001) newTangAcc = 0;
-            if (Math.abs(newAngleAcc) < 0.001) newAngleAcc = 0;
 
             acceleration.setTangentAcc(newTangAcc);
             acceleration.setAngleAcc(newAngleAcc);

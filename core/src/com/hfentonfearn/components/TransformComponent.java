@@ -22,9 +22,13 @@ public class TransformComponent implements Component {
         this.height = h;
     }
 
-    public void translate(float x, float y) {
-        this.x += x;
-        this.y += y;
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void setAngle(float angle) {
+        this.angle = angle;
     }
 
     public float getX() {
@@ -45,10 +49,6 @@ public class TransformComponent implements Component {
 
     public float getScaleY() {
         return scaleY;
-    }
-
-    public void rotate(float angle) {
-        this.angle +=  angle;
     }
 
     public void setOrigin(float originX, float originY) {

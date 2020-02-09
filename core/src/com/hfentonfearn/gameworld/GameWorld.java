@@ -23,17 +23,19 @@ public class GameWorld {
 
     public GameWorld(SpriteBatch batch) {
 
+        //Physics world
         Box2D.init();
         world = new World(new Vector2(0,0), true);
+
         engine = new Engine();
 
         //Add Engine Systems
         engine.addSystem(new PlayerControllerSystem());
         engine.addSystem(new MovementSystem());
-        engine.addSystem(new RenderingSystem(batch));
+        engine.addSystem(new RenderingSystem(batch, world));
 
         //Add Entities
-        playerBoat = new PlayerBoat(1000,1000);
+        playerBoat = new PlayerBoat(world,1000,1000);
         engine.addEntity(playerBoat);
     }
 

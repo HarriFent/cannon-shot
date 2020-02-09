@@ -24,8 +24,6 @@ public class PlayerBoat extends Entity {
         tranComp.setOrigin(width/2,height/2);
         this.add(tranComp);
 
-        this.add(new VelocityComponent(1000000,100000));
-        this.add(new AccelerationComponent());
         this.add(new PlayerComponent());
         this.add(new PhysicsComponent());
 

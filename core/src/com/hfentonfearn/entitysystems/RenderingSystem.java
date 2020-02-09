@@ -86,7 +86,7 @@ public class RenderingSystem extends EntitySystem {
         if (players.get(0) != null) {
             player = players.get(0);
             TransformComponent tm = MappersHandler.transform.get(player);
-            cam.position.set(tm.getX(), tm.getY(),0);
+            cam.position.set(tm.x, tm.y,0);
         }
 
         cam.update();
@@ -104,16 +104,9 @@ public class RenderingSystem extends EntitySystem {
                 continue;
             }
 
-            batch.draw(tex.region,
-                    trans.getX() - trans.getOriginX(),
-                    trans.getY() - trans.getOriginY(),
-                    trans.getOriginX(),
-                    trans.getOriginY(),
-                    trans.getWidth(),
-                    trans.getHeight(),
-                    trans.getScaleX(),
-                    trans.getScaleY(),
-                    trans.getAngle());
+            batch.draw(tex.region,trans.x - trans.originX,trans.y - trans.originY,
+                    trans.originX, trans.originY, trans.width, trans.height,
+                    trans.scaleX, trans.scaleY, trans.angle);
         }
 
         batch.end();
@@ -136,7 +129,7 @@ public class RenderingSystem extends EntitySystem {
             Gdx.gl.glLineWidth(3);
 
             TransformComponent transformComponent = MappersHandler.transform.get(e);
-            debugRenderer.circle(transformComponent.getX(),transformComponent.getY(),6);
+            debugRenderer.circle(transformComponent.x,transformComponent.x,6);
         }
 
         //Render Map Objects
@@ -158,9 +151,9 @@ public class RenderingSystem extends EntitySystem {
         font.setColor(Color.RED);
         font.draw(debugBatch,"DEBUG MODE",10, 20);
         Entity e = players.get(0);
-        font.draw(debugBatch, "Velocity: Tangent = " + e.getComponent(VelocityComponent.class).getTangentVel() + ", Angle = " + e.getComponent(VelocityComponent.class).getAngleVel(), 10, 40);
-        font.draw(debugBatch, "Player Body: x = " + e.getComponent(PhysicsComponent.class).body.getPosition().x + ", y = " + e.getComponent(PhysicsComponent.class).body.getPosition().y, 10, 60);
-        font.draw(debugBatch, "Player Transform: x = " + e.getComponent(TransformComponent.class).getX() + ", y = " + e.getComponent(TransformComponent.class).getY(), 10, 80);
+        font.draw(debugBatch, "Player Body: x = " + e.getComponent(PhysicsComponent.class).body.getPosition().x + ", y = " + e.getComponent(PhysicsComponent.class).body.getPosition().y, 10, 40);
+        font.draw(debugBatch, "Player Transform: x = " + e.getComponent(TransformComponent.class).x + ", y = " + e.getComponent(TransformComponent.class).y, 10, 60);
+        font.draw(debugBatch, "Drive Component: DriveDir = " + e.getComponent(DriveComponent.class).mDriveDirection + ", TurnDir = " + e.getComponent(DriveComponent.class).mTurnDirection, 10, 80);
         debugBatch.end();
     }
 

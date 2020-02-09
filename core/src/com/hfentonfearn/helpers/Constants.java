@@ -10,6 +10,13 @@ public class Constants {
 
     public static final int WORLD_PIXEL_WIDTH = 1200;
     public static final int WORLD_PIXEL_HEIGHT = 800;
-    public static final float WORLD_WIDTH = WORLD_PIXEL_WIDTH / PPM; //in meter
-    public static final float WORLD_HEIGHT = WORLD_PIXEL_HEIGHT / PPM; //in meter
+
+    public static final int DRIVE_DIRECTION_NONE = 0;
+    public static final int DRIVE_DIRECTION_FORWARD = 1;
+    public static final int DRIVE_DIRECTION_BACKWARD = 2;
+
+    public static final int TURN_DIRECTION_NONE = 0;
+    public static final int TURN_DIRECTION_LEFT = 1;
+    public static final int TURN_DIRECTION_RIGHT = 2;
+
 }

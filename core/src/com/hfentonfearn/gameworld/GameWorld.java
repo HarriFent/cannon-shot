@@ -30,8 +30,8 @@ public class GameWorld {
         engine = new Engine();
 
         //Add Engine Systems
-        engine.addSystem(new PlayerControllerSystem());
-        engine.addSystem(new MovementSystem());
+        engine.addSystem(new PlayerInputSystem());
+        engine.addSystem(new PlayerMovementSystem());
         engine.addSystem(new RenderingSystem(batch, world));
 
         //Add Entities

@@ -6,8 +6,11 @@ import com.hfentonfearn.components.AccelerationComponent;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.TransformComponent;
 import com.hfentonfearn.components.VelocityComponent;
+import com.hfentonfearn.helpers.Constants;
 import com.hfentonfearn.helpers.MappersHandler;
 import com.hfentonfearn.helpers.MathsHandler;
+
+import static com.hfentonfearn.helpers.Constants.*;
 
 public class MovementSystem extends EntitySystem {
 
@@ -34,8 +37,8 @@ public class MovementSystem extends EntitySystem {
             physics.body.applyForceToCenter(target[0], velocity.getTangentVel(), true);
             physics.body.applyTorque(velocity.getAngleVel(), true);
 
-            transform.setPosition(physics.body.getPosition().x, physics.body.getPosition().y);
-            transform.setAngle(physics.body.getAngle());
+            transform.setPosition(physics.body.getPosition().x * PPM, physics.body.getPosition().y * PPM);
+            transform.setAngle(physics.body.getAngle() * PPM);
         }
     }
 }

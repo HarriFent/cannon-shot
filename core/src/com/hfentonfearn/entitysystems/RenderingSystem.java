@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -24,8 +25,7 @@ import com.hfentonfearn.gameworld.GameWorld;
 import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.MappersHandler;
 
-import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_HEIGHT;
-import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_WIDTH;
+import static com.hfentonfearn.helpers.Constants.*;
 
 public class RenderingSystem extends EntitySystem {
 
@@ -52,7 +52,7 @@ public class RenderingSystem extends EntitySystem {
 
         this.batch = batch;
 
-        cam = new OrthographicCamera(WORLD_PIXEL_WIDTH*2, WORLD_PIXEL_HEIGHT*2);
+        cam = new OrthographicCamera(WORLD_PIXEL_WIDTH, WORLD_PIXEL_HEIGHT);
 
         this.mapRenderer = new OrthogonalTiledMapRenderer(AssetLoader.map,this.batch);
 
@@ -124,7 +124,8 @@ public class RenderingSystem extends EntitySystem {
 
     private void renderDebug() {
         //Render Physics World
-        debug2dRenderer.render(world,cam.combined);
+        //Matrix4 debugMatrix = cam.combined.cpy().scale(PPM, PPM, 0);
+        debug2dRenderer.render(world,cam.combined.scl(PPM));
 
         debugRenderer.setProjectionMatrix(cam.combined);
         debugRenderer.begin(ShapeType.Line);
@@ -158,6 +159,8 @@ public class RenderingSystem extends EntitySystem {
         font.draw(debugBatch,"DEBUG MODE",10, 20);
         Entity e = players.get(0);
         font.draw(debugBatch, "Velocity: Tangent = " + e.getComponent(VelocityComponent.class).getTangentVel() + ", Angle = " + e.getComponent(VelocityComponent.class).getAngleVel(), 10, 40);
+        font.draw(debugBatch, "Player Body: x = " + e.getComponent(PhysicsComponent.class).body.getPosition().x + ", y = " + e.getComponent(PhysicsComponent.class).body.getPosition().y, 10, 60);
+        font.draw(debugBatch, "Player Transform: x = " + e.getComponent(TransformComponent.class).getX() + ", y = " + e.getComponent(TransformComponent.class).getY(), 10, 80);
         debugBatch.end();
     }
 

@@ -5,11 +5,15 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.physics.box2d.*;
 import com.hfentonfearn.components.*;
 import com.hfentonfearn.helpers.AssetLoader;
+import com.hfentonfearn.helpers.Constants;
 import com.hfentonfearn.helpers.MappersHandler;
+
+import static com.hfentonfearn.helpers.Constants.*;
 
 public class PlayerBoat extends Entity {
 
     public PlayerBoat(World world, int xPos, int yPos) {
+
         this.add(new TextureComponent(AssetLoader.shipWhite));
 
         //Sets the Position, Size and Origin of the boat
@@ -38,6 +42,9 @@ public class PlayerBoat extends Entity {
                 0,-56,
                 -32,4
         };
+        for (int i = 0; i < verts.length; i++) {
+            verts[i] *= MPP;
+        }
         shape.set(verts);
 
         FixtureDef fixtureDef = new FixtureDef();

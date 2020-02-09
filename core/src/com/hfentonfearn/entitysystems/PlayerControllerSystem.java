@@ -21,7 +21,7 @@ public class PlayerControllerSystem extends EntitySystem {
     }
 
     public void update(float deltaTime) {
-        float speed = deltaTime * 10000;
+        float speed = deltaTime * 10;
         for (Entity player : players) {
             AccelerationComponent acceleration = MappersHandler.acceleration.get(player);
             acceleration.clear();

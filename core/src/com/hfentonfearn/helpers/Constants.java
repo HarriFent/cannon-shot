@@ -5,7 +5,7 @@ public class Constants {
     public static final int VELOCITY_ITERATIONS = 6;
     public static final int POSITION_ITERATIONS = 2;
 
-    public static final float PPM = 100; // PPM = Pixel per Meter
+    public static final float PPM = 100; // PPM = Pixel perMeter
     public static final float MPP = 1 / PPM; // MPP = Meter per Pixel
 
     public static final int WORLD_PIXEL_WIDTH = 1200;

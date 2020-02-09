@@ -31,7 +31,7 @@ public class PlayerBoat extends Entity {
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(xPos,yPos);
+        bodyDef.position.set(xPos* MPP,yPos*MPP);
         Body body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();

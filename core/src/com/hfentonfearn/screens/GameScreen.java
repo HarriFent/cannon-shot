@@ -21,7 +21,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        //Gdx.input.setInputProcessor(new InputHandler());
         batch = new SpriteBatch();
         gameWorld = new GameWorld(batch);
     }

@@ -25,35 +25,40 @@ public class PlayerControllerSystem extends EntitySystem {
         for (Entity player : players) {
             AccelerationComponent acceleration = MappersHandler.acceleration.get(player);
             acceleration.clear();
-            boolean moveTangent = false;
-            boolean moveAngle = false;
+            float newTangAcc = 0.0f;
+            float newAngleAcc = 0.0f;
+
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                acceleration.setTangentAcc(speed);
-                moveTangent = true;
+                newTangAcc = speed;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                acceleration.setTangentAcc(-speed);
-                moveTangent = true;
+                newTangAcc = -speed/3;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                acceleration.setAngleAcc(speed);
-                moveAngle = true;
+                newAngleAcc = speed;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                acceleration.setAngleAcc(-speed);
-                moveAngle = true;
+                newAngleAcc = -speed;
             }
             VelocityComponent velocity = MappersHandler.velocity.get(player);
-            if (!moveTangent) {
-                float newAcc = velocity.getTangentVel() / Math.abs(velocity.getTangentVel());
-                if (Math.abs(velocity.getTangentVel()) > 0)
-                    acceleration.setTangentAcc(-newAcc * speed);
+
+            if(newTangAcc <= 0 && velocity.getTangentVel() > 0) {
+                newTangAcc -= speed;
             }
-            if (!moveAngle) {
-                float newAcc = velocity.getAngleVel() / Math.abs(velocity.getAngleVel());
-                if (Math.abs(velocity.getAngleVel()) > 0)
-                    acceleration.setAngleAcc(-newAcc * speed);
+            if (newTangAcc >= 0 && velocity.getTangentVel() < 0) {
+                newTangAcc += speed;
             }
+            if(newAngleAcc <= 0 && velocity.getAngleVel() > 0) {
+                newAngleAcc -= speed;
+            }
+            if (newAngleAcc >= 0 && velocity.getAngleVel() < 0) {
+                newAngleAcc += speed;
+            }
+            if (Math.abs(newTangAcc) < 0.001) newTangAcc = 0;
+            if (Math.abs(newAngleAcc) < 0.001) newAngleAcc = 0;
+
+            acceleration.setTangentAcc(newTangAcc);
+            acceleration.setAngleAcc(newAngleAcc);
         }
     }
 }

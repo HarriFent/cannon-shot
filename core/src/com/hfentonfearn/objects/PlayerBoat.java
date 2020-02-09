@@ -23,14 +23,13 @@ public class PlayerBoat extends Entity {
         this.add(new AccelerationComponent());
         this.add(new PlayerComponent());
 
-        // Collisions
+        // Collision Polygon
         /*float[] verts = {
                 -32,4,
                 0,56,
                 32,4,
                 0,-56,
                 -32,4
-        };
-        this.add(new CollisionComponent(new Polygon(verts)));*/
+        };*/
     }
 }

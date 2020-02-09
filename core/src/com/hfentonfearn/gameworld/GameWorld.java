@@ -1,19 +1,15 @@
 package com.hfentonfearn.gameworld;
 
 import com.badlogic.ashley.core.*;
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
-import com.hfentonfearn.entitysystems.CollisionSystem;
 import com.hfentonfearn.helpers.Constants;
 import com.hfentonfearn.objects.PlayerBoat;
-import com.hfentonfearn.entitysystems.MovementSystem;
-import com.hfentonfearn.entitysystems.PlayerControllerSystem;
-import com.hfentonfearn.entitysystems.RenderingSystem;
+import com.hfentonfearn.entitysystems.*;
 
 public class GameWorld {
 
@@ -32,8 +28,7 @@ public class GameWorld {
         engine = new Engine();
 
         //Add Engine Systems
-        //engine.addSystem(new PlayerControllerSystem());
-        engine.addSystem(new CollisionSystem());
+        engine.addSystem(new PlayerControllerSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(new RenderingSystem(batch));
 

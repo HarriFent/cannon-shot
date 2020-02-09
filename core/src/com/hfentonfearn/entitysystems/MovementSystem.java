@@ -3,7 +3,6 @@ package com.hfentonfearn.entitysystems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.hfentonfearn.components.AccelerationComponent;
-import com.hfentonfearn.components.CollisionComponent;
 import com.hfentonfearn.components.TransformComponent;
 import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.helpers.MappersHandler;
@@ -26,15 +25,9 @@ public class MovementSystem extends EntitySystem {
             TransformComponent transform = MappersHandler.transform.get(entity);
             VelocityComponent velocity = MappersHandler.velocity.get(entity);
             AccelerationComponent acceleration = MappersHandler.acceleration.get(entity);
-            CollisionComponent collision = MappersHandler.collision.get(entity);
 
             velocity.incVelocity(acceleration.getTangentAcc());
             velocity.incAngle(acceleration.getAngleAcc());
-
-            if (collision.isColliding){
-                velocity.setVelocity(velocity.getTangentVel()/10);
-                velocity.setAngle(velocity.getAngleVel()/10);
-            }
 
             transform.rotate(velocity.getAngleVel());
             float[] target = MathsHandler.getEntityTarget(entity);

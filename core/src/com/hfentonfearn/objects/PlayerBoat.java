@@ -2,6 +2,7 @@ package com.hfentonfearn.objects;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.hfentonfearn.components.*;
 import com.hfentonfearn.helpers.AssetLoader;
@@ -20,8 +21,10 @@ public class PlayerBoat extends Entity {
         TextureComponent tex = MappersHandler.texture.get(this);
         float width = tex.region.getRegionWidth();
         float height = tex.region.getRegionHeight();
-        TransformComponent tranComp = new TransformComponent(xPos,yPos,width,height);
-        tranComp.setOrigin(width/2,height/2);
+        TransformComponent tranComp = new TransformComponent();
+        tranComp.position = new Vector2(xPos,yPos);
+        tranComp.origin = new Vector2(width/2,height/2);
+        tranComp.scale = new Vector2(1,1);
         this.add(tranComp);
 
         this.add(new PlayerComponent());

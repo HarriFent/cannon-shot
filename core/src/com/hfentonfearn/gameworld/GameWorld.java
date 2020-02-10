@@ -19,7 +19,7 @@ public class GameWorld {
 
     private float accumulator = 0;
 
-    public static boolean DEBUGMODE = false;
+    public static boolean DEBUGMODE = true;
 
     public GameWorld(SpriteBatch batch) {
 
@@ -35,7 +35,7 @@ public class GameWorld {
         engine.addSystem(new RenderingSystem(batch, world));
 
         //Add Entities
-        playerBoat = new PlayerBoat(world,1500,1500);
+        playerBoat = new PlayerBoat(world,500,500);
         engine.addEntity(playerBoat);
     }
 

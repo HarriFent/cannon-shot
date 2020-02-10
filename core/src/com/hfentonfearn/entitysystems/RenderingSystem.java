@@ -11,16 +11,19 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.hfentonfearn.components.*;
 import com.hfentonfearn.gameworld.GameWorld;
 import com.hfentonfearn.helpers.AssetLoader;
@@ -39,6 +42,7 @@ public class RenderingSystem extends EntitySystem {
     private OrthographicCamera cam;
     private ImmutableArray<Entity> players;
     private TiledMapRenderer mapRenderer;
+    private MapProperties mapProps;
 
     //For Debug Mode
     private ShapeRenderer debugRenderer;
@@ -57,6 +61,7 @@ public class RenderingSystem extends EntitySystem {
         cam = new OrthographicCamera(WORLD_PIXEL_WIDTH * 2, WORLD_PIXEL_HEIGHT * 2);
 
         this.mapRenderer = new OrthogonalTiledMapRenderer(AssetLoader.map,this.batch);
+        mapProps = AssetLoader.map.getProperties();
 
         //For Debug Mode
         debugRenderer = new ShapeRenderer();
@@ -88,7 +93,11 @@ public class RenderingSystem extends EntitySystem {
         if (players.get(0) != null) {
             player = players.get(0);
             TransformComponent tm = MappersHandler.transform.get(player);
-            cam.position.set(tm.x, tm.y,0);
+            cam.position.set(tm.position.x,tm.position.y,0);
+            float mapWidth = mapProps.get("width", Integer.class) * mapProps.get("tilewidth", Integer.class);
+            float mapHeight = mapProps.get("height", Integer.class) * mapProps.get("tileheight", Integer.class);
+            cam.position.x = MathUtils.clamp(cam.position.x, cam.viewportWidth/2, mapWidth - (cam.viewportWidth/2));
+            cam.position.y = MathUtils.clamp(cam.position.y, cam.viewportHeight/2, mapHeight - (cam.viewportHeight/2));
         }
 
         cam.update();
@@ -106,9 +115,9 @@ public class RenderingSystem extends EntitySystem {
                 continue;
             }
 
-            batch.draw(tex.region,trans.x - trans.originX,trans.y - trans.originY,
-                    trans.originX, trans.originY, trans.width, trans.height,
-                    trans.scaleX, trans.scaleY, trans.angle);
+            batch.draw(tex.region,trans.position.x - trans.origin.x,trans.position.y - trans.origin.y,
+                    trans.origin.x, trans.origin.y, tex.region.getRegionWidth(), tex.region.getRegionHeight(),
+                    trans.scale.x, trans.scale.y, trans.rotation);
         }
 
         batch.end();
@@ -119,8 +128,8 @@ public class RenderingSystem extends EntitySystem {
 
     private void renderDebug() {
         //Render Physics World
-        //Matrix4 debugMatrix = cam.combined.cpy().scale(PPM, PPM, 0);
         debug2dRenderer.render(world,cam.combined.scl(PPM));
+        cam.combined.scl(MPP);
 
         debugRenderer.setProjectionMatrix(cam.combined);
         debugRenderer.begin(ShapeType.Line);
@@ -131,22 +140,17 @@ public class RenderingSystem extends EntitySystem {
             Gdx.gl.glLineWidth(3);
 
             TransformComponent transformComponent = MappersHandler.transform.get(e);
-            debugRenderer.circle(transformComponent.x,transformComponent.x,6);
+            debugRenderer.circle(transformComponent.position.x, transformComponent.position.y,5);
         }
 
         //Render Map Objects
-        debugRenderer.setColor(Color.YELLOW);
+        debugRenderer.setColor(Color.BLUE);
         MapObjects objects = AssetLoader.map.getLayers().get("collision").getObjects();
         Gdx.gl.glLineWidth(3);
         for (MapObject obj: objects) {
             if (obj instanceof PolygonMapObject) {
-                Polygon p =((PolygonMapObject) obj).getPolygon();
-                p.scale(MPP);
-                debugRenderer.polygon(p.getTransformedVertices());
-            }
-            if (obj instanceof RectangleMapObject) {
-                Rectangle r = ((RectangleMapObject) obj).getRectangle();
-                debugRenderer.rect(r.x,r.y,r.width,r.height);
+                float[] p = ((PolygonMapObject) obj).getPolygon().getTransformedVertices();
+                debugRenderer.polygon(p);
             }
         }
         debugRenderer.end();
@@ -157,8 +161,9 @@ public class RenderingSystem extends EntitySystem {
         font.draw(debugBatch,"DEBUG MODE",10, 20);
         Entity e = players.get(0);
         font.draw(debugBatch, "Player Body: x = " + e.getComponent(PhysicsComponent.class).body.getPosition().x + ", y = " + e.getComponent(PhysicsComponent.class).body.getPosition().y, 10, 40);
-        font.draw(debugBatch, "Player Transform: x = " + e.getComponent(TransformComponent.class).x + ", y = " + e.getComponent(TransformComponent.class).y, 10, 60);
-        font.draw(debugBatch, "Body Angle: " + e.getComponent(PhysicsComponent.class).body.getAngle() + ", Player Angle: " + e.getComponent(TransformComponent.class).angle, 10, 80);
+        font.draw(debugBatch, "Player Transform: x = " + e.getComponent(TransformComponent.class).position.x + ", y = " + e.getComponent(TransformComponent.class).position.y, 10, 60);
+        font.draw(debugBatch, "Body Angle: " + e.getComponent(PhysicsComponent.class).body.getAngle() + ", Player Angle: " + e.getComponent(TransformComponent.class).rotation, 10, 80);
+        font.draw(debugBatch, "Cam Pos: " + cam.position.toString(), 10, 100);
         debugBatch.end();
     }
 

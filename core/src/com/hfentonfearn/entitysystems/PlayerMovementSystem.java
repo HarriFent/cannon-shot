@@ -42,7 +42,7 @@ public class PlayerMovementSystem extends IteratingSystem {
 
         if(velocity.driveVelocity > 0f) {
             // accelerate
-            impulseVector.set(0f, -impulse).rotate(transform.angle);
+            impulseVector.set(0f, -impulse).rotate(transform.rotation);
 
             // impulseVector has to be applied directly to allow direction changes at max velocity
             physics.body.applyLinearImpulse(impulseVector, currentPos, true);
@@ -66,7 +66,7 @@ public class PlayerMovementSystem extends IteratingSystem {
             }
         }
 
-        transform.setPosition(physics.body.getPosition().x * PPM, physics.body.getPosition().y * PPM);
-        transform.angle = (float) Math.toDegrees(physics.body.getAngle());
+        transform.position = new Vector2(physics.body.getPosition().x * PPM, physics.body.getPosition().y * PPM);
+        transform.rotation = (float) Math.toDegrees(physics.body.getAngle());
     }
 }

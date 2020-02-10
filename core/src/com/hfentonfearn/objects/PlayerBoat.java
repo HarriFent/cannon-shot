@@ -26,6 +26,7 @@ public class PlayerBoat extends Entity {
 
         this.add(new PlayerComponent());
         this.add(new PhysicsComponent());
+        this.add(new VelocityComponent());
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;

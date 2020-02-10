@@ -6,9 +6,5 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class PhysicsComponent implements Component {
 
-    public Vector2 mForwardSpeed;
-    public Vector2 mLateralSpeed;
-
     public Body body;
-    public float mDrift = 1;
 }

@@ -153,7 +153,6 @@ public class RenderingSystem extends EntitySystem {
         Entity e = players.get(0);
         font.draw(debugBatch, "Player Body: x = " + e.getComponent(PhysicsComponent.class).body.getPosition().x + ", y = " + e.getComponent(PhysicsComponent.class).body.getPosition().y, 10, 40);
         font.draw(debugBatch, "Player Transform: x = " + e.getComponent(TransformComponent.class).x + ", y = " + e.getComponent(TransformComponent.class).y, 10, 60);
-        font.draw(debugBatch, "Drive Component: DriveDir = " + e.getComponent(DriveComponent.class).mDriveDirection + ", TurnDir = " + e.getComponent(DriveComponent.class).mTurnDirection, 10, 80);
         debugBatch.end();
     }
 

@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -23,6 +24,7 @@ import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.*;
 import com.hfentonfearn.gameworld.GameWorld;
 import com.hfentonfearn.helpers.AssetLoader;
+import com.hfentonfearn.helpers.Constants;
 import com.hfentonfearn.helpers.MappersHandler;
 
 import static com.hfentonfearn.helpers.Constants.*;
@@ -52,7 +54,7 @@ public class RenderingSystem extends EntitySystem {
 
         this.batch = batch;
 
-        cam = new OrthographicCamera(WORLD_PIXEL_WIDTH, WORLD_PIXEL_HEIGHT);
+        cam = new OrthographicCamera(WORLD_PIXEL_WIDTH * 2, WORLD_PIXEL_HEIGHT * 2);
 
         this.mapRenderer = new OrthogonalTiledMapRenderer(AssetLoader.map,this.batch);
 
@@ -137,8 +139,11 @@ public class RenderingSystem extends EntitySystem {
         MapObjects objects = AssetLoader.map.getLayers().get("collision").getObjects();
         Gdx.gl.glLineWidth(3);
         for (MapObject obj: objects) {
-            if (obj instanceof PolygonMapObject)
-                debugRenderer.polygon(((PolygonMapObject) obj).getPolygon().getTransformedVertices());
+            if (obj instanceof PolygonMapObject) {
+                Polygon p =((PolygonMapObject) obj).getPolygon();
+                p.scale(MPP);
+                debugRenderer.polygon(p.getTransformedVertices());
+            }
             if (obj instanceof RectangleMapObject) {
                 Rectangle r = ((RectangleMapObject) obj).getRectangle();
                 debugRenderer.rect(r.x,r.y,r.width,r.height);

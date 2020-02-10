@@ -35,7 +35,7 @@ public class GameWorld {
         engine.addSystem(new RenderingSystem(batch, world));
 
         //Add Entities
-        playerBoat = new PlayerBoat(world,100,100);
+        playerBoat = new PlayerBoat(world,1500,1500);
         engine.addEntity(playerBoat);
     }
 

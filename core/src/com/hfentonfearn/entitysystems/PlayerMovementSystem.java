@@ -37,8 +37,8 @@ public class PlayerMovementSystem extends IteratingSystem {
 
         //float impulse = Velocity.DEFAULT_IMPULSE * world.getDelta();
         //float maxVel = Velocity.DEFAULT_MOVE_SPEED;
-        float impulse = 1f;
-        float maxVel = 3f;
+        float impulse = 0.2f;
+        float maxVel = 5f;
 
         if(velocity.driveVelocity > 0f) {
             // accelerate

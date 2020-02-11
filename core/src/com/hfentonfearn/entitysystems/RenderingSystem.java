@@ -34,7 +34,6 @@ import static com.hfentonfearn.helpers.Constants.*;
 
 public class RenderingSystem extends EntitySystem {
 
-    private Family family;
     private ImmutableArray<Entity> entities;
 
     private SpriteBatch batch;
@@ -44,36 +43,17 @@ public class RenderingSystem extends EntitySystem {
     private TiledMapRenderer mapRenderer;
     private MapProperties mapProps;
 
-    //For Debug Mode
-    private ShapeRenderer debugRenderer;
-    private Box2DDebugRenderer debug2dRenderer;
-    private SpriteBatch debugBatch;
-    private BitmapFont font;
-    private World world;
-
-    public RenderingSystem(SpriteBatch batch, World world) {
-        this.family = Family.all(TransformComponent.class, TextureComponent.class).get();
-
+    public RenderingSystem(SpriteBatch batch, OrthographicCamera camera) {
         renderQueue = new Array<Entity>();
-
         this.batch = batch;
-
-        cam = new OrthographicCamera(WORLD_PIXEL_WIDTH * 2, WORLD_PIXEL_HEIGHT * 2);
-
+        cam = camera;
         this.mapRenderer = new OrthogonalTiledMapRenderer(AssetLoader.map,this.batch);
         mapProps = AssetLoader.map.getProperties();
-
-        //For Debug Mode
-        debugRenderer = new ShapeRenderer();
-        font = new BitmapFont();
-        debugBatch = new SpriteBatch();
-        this.world = world;
-        debug2dRenderer = new Box2DDebugRenderer();
     }
 
     @Override
     public void addedToEngine (Engine engine) {
-        entities = engine.getEntitiesFor(family);
+        entities = engine.getEntitiesFor(Family.all(TransformComponent.class, TextureComponent.class).get());
         players = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
     }
 
@@ -121,50 +101,7 @@ public class RenderingSystem extends EntitySystem {
         }
 
         batch.end();
-        if (GameWorld.DEBUGMODE)
-            renderDebug();
         renderQueue.clear();
-    }
-
-    private void renderDebug() {
-        //Render Physics World
-        debug2dRenderer.render(world,cam.combined.scl(PPM));
-        cam.combined.scl(MPP);
-
-        debugRenderer.setProjectionMatrix(cam.combined);
-        debugRenderer.begin(ShapeType.Line);
-
-        //Render Render Queue
-        for (Entity e : renderQueue) {
-            debugRenderer.setColor(Color.RED);
-            Gdx.gl.glLineWidth(3);
-
-            TransformComponent transformComponent = MappersHandler.transform.get(e);
-            debugRenderer.circle(transformComponent.position.x, transformComponent.position.y,5);
-        }
-
-        //Render Map Objects
-        debugRenderer.setColor(Color.BLUE);
-        MapObjects objects = AssetLoader.map.getLayers().get("collision").getObjects();
-        Gdx.gl.glLineWidth(3);
-        for (MapObject obj: objects) {
-            if (obj instanceof PolygonMapObject) {
-                float[] p = ((PolygonMapObject) obj).getPolygon().getTransformedVertices();
-                debugRenderer.polygon(p);
-            }
-        }
-        debugRenderer.end();
-
-        //Debug Overlay HUD
-        debugBatch.begin();
-        font.setColor(Color.RED);
-        font.draw(debugBatch,"DEBUG MODE",10, 20);
-        Entity e = players.get(0);
-        font.draw(debugBatch, "Player Body: x = " + e.getComponent(PhysicsComponent.class).body.getPosition().x + ", y = " + e.getComponent(PhysicsComponent.class).body.getPosition().y, 10, 40);
-        font.draw(debugBatch, "Player Transform: x = " + e.getComponent(TransformComponent.class).position.x + ", y = " + e.getComponent(TransformComponent.class).position.y, 10, 60);
-        font.draw(debugBatch, "Body Angle: " + e.getComponent(PhysicsComponent.class).body.getAngle() + ", Player Angle: " + e.getComponent(TransformComponent.class).rotation, 10, 80);
-        font.draw(debugBatch, "Cam Pos: " + cam.position.toString(), 10, 100);
-        debugBatch.end();
     }
 
     public void processEntity(Entity entity, float deltaTime) {

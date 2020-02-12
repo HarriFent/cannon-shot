@@ -39,8 +39,6 @@ public class DebugRendererSystem extends EntitySystem {
     private ImmutableArray<Entity> renderEntities;
     private ImmutableArray<Entity> players;
 
-    private static boolean DEBUGMODE = true;
-
     public DebugRendererSystem(World world, OrthographicCamera camera) {
         cam = camera;
         debugRenderer = new ShapeRenderer();

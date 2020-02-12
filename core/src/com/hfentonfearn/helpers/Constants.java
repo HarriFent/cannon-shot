@@ -11,9 +11,9 @@ public class Constants {
     public static final int WORLD_PIXEL_WIDTH = 1200;
     public static final int WORLD_PIXEL_HEIGHT = 800;
 
-    public static final float VELOCITY_DRIFT = 0.9f;
+    public static final float VELOCITY_DRIFT = 0.95f;
     public static final float VELOCITY_IMPULSE = 0.3f;
     public static final float VELOCITY_MAXVEL = 5f;
 
-    public static boolean DEBUGMODE = true;
+    public static boolean DEBUGMODE = false;
 }

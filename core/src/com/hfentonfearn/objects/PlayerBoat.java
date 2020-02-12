@@ -40,18 +40,21 @@ public class PlayerBoat extends Entity {
         bodyDef.position.set(xPos* MPP,yPos*MPP);
         phys.body = world.createBody(bodyDef);
 
-        PolygonShape shape = new PolygonShape();
         float[] verts = {
-                -32,4,
                 0,56,
-                32,4,
-                0,-56,
-                -32,4
+                5,80,
+                32,112,
+                59,80,
+                64,56,
+                32,0,
+                0,56
         };
-        for (int i = 0; i < verts.length; i++) {
-            verts[i] *= MPP;
-        }
-        shape.set(verts);
+
+        Polygon p = new Polygon(verts);
+        p.translate(-0.32f,-0.56f);
+        p.setScale(MPP,MPP);
+        PolygonShape shape = new PolygonShape();
+        shape.set(p.getTransformedVertices());
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;

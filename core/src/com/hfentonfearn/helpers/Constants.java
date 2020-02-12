@@ -15,5 +15,5 @@ public class Constants {
     public static final float VELOCITY_IMPULSE = 0.3f;
     public static final float VELOCITY_MAXVEL = 5f;
 
-    public static boolean DEBUGMODE = false;
+    public static boolean DEBUGMODE = true;
 }

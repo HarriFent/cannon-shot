@@ -15,12 +15,13 @@ public class PlayerBoat extends Entity {
 
     public PlayerBoat(World world, int xPos, int yPos) {
 
-        this.add(new TextureComponent(AssetLoader.shipWhite));
 
         //Sets the Position, Size and Origin of the boat
-        TextureComponent tex = MappersHandler.texture.get(this);
+        TextureComponent tex = new TextureComponent(AssetLoader.shipWhite);
         float width = tex.region.getRegionWidth();
         float height = tex.region.getRegionHeight();
+        this.add(tex);
+
         TransformComponent tranComp = new TransformComponent();
         tranComp.position = new Vector2(xPos,yPos);
         tranComp.origin = new Vector2(width/2,height/2);
@@ -28,13 +29,16 @@ public class PlayerBoat extends Entity {
         this.add(tranComp);
 
         this.add(new PlayerComponent());
-        this.add(new PhysicsComponent());
         this.add(new VelocityComponent());
+        this.add(new CollisionComponent());
+        this.add(new TypeComponent());
+
+        PhysicsComponent phys = new PhysicsComponent();
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(xPos* MPP,yPos*MPP);
-        Body body = world.createBody(bodyDef);
+        phys.body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
         float[] verts = {
@@ -53,9 +57,8 @@ public class PlayerBoat extends Entity {
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
 
-        body.createFixture(fixtureDef);
-
-        MappersHandler.physics.get(this).body = body;
+        phys.body.createFixture(fixtureDef);
+        this.add(phys);
 
         shape.dispose();
     }

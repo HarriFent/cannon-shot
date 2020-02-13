@@ -28,6 +28,7 @@ import com.hfentonfearn.components.*;
 import com.hfentonfearn.gameworld.GameWorld;
 import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.Constants;
+import com.hfentonfearn.helpers.CustomTiledMapRenderer;
 import com.hfentonfearn.helpers.MappersHandler;
 
 import static com.hfentonfearn.helpers.Constants.*;
@@ -47,7 +48,7 @@ public class RenderingSystem extends EntitySystem {
         renderQueue = new Array<Entity>();
         this.batch = batch;
         cam = camera;
-        this.mapRenderer = new OrthogonalTiledMapRenderer(AssetLoader.map,this.batch);
+        this.mapRenderer = new CustomTiledMapRenderer(AssetLoader.map,this.batch);
         mapProps = AssetLoader.map.getProperties();
     }
 
@@ -69,11 +70,14 @@ public class RenderingSystem extends EntitySystem {
             processEntity(entities.get(i), deltaTime);
         }
 
+        // Set the camera position to the player
         Entity player;
         if (players.get(0) != null) {
             player = players.get(0);
             TransformComponent tm = MappersHandler.transform.get(player);
             cam.position.set(tm.position.x,tm.position.y,0);
+
+            // Clamp the camera to the map size
             float mapWidth = mapProps.get("width", Integer.class) * mapProps.get("tilewidth", Integer.class);
             float mapHeight = mapProps.get("height", Integer.class) * mapProps.get("tileheight", Integer.class);
             cam.position.x = MathUtils.clamp(cam.position.x, cam.viewportWidth/2, mapWidth - (cam.viewportWidth/2));
@@ -81,8 +85,12 @@ public class RenderingSystem extends EntitySystem {
         }
 
         cam.update();
+
+        //Renders the tiled map
         mapRenderer.setView(cam);
         mapRenderer.render();
+
+        //Setup the sprite batch for drawing entities
         batch.setProjectionMatrix(cam.combined);
         batch.enableBlending();
         batch.begin();
@@ -94,7 +102,7 @@ public class RenderingSystem extends EntitySystem {
             if (tex.region == null) {
                 continue;
             }
-
+            //Draw each entity
             batch.draw(tex.region,trans.position.x - trans.origin.x,trans.position.y - trans.origin.y,
                     trans.origin.x, trans.origin.y, tex.region.getRegionWidth(), tex.region.getRegionHeight(),
                     trans.scale.x, trans.scale.y, trans.rotation);

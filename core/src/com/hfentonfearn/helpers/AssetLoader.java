@@ -25,12 +25,8 @@ public class AssetLoader {
         shipWhite = getTexture("objects/shipWhite.png");
         shipBlack = getTexture("objects/shipBlack.png");
 
-        texture = new Texture(Gdx.files.internal("backgrounds/tiles/SeaTile.png"));
-        texture.setWrap(TextureWrap.Repeat,TextureWrap.Repeat);
-        bgSea = new TextureRegion(texture);
-
         //Load Tiled Map
-        map = new TmxMapLoader().load("backgrounds/tiles/world1.tmx");
+        map = new TmxMapLoader().load("tiledMap/world1.tmx");
     }
 
     private static TextureRegion getTexture(String imgDir) {

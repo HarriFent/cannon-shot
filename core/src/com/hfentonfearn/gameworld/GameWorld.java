@@ -51,6 +51,7 @@ public class GameWorld {
         engine.addSystem(new CollisionSystem());
 
         //Add Entities
+        //playerBoat = new PlayerBoat(world,500,500);
         playerBoat = new PlayerBoat(world,400,5900);
         engine.addEntity(playerBoat);
 

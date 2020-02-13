@@ -3,10 +3,11 @@ package com.hfentonfearn.components;
 import com.badlogic.ashley.core.Component;
 
 public class TypeComponent implements Component {
-    public static final int LAND = 0;
-    public static final int PLAYER = 1;
-    public static final int ENEMY = 2;
-    public static final int CANNONBALL = 3;
+    public static final String LAND = "LAND";
+    public static final String PLAYER = "PLAYER";
+    public static final String ENEMY = "ENEMY";
+    public static final String CANNONBALL = "CANNONBALL";
+    public static final String SCENERY = "SCENERY";
 
-    public int type;
+    public String type;
 }

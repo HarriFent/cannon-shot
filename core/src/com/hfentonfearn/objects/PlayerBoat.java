@@ -3,13 +3,14 @@ package com.hfentonfearn.objects;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.hfentonfearn.components.*;
 import com.hfentonfearn.helpers.AssetLoader;
-import com.hfentonfearn.helpers.Constants;
-import com.hfentonfearn.helpers.MappersHandler;
 
-import static com.hfentonfearn.helpers.Constants.*;
+import static com.hfentonfearn.helpers.Constants.MPP;
 
 public class PlayerBoat extends Entity {
 

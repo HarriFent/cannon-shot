@@ -25,13 +25,16 @@ public class CollisionSystem extends IteratingSystem {
             if (type != null) {
                 switch (type.type) {
                     case LAND:
-                        //Do Scenery Collision
+                        //Do Land Collision
                         break;
                     case ENEMY:
                         //Do Enemy Collision
                         break;
                     case CANNONBALL:
                         //Do Cannonball Collision
+                        break;
+                    case SCENERY:
+                        //Do Scenery Collision
                         break;
                     default:
                         break;

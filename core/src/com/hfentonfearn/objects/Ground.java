@@ -3,16 +3,19 @@ package com.hfentonfearn.objects;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.TypeComponent;
 
-import static com.hfentonfearn.components.TypeComponent.*;
+import static com.hfentonfearn.components.TypeComponent.LAND;
 import static com.hfentonfearn.helpers.Constants.MPP;
 
-public class LandObject extends Entity {
+public class Ground extends Entity {
 
-    public LandObject(World world, PolygonMapObject polygon) {
+    public Ground(World world, PolygonMapObject polygon) {
         PhysicsComponent phys = new PhysicsComponent();
 
         BodyDef bodyDef = new BodyDef();

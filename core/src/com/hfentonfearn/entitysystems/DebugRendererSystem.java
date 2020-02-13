@@ -22,11 +22,11 @@ import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.TextureComponent;
 import com.hfentonfearn.components.TransformComponent;
-import com.hfentonfearn.gameworld.GameWorld;
 import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.MappersHandler;
 
-import static com.hfentonfearn.helpers.Constants.*;
+import static com.hfentonfearn.helpers.Constants.DEBUGMODE;
+import static com.hfentonfearn.helpers.Constants.PPM;
 
 public class DebugRendererSystem extends EntitySystem {
 
@@ -72,17 +72,6 @@ public class DebugRendererSystem extends EntitySystem {
 
                 TransformComponent transformComponent = MappersHandler.transform.get(e);
                 debugRenderer.circle(transformComponent.position.x, transformComponent.position.y, 5);
-            }
-
-            //Render Map Objects
-            debugRenderer.setColor(Color.BLUE);
-            MapObjects objects = AssetLoader.map.getLayers().get("collision").getObjects();
-            Gdx.gl.glLineWidth(3);
-            for (MapObject obj : objects) {
-                if (obj instanceof PolygonMapObject) {
-                    float[] p = ((PolygonMapObject) obj).getPolygon().getTransformedVertices();
-                    debugRenderer.polygon(p);
-                }
             }
             debugRenderer.end();
 

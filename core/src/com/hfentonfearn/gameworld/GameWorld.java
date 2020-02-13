@@ -1,23 +1,23 @@
 package com.hfentonfearn.gameworld;
 
-import com.badlogic.ashley.core.*;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-import com.hfentonfearn.components.PhysicsComponent;
+import com.hfentonfearn.entitysystems.*;
 import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.Constants;
 import com.hfentonfearn.helpers.PhysicsContactListener;
-import com.hfentonfearn.objects.LandObject;
+import com.hfentonfearn.objects.Ground;
 import com.hfentonfearn.objects.PlayerBoat;
-import com.hfentonfearn.entitysystems.*;
+import com.hfentonfearn.objects.WaterRocks;
 
 import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_HEIGHT;
 import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_WIDTH;
@@ -55,14 +55,24 @@ public class GameWorld {
         playerBoat = new PlayerBoat(world,400,5900);
         engine.addEntity(playerBoat);
 
-        CreateMapObjects();
+        CreateCollisionMapObjects();
     }
 
-    private void CreateMapObjects() {
-        Array<PolygonMapObject> polys = AssetLoader.map.getLayers().get("collision").getObjects().getByType(PolygonMapObject.class);
-        for (PolygonMapObject p : polys) {
-            LandObject obj = new LandObject(world, p);
-            engine.addEntity(obj);
+    private void CreateCollisionMapObjects() {
+        MapObjects objects = AssetLoader.map.getLayers().get("collision").getObjects();
+        Entity newE;
+        for (MapObject obj : objects) {
+            switch (obj.getProperties().get("type", String.class)) {
+                case "ground":
+                    newE = new Ground(world, (PolygonMapObject) obj);
+                    break;
+                case "rock":
+                    newE = new WaterRocks(world, (EllipseMapObject) obj);
+                    break;
+                default:
+                    newE = null;
+            }
+            engine.addEntity(newE);
         }
     }
 

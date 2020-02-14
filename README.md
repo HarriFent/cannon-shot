@@ -1,2 +1,2 @@
-# Cannon Shot Game
-A Simple game where the object is to shoot the cannon ball into the basket.
+# cannon-shot
+The steady development of a Java desktop pirate game

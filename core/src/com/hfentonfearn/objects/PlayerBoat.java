@@ -1,15 +1,22 @@
 package com.hfentonfearn.objects;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.hfentonfearn.components.*;
 import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.PhysicsBodyFactory;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import static com.hfentonfearn.helpers.Constants.MPP;
 
@@ -42,15 +49,13 @@ public class PlayerBoat extends Entity {
         bodyDef.position.set(xPos* MPP,yPos*MPP);
         phys.body = world.createBody(bodyDef);
 
-        float[] verts = {
-                0,56,
-                5,80,
-                32,112,
-                59,80,
-                64,56,
-                32,0,
-                0,56
-        };
+        JsonReader json = new JsonReader();
+        JsonValue base = json.parse(Gdx.files.internal("objects/ships/shipCollision.json"));
+        JsonValue vertArray = base.get("collisionPoly");
+        float[] verts = new float[vertArray.size];
+        for (int i = 0; i < vertArray.size; i++) {
+            verts[i] = vertArray.getFloat(i);
+        }
 
         Polygon p = new Polygon(verts);
         p.translate(-0.32f,-0.56f);

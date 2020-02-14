@@ -21,7 +21,7 @@ public class AssetLoader {
 
         bgMainMenu = getTexture("backgrounds/MainMenu.png");
 
-        shipWhite = getTexture("objects/shipWhite.png");
+        shipWhite = getTexture("objects/ships/shipWhite.png");
         shipBlack = getTexture("objects/shipBlack.png");
 
         //Load Tiled Map

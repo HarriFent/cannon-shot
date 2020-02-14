@@ -6,7 +6,6 @@ public class PhysicsContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        System.out.println("Contact");
         // get fixtures
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();

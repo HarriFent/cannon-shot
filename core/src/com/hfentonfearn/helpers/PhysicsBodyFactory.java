@@ -1,12 +1,15 @@
 package com.hfentonfearn.helpers;
 
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.*;
+import com.badlogic.gdx.maps.objects.EllipseMapObject;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+
 import static com.hfentonfearn.helpers.Constants.MPP;
 
 public class PhysicsBodyFactory {
@@ -20,13 +23,15 @@ public class PhysicsBodyFactory {
         this.world = world;
     }
 
+    public Body createBodyFromShape( float x, float y, Shape shape, BodyType type, int material, boolean fixedRotation) {
+        Body body = world.createBody(createBodyDef(x * MPP,y * MPP,type,fixedRotation));
+        body.createFixture(createFixtureDef(shape,material));
+        return body;
+    }
+
     public Body createBodyFromMapObject(MapObject object, BodyType type, int material, boolean fixedRotation) {
 
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = type;
-        bodyDef.fixedRotation = fixedRotation;
-        bodyDef.position.set(object.getProperties().get("x", Float.class) * MPP, object.getProperties().get("y", Float.class) * MPP);
-        Body body = world.createBody(bodyDef);
+        Body body = world.createBody(createBodyDef(object.getProperties().get("x", Float.class) * MPP, object.getProperties().get("y", Float.class) * MPP, type, fixedRotation));
 
         Shape shape = null;
         if (object instanceof EllipseMapObject) {
@@ -48,11 +53,20 @@ public class PhysicsBodyFactory {
         } else if (object instanceof RectangleMapObject) {
             //RectangleMapObejct
         }
-        body.createFixture(createFixture(shape,material));
+
+        body.createFixture(createFixtureDef(shape,material));
         return body;
     }
 
-    public static FixtureDef createFixture(Shape shape, int material) {
+    private BodyDef createBodyDef(float x, float y, BodyType type, boolean fixedRotation) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = type;
+        bodyDef.fixedRotation = fixedRotation;
+        bodyDef.position.set(x,y);
+        return  bodyDef;
+    }
+
+    public static FixtureDef createFixtureDef(Shape shape, int material) {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
 

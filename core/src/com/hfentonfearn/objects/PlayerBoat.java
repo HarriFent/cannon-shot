@@ -7,16 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.hfentonfearn.components.*;
 import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.PhysicsBodyFactory;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import static com.hfentonfearn.helpers.Constants.MPP;
 
@@ -44,11 +39,7 @@ public class PlayerBoat extends Entity {
 
         PhysicsComponent phys = new PhysicsComponent();
 
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(xPos* MPP,yPos*MPP);
-        phys.body = world.createBody(bodyDef);
-
+        //Reads in the players collision polygon from Json file
         JsonReader json = new JsonReader();
         JsonValue base = json.parse(Gdx.files.internal("objects/ships/shipCollision.json"));
         JsonValue vertArray = base.get("collisionPoly");
@@ -57,13 +48,20 @@ public class PlayerBoat extends Entity {
             verts[i] = vertArray.getFloat(i);
         }
 
+        //Scale and move the polygon to the correct size for the physics world
         Polygon p = new Polygon(verts);
-        p.translate(-0.32f,-0.56f);
+        p.translate(-(width/2*MPP),-(height/2*MPP));
         p.setScale(MPP,MPP);
         PolygonShape shape = new PolygonShape();
         shape.set(p.getTransformedVertices());
 
-        phys.body.createFixture(PhysicsBodyFactory.createFixture(shape,PhysicsBodyFactory.WOOD));
+        PhysicsBodyFactory bodyFactory = new PhysicsBodyFactory(world);
+
+        phys.body = bodyFactory.createBodyFromShape(xPos, yPos, shape,
+                BodyDef.BodyType.DynamicBody,
+                PhysicsBodyFactory.WOOD,
+                false);
+
         phys.body.setUserData(this);
         this.add(phys);
 

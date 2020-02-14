@@ -17,6 +17,7 @@ public class Ground extends Entity {
         PhysicsBodyFactory bodyFactory = new PhysicsBodyFactory(world);
 
         phys.body = bodyFactory.createBodyFromMapObject(polygon, BodyDef.BodyType.StaticBody, PhysicsBodyFactory.DEFAULT,true);
+        phys.body.setUserData(this);
         this.add(phys);
 
         TypeComponent type = new TypeComponent();

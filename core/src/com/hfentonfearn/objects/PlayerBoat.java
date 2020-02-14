@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hfentonfearn.components.*;
 import com.hfentonfearn.helpers.AssetLoader;
+import com.hfentonfearn.helpers.PhysicsBodyFactory;
 
 import static com.hfentonfearn.helpers.Constants.MPP;
 
@@ -57,11 +58,8 @@ public class PlayerBoat extends Entity {
         PolygonShape shape = new PolygonShape();
         shape.set(p.getTransformedVertices());
 
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-
-        phys.body.createFixture(fixtureDef);
+        phys.body.createFixture(PhysicsBodyFactory.createFixture(shape,PhysicsBodyFactory.WOOD));
+        phys.body.setUserData(this);
         this.add(phys);
 
         shape.dispose();

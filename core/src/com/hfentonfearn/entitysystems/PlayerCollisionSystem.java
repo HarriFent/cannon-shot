@@ -10,9 +10,9 @@ import com.hfentonfearn.helpers.MappersHandler;
 
 import static com.hfentonfearn.components.TypeComponent.*;
 
-public class CollisionSystem extends IteratingSystem {
+public class PlayerCollisionSystem extends IteratingSystem {
 
-    public CollisionSystem() {
+    public PlayerCollisionSystem() {
         super(Family.all(CollisionComponent.class, PlayerComponent.class).get());
     }
 

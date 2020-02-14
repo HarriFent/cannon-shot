@@ -1,3 +1,6 @@
 #InteliJ Files
+/core/out/
+/desktop/out/
 /.idea/
-/out/
+/.gradle/
+*.iml

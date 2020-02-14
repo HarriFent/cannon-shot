@@ -2,9 +2,8 @@ package com.hfentonfearn.helpers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.*;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
@@ -22,15 +21,11 @@ public class AssetLoader {
 
         bgMainMenu = getTexture("backgrounds/MainMenu.png");
 
-        shipWhite = getTexture("objects/shipWhite.png");
+        shipWhite = getTexture("objects/ships/shipWhite.png");
         shipBlack = getTexture("objects/shipBlack.png");
 
-        texture = new Texture(Gdx.files.internal("backgrounds/tiles/SeaTile.png"));
-        texture.setWrap(TextureWrap.Repeat,TextureWrap.Repeat);
-        bgSea = new TextureRegion(texture);
-
         //Load Tiled Map
-        map = new TmxMapLoader().load("backgrounds/tiles/world1.tmx");
+        map = new TmxMapLoader().load("tiledMap/world1.tmx");
     }
 
     private static TextureRegion getTexture(String imgDir) {

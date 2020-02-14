@@ -2,8 +2,6 @@ package com.hfentonfearn.helpers;
 
 import com.badlogic.gdx.InputProcessor;
 
-import java.awt.event.MouseEvent;
-
 public class InputHandler implements InputProcessor {
 
     private static boolean[] keyboardState = new boolean[525];

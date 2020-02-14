@@ -13,6 +13,7 @@ import com.hfentonfearn.components.*;
 import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.PhysicsBodyFactory;
 
+import static com.hfentonfearn.components.TypeComponent.PLAYER;
 import static com.hfentonfearn.helpers.Constants.MPP;
 
 public class PlayerBoat extends Entity {
@@ -66,5 +67,9 @@ public class PlayerBoat extends Entity {
         this.add(phys);
 
         shape.dispose();
+
+        TypeComponent type = new TypeComponent();
+        type.type = PLAYER;
+        this.add(new TypeComponent());
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.hfentonfearn.components.CollisionComponent;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.TypeComponent;
 import com.hfentonfearn.helpers.PhysicsBodyFactory;
@@ -23,5 +24,6 @@ public class WaterRocks extends Entity {
         TypeComponent type = new TypeComponent();
         type.type = SCENERY;
         this.add(new TypeComponent());
+        this.add(new CollisionComponent());
     }
 }

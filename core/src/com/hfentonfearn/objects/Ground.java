@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.hfentonfearn.components.CollisionComponent;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.TypeComponent;
 import com.hfentonfearn.helpers.PhysicsBodyFactory;
@@ -23,6 +24,7 @@ public class Ground extends Entity {
         TypeComponent type = new TypeComponent();
         type.type = LAND;
         this.add(new TypeComponent());
+        this.add(new CollisionComponent());
     }
 
 }

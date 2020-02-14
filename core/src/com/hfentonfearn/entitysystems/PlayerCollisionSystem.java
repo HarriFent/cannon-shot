@@ -19,28 +19,33 @@ public class PlayerCollisionSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         CollisionComponent collision = MappersHandler.collision.get(entity);
-        Entity colliededEntity = collision.collisionEntity;
-        if (colliededEntity != null) {
-            TypeComponent type = colliededEntity.getComponent(TypeComponent.class);
-            if (type != null) {
-                switch (type.type) {
-                    case LAND:
-                        //Do Land Collision
-                        break;
-                    case ENEMY:
-                        //Do Enemy Collision
-                        break;
-                    case CANNONBALL:
-                        //Do Cannonball Collision
-                        break;
-                    case SCENERY:
-                        //Do Scenery Collision
-                        break;
-                    default:
-                        break;
+        for (Entity collidedEntity : collision.collisionEntities) {
+            if (collidedEntity != null) {
+                TypeComponent type = collidedEntity.getComponent(TypeComponent.class);
+                if (type != null) {
+                    switch (type.type) {
+                        case LAND:
+                            //Do Land Collision
+                            System.out.println("LAND COLLISION");
+                            break;
+                        case ENEMY:
+                            //Do Enemy Collision
+                            System.out.println("ENEMY COLLISION");
+                            break;
+                        case CANNONBALL:
+                            //Do Cannonball Collision
+                            System.out.println("CANNONBALL COLLISION");
+                            break;
+                        case SCENERY:
+                            //Do Scenery Collision
+                            System.out.println("SCENERY COLLISION");
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                collision.collisionEntities = null;
             }
-            collision.collisionEntity = null;
         }
     }
 }

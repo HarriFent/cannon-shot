@@ -44,7 +44,6 @@ public class PlayerCollisionSystem extends IteratingSystem {
                             break;
                     }
                 }
-                collision.collisionEntities = null;
             }
         }
     }

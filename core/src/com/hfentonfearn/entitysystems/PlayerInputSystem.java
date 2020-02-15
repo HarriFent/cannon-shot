@@ -7,7 +7,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.VelocityComponent;
+import com.hfentonfearn.helpers.Constants;
 import com.hfentonfearn.helpers.MappersHandler;
+
+import static com.hfentonfearn.helpers.Constants.*;
 
 public class PlayerInputSystem extends IteratingSystem {
 
@@ -20,17 +23,17 @@ public class PlayerInputSystem extends IteratingSystem {
         VelocityComponent velocity = MappersHandler.velocity.get(player);
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            velocity.driveVelocity = 2;
+            velocity.driveVelocity = VELOCITY_DRIVE;
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            velocity.driveVelocity = -2;
+            velocity.driveVelocity = -VELOCITY_DRIVE;
         } else {
             velocity.driveVelocity = 0;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            velocity.turnVelocity = 2;
+            velocity.turnVelocity = VELOCITY_TURN / 2;
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            velocity.turnVelocity = -2;
+            velocity.turnVelocity = -VELOCITY_TURN / 2;
         } else {
             velocity.turnVelocity = 0;
         }

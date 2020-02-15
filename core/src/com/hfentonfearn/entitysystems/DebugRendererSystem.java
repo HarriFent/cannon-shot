@@ -82,12 +82,9 @@ public class DebugRendererSystem extends EntitySystem {
             font.draw(debugBatch, "Player Transform: x = " + e.getComponent(TransformComponent.class).position.x + ", y = " + e.getComponent(TransformComponent.class).position.y, 10, 60);
             font.draw(debugBatch, "Body Angle: " + e.getComponent(PhysicsComponent.class).body.getAngle() + ", Player Angle: " + e.getComponent(TransformComponent.class).rotation, 10, 80);
             font.draw(debugBatch, "Cam Pos: " + cam.position.toString(), 10, 100);*/
-            font.draw(debugBatch, "Player Entities: " + player.getComponent(CollisionComponent.class).collisionEntities.toString(), 10, 40);
-            int y = 60;
-            for (Entity e : collisionEntities) {
-                font.draw(debugBatch, "Ground Entities: " + e.getComponent(CollisionComponent.class).collisionEntities.toString(), 10, y);
-                y += 20;
-            }
+
+            if (player.getComponent(CollisionComponent.class).collisionEntities != null)
+                font.draw(debugBatch, "Player Entities: " + player.getComponent(CollisionComponent.class).collisionEntities.toString(), 10, 40);
             debugBatch.end();
         }
     }

@@ -14,8 +14,8 @@ public class PhysicsContactListener implements ContactListener {
         Object e1 = contact.getFixtureA().getBody().getUserData();
         Object e2 = contact.getFixtureB().getBody().getUserData();
         if(e1 instanceof Entity && e2 instanceof Entity){
-            CollisionComponent cola = ((Entity) e1).getComponent(CollisionComponent.class);
-            CollisionComponent colb = ((Entity) e2).getComponent(CollisionComponent.class);
+            CollisionComponent cola = MappersHandler.collision.get((Entity) e1);
+            CollisionComponent colb = MappersHandler.collision.get((Entity) e2);
             if(cola != null){
                 cola.collisionEntities.add((Entity) e2);
             }
@@ -30,8 +30,8 @@ public class PhysicsContactListener implements ContactListener {
         Object e1 = contact.getFixtureA().getBody().getUserData();
         Object e2 = contact.getFixtureB().getBody().getUserData();
         if(e1 instanceof Entity && e2 instanceof Entity){
-            CollisionComponent cola = ((Entity) e1).getComponent(CollisionComponent.class);
-            CollisionComponent colb = ((Entity) e2).getComponent(CollisionComponent.class);
+            CollisionComponent cola = MappersHandler.collision.get((Entity) e1);
+            CollisionComponent colb = MappersHandler.collision.get((Entity) e2);
             if(cola != null){
                 cola.collisionEntities.remove(e2);
             }

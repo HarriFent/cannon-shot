@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -60,14 +61,14 @@ public class GameWorld {
 
     private void CreateCollisionMapObjects() {
         MapObjects objects = AssetLoader.map.getLayers().get("collision").getObjects();
-        Entity newE;
         for (MapObject obj : objects) {
+            Entity newE;
             switch (obj.getProperties().get("type", String.class)) {
                 case "ground":
-                    newE = new Ground(world, (PolygonMapObject) obj);
+                    newE = new Ground(world, obj);
                     break;
                 case "rock":
-                    newE = new WaterRocks(world, (EllipseMapObject) obj);
+                    newE = new WaterRocks(world, obj);
                     break;
                 default:
                     newE = null;

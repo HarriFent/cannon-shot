@@ -20,7 +20,6 @@ public class PlayerBoat extends Entity {
 
     public PlayerBoat(World world, int xPos, int yPos) {
 
-
         //Sets the Position, Size and Origin of the boat
         TextureComponent tex = new TextureComponent(AssetLoader.shipWhite);
         float width = tex.region.getRegionWidth();
@@ -36,7 +35,6 @@ public class PlayerBoat extends Entity {
         this.add(new PlayerComponent());
         this.add(new VelocityComponent());
         this.add(new CollisionComponent());
-        this.add(new TypeComponent());
 
         PhysicsComponent phys = new PhysicsComponent();
 
@@ -67,9 +65,6 @@ public class PlayerBoat extends Entity {
         this.add(phys);
 
         shape.dispose();
-
-        TypeComponent type = new TypeComponent();
-        type.type = PLAYER;
-        this.add(new TypeComponent());
+        this.add(new TypeComponent(PLAYER));
     }
 }

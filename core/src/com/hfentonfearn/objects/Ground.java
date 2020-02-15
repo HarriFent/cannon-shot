@@ -1,7 +1,7 @@
 package com.hfentonfearn.objects;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hfentonfearn.components.CollisionComponent;
@@ -13,17 +13,15 @@ import static com.hfentonfearn.components.TypeComponent.LAND;
 
 public class Ground extends Entity {
 
-    public Ground(World world, PolygonMapObject polygon) {
+    public Ground(World world, MapObject mapObject) {
         PhysicsComponent phys = new PhysicsComponent();
         PhysicsBodyFactory bodyFactory = new PhysicsBodyFactory(world);
 
-        phys.body = bodyFactory.createBodyFromMapObject(polygon, BodyDef.BodyType.StaticBody, PhysicsBodyFactory.DEFAULT,true);
+        phys.body = bodyFactory.createBodyFromMapObject(mapObject, BodyDef.BodyType.StaticBody, PhysicsBodyFactory.DEFAULT,true);
         phys.body.setUserData(this);
         this.add(phys);
 
-        TypeComponent type = new TypeComponent();
-        type.type = LAND;
-        this.add(new TypeComponent());
+        this.add(new TypeComponent(LAND));
         this.add(new CollisionComponent());
     }
 

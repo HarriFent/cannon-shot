@@ -10,4 +10,8 @@ public class TypeComponent implements Component {
     public static final String SCENERY = "SCENERY";
 
     public String type;
+
+    public TypeComponent(String type) {
+        this.type = type;
+    }
 }

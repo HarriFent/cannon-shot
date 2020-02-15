@@ -25,15 +25,15 @@ public class PlayerInputSystem extends IteratingSystem {
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             velocity.driveVelocity = VELOCITY_DRIVE;
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            velocity.driveVelocity = -VELOCITY_DRIVE;
+            velocity.driveVelocity = -VELOCITY_DRIVE/2;
         } else {
-            velocity.driveVelocity = 0;
+            velocity.driveVelocity = 0f;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            velocity.turnVelocity = VELOCITY_TURN / 2;
+            velocity.turnVelocity = VELOCITY_TURN;
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            velocity.turnVelocity = -VELOCITY_TURN / 2;
+            velocity.turnVelocity = -VELOCITY_TURN;
         } else {
             velocity.turnVelocity = 0;
         }

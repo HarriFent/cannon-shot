@@ -30,28 +30,31 @@ public class PlayerMovementSystem extends IteratingSystem {
         physics = MappersHandler.physics.get(player);
         currentVector = physics.body.getLinearVelocity();
 
-        physics.body.setAngularVelocity(velocity.turnVelocity);
 
-        //float impulse = Velocity.DEFAULT_IMPULSE * world.getDelta();
-        //float maxVel = Velocity.DEFAULT_MOVE_SPEED;
+        if (velocity.turnVelocity != 0f) {
+            //physics.body.setAngularVelocity(velocity.turnVelocity);
+            physics.body.applyTorque(velocity.turnVelocity, true);
+        } else {
+            physics.body.setAngularVelocity(0);
+        }
 
-        if(velocity.driveVelocity > 0f) {
+        if(velocity.driveVelocity != 0f) {
             // accelerate
-            impulseVector.set(0f, -VELOCITY_IMPULSE).rotate(transform.rotation);
+            impulseVector.set(0f, -velocity.driveVelocity * deltaTime).rotate(transform.rotation);
 
             // impulseVector has to be applied directly to allow direction changes at max velocity
             //physics.body.applyLinearImpulse(impulseVector, currentPos, true);
             physics.body.applyForceToCenter(impulseVector, true);
             currentVector = physics.body.getLinearVelocity();
 
-            if(currentVector.len() >= VELOCITY_MAXVEL) {
+            if(currentVector.len() >= VELOCITY_MAXDRIVEVEL) {
                 // set velocity to maxVel
-                currentVector.nor().scl(VELOCITY_MAXVEL);
+                currentVector.nor().scl(VELOCITY_MAXDRIVEVEL);
                 physics.body.setLinearVelocity(currentVector);
             }
         } else {
             // decelerate
-            impulseVector.set(currentVector).nor().scl(-1f * VELOCITY_IMPULSE);
+            impulseVector.set(currentVector).nor().scl(-1f * VELOCITY_DECELERATION);
 
             if(currentVector.len() / physics.body.getMass() > 0.1f) {
                 // only apply impulse does not stop and accelerate the body in the opposite direction

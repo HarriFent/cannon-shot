@@ -12,11 +12,11 @@ public class Constants {
     public static final int WORLD_PIXEL_HEIGHT = 800;
 
     public static final float VELOCITY_DRIFT = 0.95f;
-    public static final float VELOCITY_IMPULSE = 0.3f;
-    public static final float VELOCITY_MAXVEL = 5f;
-
-    public static final float VELOCITY_TURN = 2f;
-    public static final float VELOCITY_DRIVE = 2f;
+    public static final float VELOCITY_MAXDRIVEVEL = 5f;
+    public static final float VELOCITY_MAXTURNVEL = 5f;
+    public static final float VELOCITY_TURN = 0.02f;
+    public static final float VELOCITY_DRIVE = 9f;
+    public static final float VELOCITY_DECELERATION = 0.1f;
 
     public static boolean DEBUGMODE = true;
 }

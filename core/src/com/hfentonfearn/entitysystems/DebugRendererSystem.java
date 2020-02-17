@@ -85,6 +85,7 @@ public class DebugRendererSystem extends EntitySystem {
 
             if (player.getComponent(CollisionComponent.class).collisionEntities != null)
                 font.draw(debugBatch, "Player Entities: " + player.getComponent(CollisionComponent.class).collisionEntities.toString(), 10, 40);
+            font.draw(debugBatch, "Zoom: " + cam.zoom, 10, 60);
             debugBatch.end();
         }
     }

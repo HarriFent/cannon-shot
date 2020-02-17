@@ -28,46 +28,42 @@ public class PlayerMovementSystem extends IteratingSystem {
         TransformComponent transform = MappersHandler.transform.get(player);
         VelocityComponent velocity = MappersHandler.velocity.get(player);
         physics = MappersHandler.physics.get(player);
-        currentVector = physics.body.getLinearVelocity();
-
 
         if (velocity.turnVelocity != 0f) {
-            //physics.body.setAngularVelocity(velocity.turnVelocity);
             physics.body.applyTorque(velocity.turnVelocity, true);
+            if (Math.abs(physics.body.getAngularVelocity()) > VELOCITY_MAXTURNVEL) {
+                physics.body.setAngularVelocity(velocity.turnVelocity > 0 ? VELOCITY_MAXTURNVEL : -VELOCITY_MAXTURNVEL);
+            }
         } else {
-            physics.body.setAngularVelocity(0);
+            if (Math.abs(physics.body.getAngularVelocity()) > 0.1f) {
+                physics.body.applyTorque(physics.body.getAngularVelocity() < 0 ? VELOCITY_DECELERATION : -VELOCITY_DECELERATION, true);
+            } else {
+                physics.body.setAngularVelocity(0);
+            }
         }
 
+        currentVector = physics.body.getLinearVelocity();
         if(velocity.driveVelocity != 0f) {
             // accelerate
             impulseVector.set(0f, -velocity.driveVelocity * deltaTime).rotate(transform.rotation);
-
-            // impulseVector has to be applied directly to allow direction changes at max velocity
-            //physics.body.applyLinearImpulse(impulseVector, currentPos, true);
             physics.body.applyForceToCenter(impulseVector, true);
             currentVector = physics.body.getLinearVelocity();
 
             if(currentVector.len() >= VELOCITY_MAXDRIVEVEL) {
-                // set velocity to maxVel
                 currentVector.nor().scl(VELOCITY_MAXDRIVEVEL);
                 physics.body.setLinearVelocity(currentVector);
             }
         } else {
             // decelerate
             impulseVector.set(currentVector).nor().scl(-1f * VELOCITY_DECELERATION);
-
             if(currentVector.len() / physics.body.getMass() > 0.1f) {
-                // only apply impulse does not stop and accelerate the body in the opposite direction
-                //physics.body.applyLinearImpulse(impulseVector, currentPos, true);
                 physics.body.applyForceToCenter(impulseVector,true);
             } else {
-                // if impulse would accelerate in opposite direction set velocity to 0 instead
                 physics.body.setLinearVelocity(0f, 0f);
             }
         }
 
         handleDrift();
-
         transform.position = new Vector2(physics.body.getPosition().x * PPM, physics.body.getPosition().y * PPM);
         transform.rotation = (float) Math.toDegrees(physics.body.getAngle());
     }

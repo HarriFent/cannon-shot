@@ -13,7 +13,7 @@ public class Constants {
 
     public static final float VELOCITY_DRIFT = 0.95f;
     public static final float VELOCITY_MAXDRIVEVEL = 5f;
-    public static final float VELOCITY_MAXTURNVEL = 5f;
+    public static final float VELOCITY_MAXTURNVEL = 2f;
     public static final float VELOCITY_TURN = 0.02f;
     public static final float VELOCITY_DRIVE = 9f;
     public static final float VELOCITY_DECELERATION = 0.1f;

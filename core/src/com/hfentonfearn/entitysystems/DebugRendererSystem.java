@@ -19,6 +19,7 @@ import com.hfentonfearn.components.CollisionComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.TextureComponent;
 import com.hfentonfearn.components.TransformComponent;
+import com.hfentonfearn.gameworld.ZoomLevel;
 import com.hfentonfearn.helpers.MappersHandler;
 
 import static com.hfentonfearn.helpers.Constants.DEBUGMODE;
@@ -32,22 +33,22 @@ public class DebugRendererSystem extends EntitySystem {
     private SpriteBatch debugBatch;
     private BitmapFont font;
     private World world;
+    private ZoomLevel zoom;
     private ImmutableArray<Entity> renderEntities;
-    private ImmutableArray<Entity> collisionEntities;
     private ImmutableArray<Entity> players;
 
-    public DebugRendererSystem(World world, OrthographicCamera camera) {
+    public DebugRendererSystem(World world, OrthographicCamera camera, ZoomLevel zoomLevel) {
         cam = camera;
         debugRenderer = new ShapeRenderer();
         font = new BitmapFont();
         debugBatch = new SpriteBatch();
         this.world = world;
         debug2dRenderer = new Box2DDebugRenderer();
+        zoom = zoomLevel;
     }
 
     public void addedToEngine (Engine engine) {
         renderEntities = engine.getEntitiesFor(Family.all(TransformComponent.class, TextureComponent.class).get());
-        collisionEntities = engine.getEntitiesFor(Family.all(CollisionComponent.class).get());
         players = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
     }
 
@@ -86,6 +87,7 @@ public class DebugRendererSystem extends EntitySystem {
             if (player.getComponent(CollisionComponent.class).collisionEntities != null)
                 font.draw(debugBatch, "Player Entities: " + player.getComponent(CollisionComponent.class).collisionEntities.toString(), 10, 40);
             font.draw(debugBatch, "Zoom: " + cam.zoom, 10, 60);
+            font.draw(debugBatch, "Zoom Level: " + zoom.getZoomValue() + ", " + zoom.toString(), 10, 80);
             debugBatch.end();
         }
     }

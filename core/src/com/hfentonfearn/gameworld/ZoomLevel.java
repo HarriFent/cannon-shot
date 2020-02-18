@@ -4,15 +4,16 @@ public class ZoomLevel {
 
     private static final float ZOOM_CLOSE = 0.1f;
     private static final float ZOOM_FAR = 1.0f;
-    private static final float ZOOM_MAP = 1.5f;
+    private static final float ZOOM_MAP = 2.0f;
 
     private ZoomLevelEnum zoomLevel;
     private float currentZoom;
-    private boolean zooming;
+    private boolean zoomingIn;
+    private boolean zoomingOut;
 
     public ZoomLevel(ZoomLevelEnum zoomLevel) {
         this.zoomLevel = zoomLevel;
-        zooming = false;
+        zoomingIn = zoomingOut = false;
     }
 
     public ZoomLevelEnum getZoomLevel() {
@@ -51,11 +52,22 @@ public class ZoomLevel {
     public void update(float deltaTime) {
         if (currentZoom > getZoomValue() + 0.01) {
             currentZoom -= deltaTime;
+            zoomingIn = true;
         } else if (currentZoom < getZoomValue() - 0.01) {
             currentZoom += deltaTime;
+            zoomingOut = true;
         } else {
             currentZoom = getZoomValue();
+            zoomingOut = zoomingIn = false;
         }
+    }
+
+    public boolean isZoomingIn() {
+        return zoomingIn;
+    }
+
+    public boolean isZoomingOut() {
+        return zoomingOut;
     }
 
     public enum ZoomLevelEnum {

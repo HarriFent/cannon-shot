@@ -45,12 +45,12 @@ public class GameWorld {
         engine = new Engine();
 
         //Add Engine Systems
+        engine.addSystem(new CameraViewSystem(cam, zoom));
         engine.addSystem(new PlayerInputSystem());
         engine.addSystem(new PlayerMovementSystem());
         engine.addSystem(new RenderingSystem(batch, cam));
         engine.addSystem(new DebugRendererSystem(world, cam, zoom));
         engine.addSystem(new PlayerCollisionSystem());
-        engine.addSystem(new CameraViewSystem(cam, zoom));
 
         //Add Entities
         //playerBoat = new PlayerBoat(world,500,500);

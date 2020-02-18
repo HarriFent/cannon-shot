@@ -15,15 +15,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.hfentonfearn.components.CollisionComponent;
+import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.TextureComponent;
 import com.hfentonfearn.components.TransformComponent;
 import com.hfentonfearn.gameworld.ZoomLevel;
 import com.hfentonfearn.helpers.MappersHandler;
 
-import static com.hfentonfearn.helpers.Constants.DEBUGMODE;
-import static com.hfentonfearn.helpers.Constants.PPM;
+import static com.hfentonfearn.helpers.Constants.*;
 
 public class DebugRendererSystem extends EntitySystem {
 
@@ -36,6 +35,8 @@ public class DebugRendererSystem extends EntitySystem {
     private ZoomLevel zoom;
     private ImmutableArray<Entity> renderEntities;
     private ImmutableArray<Entity> players;
+
+    private Array<String> strings;
 
     public DebugRendererSystem(World world, OrthographicCamera camera, ZoomLevel zoomLevel) {
         cam = camera;
@@ -75,20 +76,26 @@ public class DebugRendererSystem extends EntitySystem {
             debugRenderer.end();
 
             //Debug Overlay HUD
+            updateDebugStrings();
+
             debugBatch.begin();
             font.setColor(Color.RED);
-            font.draw(debugBatch, "DEBUG MODE", 10, 20);
-            Entity player = players.get(0);
-            /*font.draw(debugBatch, "Player Body: x = " + e.getComponent(PhysicsComponent.class).body.getPosition().x + ", y = " + e.getComponent(PhysicsComponent.class).body.getPosition().y, 10, 40);
-            font.draw(debugBatch, "Player Transform: x = " + e.getComponent(TransformComponent.class).position.x + ", y = " + e.getComponent(TransformComponent.class).position.y, 10, 60);
-            font.draw(debugBatch, "Body Angle: " + e.getComponent(PhysicsComponent.class).body.getAngle() + ", Player Angle: " + e.getComponent(TransformComponent.class).rotation, 10, 80);
-            font.draw(debugBatch, "Cam Pos: " + cam.position.toString(), 10, 100);*/
-
-            if (player.getComponent(CollisionComponent.class).collisionEntities != null)
-                font.draw(debugBatch, "Player Entities: " + player.getComponent(CollisionComponent.class).collisionEntities.toString(), 10, 40);
-            font.draw(debugBatch, "Zoom: " + cam.zoom, 10, 60);
-            font.draw(debugBatch, "Zoom Level: " + zoom.getZoomValue() + ", " + zoom.toString(), 10, 80);
+            float y = WORLD_PIXEL_HEIGHT - 20;
+            for (String str : strings) {
+                font.draw(debugBatch, str, 10, y);
+                y -= 20;
+            }
             debugBatch.end();
         }
+    }
+
+    private void updateDebugStrings() {
+        strings = new Array<>();
+        strings.add("DEBUG MODE");
+        strings.add("Cam X Pos: " + Math.round(cam.position.x));
+        strings.add("Cam Y Pos: " + Math.round(cam.position.y));
+        strings.add("Zooming in: " + zoom.isZoomingIn() + " Zooming out: " + zoom.isZoomingOut());
+        strings.add("Zoom Level: " + zoom.getZoomValue() + ", " + zoom.toString() + ", CurrentZoom: " + zoom.getCurrentZoom());
+        //strings.add("Player Entities: " + players.get(0).getComponent(CollisionComponent.class).collisionEntities.toString());
     }
 }

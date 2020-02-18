@@ -18,5 +18,5 @@ public class Constants {
     public static final float VELOCITY_DRIVE = 9f;
     public static final float VELOCITY_DECELERATION = 0.1f;
 
-    public static boolean DEBUGMODE = true;
+    public static boolean DEBUGMODE = false;
 }

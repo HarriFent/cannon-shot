@@ -5,13 +5,18 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.TextureComponent;
 import com.hfentonfearn.components.TransformComponent;
+import com.hfentonfearn.gameworld.ZoomLevel;
 import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.CustomTiledMapRenderer;
 import com.hfentonfearn.helpers.MappersHandler;
+
+import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_HEIGHT;
+import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_WIDTH;
 
 public class RenderingSystem extends IteratingSystem {
 
@@ -19,45 +24,64 @@ public class RenderingSystem extends IteratingSystem {
     private Array<Entity> renderQueue;
     private OrthographicCamera cam;
     private TiledMapRenderer mapRenderer;
+    private ZoomLevel zoom;
 
-    public RenderingSystem(SpriteBatch batch, OrthographicCamera camera) {
+    public RenderingSystem(OrthographicCamera camera, ZoomLevel zoom) {
         super(Family.all(TransformComponent.class, TextureComponent.class).get());
         renderQueue = new Array<Entity>();
-        this.batch = batch;
+        this.batch = new SpriteBatch();
         cam = camera;
+        this.zoom = zoom;
         this.mapRenderer = new CustomTiledMapRenderer(AssetLoader.map,this.batch);
     }
 
     @Override
     public void update(float deltaTime) {
-        //Renders the tiled map
-        mapRenderer.setView(cam);
-        mapRenderer.render();
+        super.update(deltaTime);
+        if (zoom.isZooming()) {
 
-        //Setup the sprite batch for drawing entities
-        batch.setProjectionMatrix(cam.combined);
-        batch.enableBlending();
-        batch.begin();
+        } else {
+            switch (zoom.getZoomLevel()) {
+                case CLOSE:
 
-        for (Entity entity : renderQueue) {
-            TextureComponent tex = MappersHandler.texture.get(entity);
-            TransformComponent trans = MappersHandler.transform.get(entity);
+                    break;
+                case FAR:
+                    //Renders the tiled map
+                    mapRenderer.setView(cam);
+                    mapRenderer.render();
 
-            if (tex.region == null) {
-                continue;
+                    //Setup the sprite batch for drawing entities
+                    batch.setProjectionMatrix(cam.combined);
+                    batch.enableBlending();
+                    batch.begin();
+
+                    for (Entity entity : renderQueue) {
+                        TextureComponent tex = MappersHandler.texture.get(entity);
+                        TransformComponent trans = MappersHandler.transform.get(entity);
+
+                        if (tex.region == null) {
+                            continue;
+                        }
+                        //Draw each entity
+                        batch.draw(tex.region, trans.position.x - trans.origin.x, trans.position.y - trans.origin.y,
+                                trans.origin.x, trans.origin.y, tex.region.getRegionWidth(), tex.region.getRegionHeight(),
+                                trans.scale.x, trans.scale.y, trans.rotation);
+                    }
+
+                    batch.end();
+                    renderQueue.clear();
+                    break;
+                case MAP:
+                    batch.begin();
+                    TextureRegion tex = AssetLoader.bgMapView;
+                    batch.draw(tex,0,0,WORLD_PIXEL_WIDTH,WORLD_PIXEL_HEIGHT);
+                    batch.end();
             }
-            //Draw each entity
-            batch.draw(tex.region,trans.position.x - trans.origin.x,trans.position.y - trans.origin.y,
-                    trans.origin.x, trans.origin.y, tex.region.getRegionWidth(), tex.region.getRegionHeight(),
-                    trans.scale.x, trans.scale.y, trans.rotation);
         }
-
-        batch.end();
-        renderQueue.clear();
     }
 
+    @Override
     public void processEntity(Entity entity, float deltaTime) {
         renderQueue.add(entity);
     }
-
 }

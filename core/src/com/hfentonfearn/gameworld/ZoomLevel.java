@@ -70,6 +70,10 @@ public class ZoomLevel {
         return zoomingOut;
     }
 
+    public boolean isZooming() {
+        return zoomingIn || zoomingOut;
+    }
+
     public enum ZoomLevelEnum {
         CLOSE,
         FAR,

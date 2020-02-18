@@ -3,7 +3,6 @@ package com.hfentonfearn.gameworld;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.math.Vector2;
@@ -31,7 +30,7 @@ public class GameWorld {
 
     private float accumulator = 0;
 
-    public GameWorld(SpriteBatch batch) {
+    public GameWorld() {
 
         //View Camera
         cam = new OrthographicCamera(WORLD_PIXEL_WIDTH * 2, WORLD_PIXEL_HEIGHT * 2);
@@ -48,7 +47,7 @@ public class GameWorld {
         engine.addSystem(new CameraViewSystem(cam, zoom));
         engine.addSystem(new PlayerInputSystem());
         engine.addSystem(new PlayerMovementSystem());
-        engine.addSystem(new RenderingSystem(batch, cam));
+        engine.addSystem(new RenderingSystem(cam, zoom));
         engine.addSystem(new DebugRendererSystem(world, cam, zoom));
         engine.addSystem(new PlayerCollisionSystem());
 

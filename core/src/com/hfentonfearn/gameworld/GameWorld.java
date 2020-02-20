@@ -2,12 +2,14 @@ package com.hfentonfearn.gameworld;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.entitysystems.*;
 import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.Constants;
@@ -44,12 +46,20 @@ public class GameWorld {
         engine = new Engine();
 
         //Add Engine Systems
-        engine.addSystem(new CameraViewSystem(cam, zoom));
-        engine.addSystem(new PlayerInputSystem());
-        engine.addSystem(new PlayerMovementSystem());
-        engine.addSystem(new RenderingSystem(cam, zoom));
-        engine.addSystem(new DebugRendererSystem(world, cam, zoom));
-        engine.addSystem(new PlayerCollisionSystem());
+        Array<EntitySystem> systems = new Array<EntitySystem>();
+        systems.add(new PlayerInputSystem());
+        systems.add(new PlayerMovementSystem());
+        systems.add(new PlayerCollisionSystem());
+        systems.add(new CameraViewSystem(cam, zoom));
+        systems.add(new RenderingSystem(cam, zoom));
+        systems.add(new DebugRendererSystem(world, cam, zoom));
+
+        for (int i = 0; i < systems.size; i++) {
+            EntitySystem sys = systems.get(i);
+            sys.priority = i;
+            engine.addSystem(sys);
+        }
+
 
         //Add Entities
         //playerBoat = new PlayerBoat(world,500,500);

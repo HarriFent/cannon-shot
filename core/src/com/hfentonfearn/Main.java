@@ -12,8 +12,8 @@ public class Main extends Game {
 	@Override
 	public void create () {
 		GameManager.init(this);
+		GameManager.setScreen(DEBUGMODE ? new GameScreen(this) : new SplashScreen(this));
 		AssetLoader.load();
-		setScreen(DEBUGMODE ? new GameScreen(this) : new SplashScreen(this));
 	}
 
 	@Override

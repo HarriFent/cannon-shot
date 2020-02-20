@@ -29,10 +29,7 @@ public class PhysicsBodyFactory {
         return body;
     }
 
-    public Body createBodyFromMapObject(MapObject object, BodyType type, int material, boolean fixedRotation) {
-
-        Body body = world.createBody(createBodyDef(object.getProperties().get("x", Float.class) * MPP, object.getProperties().get("y", Float.class) * MPP, type, fixedRotation));
-
+    public Body createBodyFromMapObject(MapObject object, BodyType type, int material, boolean fixedRotation) { ;
         Shape shape = null;
         if (object instanceof EllipseMapObject) {
             //Ellipse Map Object
@@ -51,11 +48,9 @@ public class PhysicsBodyFactory {
             shape = new ChainShape();
             ((ChainShape)shape).createLoop(verts);
         } else if (object instanceof RectangleMapObject) {
-            //RectangleMapObejct
+            //RectangleMapObject
         }
-
-        body.createFixture(createFixtureDef(shape,material));
-        return body;
+        return createBodyFromShape(object.getProperties().get("x", Float.class),object.getProperties().get("y", Float.class),shape,type,material,fixedRotation);
     }
 
     private BodyDef createBodyDef(float x, float y, BodyType type, boolean fixedRotation) {

@@ -1,9 +1,9 @@
-package com.hfentonfearn.helpers;
+package com.hfentonfearn.ecs;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.hfentonfearn.components.*;
 
-public class MappersHandler {
+public class Components {
     public static final ComponentMapper<TransformComponent> transform = ComponentMapper.getFor(TransformComponent.class);
     public static final ComponentMapper<TextureComponent> texture = ComponentMapper.getFor(TextureComponent.class);
     public static final ComponentMapper<PhysicsComponent> physics = ComponentMapper.getFor(PhysicsComponent.class);

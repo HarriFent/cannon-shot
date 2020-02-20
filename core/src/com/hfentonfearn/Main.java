@@ -7,10 +7,11 @@ import com.hfentonfearn.screens.SplashScreen;
 
 import static com.hfentonfearn.helpers.Constants.DEBUGMODE;
 
-public class CannonShot extends Game {
+public class Main extends Game {
 	
 	@Override
 	public void create () {
+		GameManager.init(this);
 		AssetLoader.load();
 		setScreen(DEBUGMODE ? new GameScreen(this) : new SplashScreen(this));
 	}

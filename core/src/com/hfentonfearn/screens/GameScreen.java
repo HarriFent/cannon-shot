@@ -3,18 +3,18 @@ package com.hfentonfearn.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.hfentonfearn.CannonShot;
+import com.hfentonfearn.Main;
 import com.hfentonfearn.gameworld.GameWorld;
 import com.hfentonfearn.helpers.FrameRate;
 
 public class GameScreen implements Screen {
 
-    private final CannonShot game;
+    private final Main game;
     private GameWorld gameWorld;
     private FrameRate frameRate;
 
 
-    public GameScreen(CannonShot game) {
+    public GameScreen(Main game) {
         this.game = game;
         this.frameRate = new FrameRate();
     }

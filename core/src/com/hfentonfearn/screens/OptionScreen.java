@@ -3,12 +3,12 @@ package com.hfentonfearn.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.hfentonfearn.CannonShot;
+import com.hfentonfearn.Main;
 
 public class OptionScreen implements Screen {
-    private final CannonShot game;
+    private final Main game;
 
-    public OptionScreen(CannonShot game) {
+    public OptionScreen(Main game) {
         this.game = game;
     }
 

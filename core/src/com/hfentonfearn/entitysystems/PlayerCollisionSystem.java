@@ -6,7 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.hfentonfearn.components.CollisionComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.TypeComponent;
-import com.hfentonfearn.helpers.MappersHandler;
+import com.hfentonfearn.ecs.Components;
 
 import static com.hfentonfearn.components.TypeComponent.*;
 
@@ -18,7 +18,7 @@ public class PlayerCollisionSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        CollisionComponent collision = MappersHandler.collision.get(entity);
+        CollisionComponent collision = Components.collision.get(entity);
         for (Entity collidedEntity : collision.collisionEntities) {
             if (collidedEntity != null) {
                 TypeComponent type = collidedEntity.getComponent(TypeComponent.class);

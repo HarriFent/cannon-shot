@@ -1,22 +1,32 @@
 package com.hfentonfearn.helpers;
 
 public class Constants {
+    public static boolean DEBUGMODE = true;
+
     public static final float TIME_STEP = 1/60f;
     public static final int VELOCITY_ITERATIONS = 6;
     public static final int POSITION_ITERATIONS = 2;
 
+    //Physics world conversion
     public static final float PPM = 100; // PPM = Pixel perMeter
     public static final float MPP = 1 / PPM; // MPP = Meter per Pixel
 
+    //Window Size
     public static final int WORLD_PIXEL_WIDTH = 1200;
     public static final int WORLD_PIXEL_HEIGHT = 800;
 
-    public static final float VELOCITY_DRIFT = 0.95f;
-    public static final float VELOCITY_MAXDRIVEVEL = 5f;
-    public static final float VELOCITY_MAXTURNVEL = 2f;
-    public static final float VELOCITY_TURN = 0.02f;
-    public static final float VELOCITY_DRIVE = 9f;
-    public static final float VELOCITY_DECELERATION = 0.1f;
+    //Drift Constant: 0 = No drift, 1 = Very Slippy
+    public static final float VELOCITY_DRIFT = 0.96f;
 
-    public static boolean DEBUGMODE = false;
+    //Velocity drive and turn limit
+    public static final float VELOCITY_MAXDRIVEVEL = 3f;
+    //public static final float VELOCITY_MAXDRIVEVEL = DEBUGMODE ? 5f : 3f;
+    public static final float VELOCITY_MAXTURNVEL = 2f;
+
+    //Velocity impulse and angle set with player input
+    public static final float ACCELERATION_TURN = 0.02f;
+    public static final float ACCELERATION_DRIVE = 9f;
+
+    //Deceleration rate
+    public static final float VELOCITY_DECELERATION = 0.1f;
 }

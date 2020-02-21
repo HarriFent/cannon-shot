@@ -19,8 +19,8 @@ import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.TextureComponent;
 import com.hfentonfearn.components.TransformComponent;
-import com.hfentonfearn.ecs.Components;
 import com.hfentonfearn.gameworld.ZoomLevel;
+import com.hfentonfearn.helpers.MappersHandler;
 
 import static com.hfentonfearn.helpers.Constants.*;
 
@@ -70,7 +70,7 @@ public class DebugRendererSystem extends EntitySystem {
                 debugRenderer.setColor(Color.RED);
                 Gdx.gl.glLineWidth(3);
 
-                TransformComponent transformComponent = Components.transform.get(e);
+                TransformComponent transformComponent = MappersHandler.transform.get(e);
                 debugRenderer.circle(transformComponent.position.x, transformComponent.position.y, 5);
             }
             debugRenderer.end();

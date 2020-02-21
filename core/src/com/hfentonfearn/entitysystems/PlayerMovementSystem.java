@@ -8,7 +8,7 @@ import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.TransformComponent;
 import com.hfentonfearn.components.VelocityComponent;
-import com.hfentonfearn.ecs.Components;
+import com.hfentonfearn.helpers.MappersHandler;
 
 import static com.hfentonfearn.helpers.Constants.*;
 
@@ -25,9 +25,9 @@ public class PlayerMovementSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity player, float deltaTime) {
-        TransformComponent transform = Components.transform.get(player);
-        VelocityComponent velocity = Components.velocity.get(player);
-        physics = Components.physics.get(player);
+        TransformComponent transform = MappersHandler.transform.get(player);
+        VelocityComponent velocity = MappersHandler.velocity.get(player);
+        physics = MappersHandler.physics.get(player);
 
         if (velocity.turnVelocity != 0f) {
             physics.body.applyTorque(velocity.turnVelocity, true);

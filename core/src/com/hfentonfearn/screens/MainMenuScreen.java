@@ -12,20 +12,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.hfentonfearn.Main;
+import com.hfentonfearn.CannonShot;
 import com.hfentonfearn.helpers.AssetLoader;
 
 public class MainMenuScreen implements Screen {
 
     private Stage stage;
     private Table table;
-    private Main game;
+    private CannonShot game;
 
     private Sprite background;
 
     private SpriteBatch batcher;
 
-    MainMenuScreen(Main game) {
+    MainMenuScreen(CannonShot game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);

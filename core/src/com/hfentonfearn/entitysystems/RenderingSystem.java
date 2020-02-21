@@ -10,10 +10,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.TextureComponent;
 import com.hfentonfearn.components.TransformComponent;
-import com.hfentonfearn.ecs.Components;
 import com.hfentonfearn.gameworld.ZoomLevel;
 import com.hfentonfearn.helpers.AssetLoader;
 import com.hfentonfearn.helpers.CustomTiledMapRenderer;
+import com.hfentonfearn.helpers.MappersHandler;
 
 import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_HEIGHT;
 import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_WIDTH;
@@ -56,8 +56,8 @@ public class RenderingSystem extends IteratingSystem {
                     batch.begin();
 
                     for (Entity entity : renderQueue) {
-                        TextureComponent tex = Components.texture.get(entity);
-                        TransformComponent trans = Components.transform.get(entity);
+                        TextureComponent tex = MappersHandler.texture.get(entity);
+                        TransformComponent trans = MappersHandler.transform.get(entity);
 
                         if (tex.region == null) {
                             continue;

@@ -7,7 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.VelocityComponent;
-import com.hfentonfearn.ecs.Components;
+import com.hfentonfearn.helpers.MappersHandler;
 
 import static com.hfentonfearn.helpers.Constants.ACCELERATION_DRIVE;
 import static com.hfentonfearn.helpers.Constants.ACCELERATION_TURN;
@@ -20,7 +20,7 @@ public class PlayerInputSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity player, float deltaTime) {
-        VelocityComponent velocity = Components.velocity.get(player);
+        VelocityComponent velocity = MappersHandler.velocity.get(player);
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             velocity.driveVelocity = ACCELERATION_DRIVE;

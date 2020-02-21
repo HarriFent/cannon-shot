@@ -5,17 +5,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.hfentonfearn.Main;
+import com.hfentonfearn.CannonShot;
 import com.hfentonfearn.helpers.AssetLoader;
 
 public class SplashScreen implements Screen {
 
     private SpriteBatch batch;
     private Sprite sprite;
-    private Main game;
+    private CannonShot game;
     private long timer;
 
-    public SplashScreen(Main cannonShot) {
+    public SplashScreen(CannonShot cannonShot) {
         this.game = cannonShot;
     }
 

@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.hfentonfearn.components.CollisionComponent;
-import com.hfentonfearn.ecs.Components;
 
 public class PhysicsContactListener implements ContactListener {
 
@@ -15,8 +14,8 @@ public class PhysicsContactListener implements ContactListener {
         Object e1 = contact.getFixtureA().getBody().getUserData();
         Object e2 = contact.getFixtureB().getBody().getUserData();
         if(e1 instanceof Entity && e2 instanceof Entity){
-            CollisionComponent cola = Components.collision.get((Entity) e1);
-            CollisionComponent colb = Components.collision.get((Entity) e2);
+            CollisionComponent cola = MappersHandler.collision.get((Entity) e1);
+            CollisionComponent colb = MappersHandler.collision.get((Entity) e2);
             if(cola != null){
                 cola.collisionEntities.add((Entity) e2);
             }
@@ -31,8 +30,8 @@ public class PhysicsContactListener implements ContactListener {
         Object e1 = contact.getFixtureA().getBody().getUserData();
         Object e2 = contact.getFixtureB().getBody().getUserData();
         if(e1 instanceof Entity && e2 instanceof Entity){
-            CollisionComponent cola = Components.collision.get((Entity) e1);
-            CollisionComponent colb = Components.collision.get((Entity) e2);
+            CollisionComponent cola = MappersHandler.collision.get((Entity) e1);
+            CollisionComponent colb = MappersHandler.collision.get((Entity) e2);
             if(cola != null){
                 cola.collisionEntities.remove(e2);
             }

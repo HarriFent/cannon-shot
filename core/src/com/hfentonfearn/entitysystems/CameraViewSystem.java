@@ -12,9 +12,9 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.MathUtils;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.TransformComponent;
-import com.hfentonfearn.ecs.Components;
 import com.hfentonfearn.gameworld.ZoomLevel;
 import com.hfentonfearn.helpers.AssetLoader;
+import com.hfentonfearn.helpers.MappersHandler;
 
 import static com.hfentonfearn.gameworld.ZoomLevel.ZoomLevelEnum.*;
 
@@ -73,7 +73,7 @@ public class CameraViewSystem extends EntitySystem {
         Entity player;
         if (players.get(0) != null) {
             player = players.get(0);
-            TransformComponent tm = Components.transform.get(player);
+            TransformComponent tm = MappersHandler.transform.get(player);
             cam.position.set(tm.position.x,tm.position.y,0);
 
             // Clamp the camera to the map size

@@ -3,7 +3,6 @@ package com.hfentonfearn.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.hfentonfearn.CannonShot;
-import com.hfentonfearn.helpers.Constants;
 
 import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_HEIGHT;
 import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_WIDTH;

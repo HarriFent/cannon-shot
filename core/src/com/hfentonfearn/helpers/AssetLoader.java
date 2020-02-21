@@ -10,7 +10,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 public class AssetLoader {
 
     private static Texture texture;
-    public static TextureRegion splash, bgMainMenu, shipWhite, shipBlack, bgSea;
+    public static TextureRegion bgMainMenu, bgMapView;
+    public static TextureRegion splash, shipWhite, shipBlack;
     public static TiledMap map;
 
     public static void load() {
@@ -20,6 +21,7 @@ public class AssetLoader {
         splash = new TextureRegion(texture);
 
         bgMainMenu = getTexture("backgrounds/MainMenu.png");
+        bgMapView = getTexture("tiledMap/mapView.png");
 
         shipWhite = getTexture("objects/ships/shipWhite.png");
         shipBlack = getTexture("objects/shipBlack.png");

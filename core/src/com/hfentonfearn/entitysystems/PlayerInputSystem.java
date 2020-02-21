@@ -9,6 +9,9 @@ import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.helpers.MappersHandler;
 
+import static com.hfentonfearn.helpers.Constants.ACCELERATION_DRIVE;
+import static com.hfentonfearn.helpers.Constants.ACCELERATION_TURN;
+
 public class PlayerInputSystem extends IteratingSystem {
 
     public PlayerInputSystem() {
@@ -20,17 +23,17 @@ public class PlayerInputSystem extends IteratingSystem {
         VelocityComponent velocity = MappersHandler.velocity.get(player);
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            velocity.driveVelocity = 2;
+            velocity.driveVelocity = ACCELERATION_DRIVE;
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            velocity.driveVelocity = -2;
+            velocity.driveVelocity = -ACCELERATION_DRIVE /2;
         } else {
-            velocity.driveVelocity = 0;
+            velocity.driveVelocity = 0f;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            velocity.turnVelocity = 2;
+            velocity.turnVelocity = ACCELERATION_TURN;
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            velocity.turnVelocity = -2;
+            velocity.turnVelocity = -ACCELERATION_TURN;
         } else {
             velocity.turnVelocity = 0;
         }

@@ -12,21 +12,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.hfentonfearn.components.PhysicsComponent;
+import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.TextureComponent;
 import com.hfentonfearn.components.TransformComponent;
-import com.hfentonfearn.helpers.AssetLoader;
+import com.hfentonfearn.gameworld.ZoomLevel;
 import com.hfentonfearn.helpers.MappersHandler;
 
-import static com.hfentonfearn.helpers.Constants.DEBUGMODE;
-import static com.hfentonfearn.helpers.Constants.PPM;
+import static com.hfentonfearn.helpers.Constants.*;
 
 public class DebugRendererSystem extends EntitySystem {
 
@@ -36,16 +32,20 @@ public class DebugRendererSystem extends EntitySystem {
     private SpriteBatch debugBatch;
     private BitmapFont font;
     private World world;
+    private ZoomLevel zoom;
     private ImmutableArray<Entity> renderEntities;
     private ImmutableArray<Entity> players;
 
-    public DebugRendererSystem(World world, OrthographicCamera camera) {
+    private Array<String> strings;
+
+    public DebugRendererSystem(World world, OrthographicCamera camera, ZoomLevel zoomLevel) {
         cam = camera;
         debugRenderer = new ShapeRenderer();
         font = new BitmapFont();
         debugBatch = new SpriteBatch();
         this.world = world;
         debug2dRenderer = new Box2DDebugRenderer();
+        zoom = zoomLevel;
     }
 
     public void addedToEngine (Engine engine) {
@@ -76,15 +76,26 @@ public class DebugRendererSystem extends EntitySystem {
             debugRenderer.end();
 
             //Debug Overlay HUD
+            updateDebugStrings();
+
             debugBatch.begin();
             font.setColor(Color.RED);
-            font.draw(debugBatch, "DEBUG MODE", 10, 20);
-            Entity e = players.get(0);
-            font.draw(debugBatch, "Player Body: x = " + e.getComponent(PhysicsComponent.class).body.getPosition().x + ", y = " + e.getComponent(PhysicsComponent.class).body.getPosition().y, 10, 40);
-            font.draw(debugBatch, "Player Transform: x = " + e.getComponent(TransformComponent.class).position.x + ", y = " + e.getComponent(TransformComponent.class).position.y, 10, 60);
-            font.draw(debugBatch, "Body Angle: " + e.getComponent(PhysicsComponent.class).body.getAngle() + ", Player Angle: " + e.getComponent(TransformComponent.class).rotation, 10, 80);
-            font.draw(debugBatch, "Cam Pos: " + cam.position.toString(), 10, 100);
+            float y = WORLD_PIXEL_HEIGHT - 20;
+            for (String str : strings) {
+                font.draw(debugBatch, str, 10, y);
+                y -= 20;
+            }
             debugBatch.end();
         }
+    }
+
+    private void updateDebugStrings() {
+        strings = new Array<>();
+        strings.add("DEBUG MODE");
+        strings.add("Cam X Pos: " + Math.round(cam.position.x));
+        strings.add("Cam Y Pos: " + Math.round(cam.position.y));
+        strings.add("Zooming in: " + zoom.isZoomingIn() + " Zooming out: " + zoom.isZoomingOut());
+        strings.add("Zoom Level: " + zoom.getZoomValue() + ", " + zoom.toString() + ", CurrentZoom: " + zoom.getCurrentZoom());
+        //strings.add("Player Entities: " + players.get(0).getComponent(CollisionComponent.class).collisionEntities.toString());
     }
 }

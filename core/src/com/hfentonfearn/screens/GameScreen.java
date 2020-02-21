@@ -3,25 +3,25 @@ package com.hfentonfearn.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.hfentonfearn.CannonShot;
 import com.hfentonfearn.gameworld.GameWorld;
+import com.hfentonfearn.helpers.FrameRate;
 
 public class GameScreen implements Screen {
 
     private final CannonShot game;
     private GameWorld gameWorld;
-    private SpriteBatch batch;
+    private FrameRate frameRate;
 
 
     public GameScreen(CannonShot game) {
         this.game = game;
+        this.frameRate = new FrameRate();
     }
 
     @Override
     public void show() {
-        batch = new SpriteBatch();
-        gameWorld = new GameWorld(batch);
+        gameWorld = new GameWorld();
     }
 
     @Override
@@ -29,11 +29,14 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gameWorld.update(delta);
+        System.out.println();
+        frameRate.update();
+        frameRate.render();
     }
 
     @Override
     public void resize(int width, int height) {
-
+        frameRate.resize(width,height);
     }
 
     @Override

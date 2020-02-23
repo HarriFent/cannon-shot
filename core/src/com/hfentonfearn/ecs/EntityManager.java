@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Disposable;
 import com.hfentonfearn.entitysystems.*;
-import com.hfentonfearn.helpers.Constants;
+import com.hfentonfearn.utils.Constants;
 
 public class EntityManager extends PooledEngine {
 

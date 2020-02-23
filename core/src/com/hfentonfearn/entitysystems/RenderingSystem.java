@@ -5,18 +5,13 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.TextureComponent;
 import com.hfentonfearn.components.TransformComponent;
-import com.hfentonfearn.ecs.Components;
 import com.hfentonfearn.gameworld.ZoomLevel;
-import com.hfentonfearn.helpers.AssetLoader;
-import com.hfentonfearn.helpers.CustomTiledMapRenderer;
-
-import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_HEIGHT;
-import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_WIDTH;
+import com.hfentonfearn.utils.AssetLoader;
+import com.hfentonfearn.utils.CustomTiledMapRenderer;
 
 public class RenderingSystem extends IteratingSystem {
 

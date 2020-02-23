@@ -1,25 +1,21 @@
 package com.hfentonfearn.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.hfentonfearn.GameManager;
-import com.hfentonfearn.Main;
-import com.hfentonfearn.helpers.AssetLoader;
-import com.hfentonfearn.helpers.Constants;
+import com.hfentonfearn.utils.AssetLoader;
+import com.hfentonfearn.utils.Constants;
 import com.hfentonfearn.ui.OptionsDialog;
 
 public class MainMenuScreen extends AbstractScreen {
@@ -33,34 +29,38 @@ public class MainMenuScreen extends AbstractScreen {
         stage = new Stage();
         table = new Table();
         table.setFillParent(true);
-        table.defaults().width(Gdx.graphics.getWidth() / 2).pad(20);
+        table.defaults().width(Gdx.graphics.getWidth() / 4).pad(20);
 
-        addTitle();
+        addBackground();
         add("Play Game", new GameScreen());
         add("Credits", new CreditsScreen());
+        addOption();
         addExit();
-
-        final Skin skin = AssetLoader.skin;
-
-        TextButton optionsButton = new TextButton("Options", skin);
-        optionsButton.addListener(new ChangeListener(){
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                OptionsDialog dialog = new OptionsDialog(skin);
-                dialog.show(stage);
-            }
-        });
-
-        table.add(optionsButton);
 
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
 
-    private void addTitle() {
-        Label title = new Label(Constants.GAME_TITLE, AssetLoader.skin);
-        title.setAlignment(Align.center);
-        table.add(title);
+    private void addOption() {
+        NinePatchDrawable draw = new NinePatchDrawable(AssetLoader.hotkey.button);
+
+        TextButton.TextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = draw;
+        style.over = draw.tint(Color.GRAY);
+        style.down = draw.tint(Color.DARK_GRAY);
+        style.checked = draw;
+        style.font = AssetLoader.fonts.font;
+
+        TextButton optionsButton = new TextButton("Options", style);
+        optionsButton.addListener(new ChangeListener(){
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                OptionsDialog dialog = new OptionsDialog(AssetLoader.skin);
+                dialog.show(stage);
+            }
+        });
+
+        table.add(optionsButton);
         table.row();
     }
 
@@ -69,6 +69,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         TextButton.TextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.up = draw;
+        style.over = draw.tint(Color.GRAY);
         style.down = draw.tint(Color.DARK_GRAY);
         style.checked = draw;
         style.font = AssetLoader.fonts.font;
@@ -90,6 +91,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         TextButton.TextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.up = draw;
+        style.over = draw.tint(Color.GRAY);
         style.down = draw.tint(Color.DARK_GRAY);
         style.checked = draw;
         style.font = AssetLoader.fonts.font;
@@ -104,42 +106,16 @@ public class MainMenuScreen extends AbstractScreen {
         });
         table.add(btn);
         table.row();
-
     }
 
-    /*private void CreateUITable(Skin skin) {
-        table = new Table();
-        table.setFillParent(true);
-        stage.addActor(table);
-        table.setDebug(false);
-        table.add().expand().colspan(3);
-        table.row();
-        TextButton txtPlayButton = new TextButton("Play",skin,"big-1");
-        txtPlayButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-            @Override
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
-            }
-        });
-        table.add(txtPlayButton).pad(25,50,50,25);
-        TextButton txtOptionButton = new TextButton("Options",skin,"big-1");
-        txtOptionButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-            @Override
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new OptionScreen(game));
-            }
-        });
-        table.add(txtOptionButton).pad(25,25,50,25);
-        table.add().expandX();
-    }*/
+    private void addBackground() {
+        Texture texture = AssetLoader.ui.mainMenu;
+        Image itemImage = new Image();
+        itemImage.setPosition(10, 10);
+        itemImage.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
+        itemImage.setSize(texture.getWidth(), texture.getHeight());
+        stage.addActor(itemImage);
+    }
 
     @Override
     public void render(float delta) {

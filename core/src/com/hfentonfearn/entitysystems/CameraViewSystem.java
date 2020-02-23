@@ -9,12 +9,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.math.MathUtils;
 import com.hfentonfearn.components.PlayerComponent;
-import com.hfentonfearn.components.TransformComponent;
-import com.hfentonfearn.ecs.Components;
 import com.hfentonfearn.gameworld.ZoomLevel;
-import com.hfentonfearn.helpers.AssetLoader;
+import com.hfentonfearn.utils.AssetLoader;
 
 import static com.hfentonfearn.gameworld.ZoomLevel.ZoomLevelEnum.*;
 

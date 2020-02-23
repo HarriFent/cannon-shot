@@ -1,4 +1,4 @@
-package com.hfentonfearn.helpers;
+package com.hfentonfearn.utils;
 
 import com.badlogic.gdx.InputProcessor;
 

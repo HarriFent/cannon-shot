@@ -1,4 +1,4 @@
-package com.hfentonfearn.helpers;
+package com.hfentonfearn.utils;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
-import static com.hfentonfearn.helpers.Constants.MPP;
+import static com.hfentonfearn.utils.Constants.MPP;
 
 public class PhysicsBodyFactory {
 

@@ -4,8 +4,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.hfentonfearn.Main;
 
-import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_HEIGHT;
-import static com.hfentonfearn.helpers.Constants.WORLD_PIXEL_WIDTH;
+import static com.hfentonfearn.utils.Constants.WORLD_PIXEL_HEIGHT;
+import static com.hfentonfearn.utils.Constants.WORLD_PIXEL_WIDTH;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

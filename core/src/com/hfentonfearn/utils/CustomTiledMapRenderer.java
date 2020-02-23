@@ -1,4 +1,4 @@
-package com.hfentonfearn.helpers;
+package com.hfentonfearn.utils;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapGroupLayer;

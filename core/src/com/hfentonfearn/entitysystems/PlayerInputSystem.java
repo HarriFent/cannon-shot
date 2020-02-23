@@ -3,14 +3,7 @@ package com.hfentonfearn.entitysystems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.hfentonfearn.components.PlayerComponent;
-import com.hfentonfearn.components.VelocityComponent;
-import com.hfentonfearn.ecs.Components;
-
-import static com.hfentonfearn.helpers.Constants.ACCELERATION_DRIVE;
-import static com.hfentonfearn.helpers.Constants.ACCELERATION_TURN;
 
 public class PlayerInputSystem extends IteratingSystem {
 

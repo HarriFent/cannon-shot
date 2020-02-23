@@ -19,10 +19,9 @@ import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.TextureComponent;
 import com.hfentonfearn.components.TransformComponent;
-import com.hfentonfearn.ecs.Components;
 import com.hfentonfearn.gameworld.ZoomLevel;
 
-import static com.hfentonfearn.helpers.Constants.*;
+import static com.hfentonfearn.utils.Constants.*;
 
 public class DebugRendererSystem extends EntitySystem {
 

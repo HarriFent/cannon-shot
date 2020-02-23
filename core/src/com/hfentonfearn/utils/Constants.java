@@ -1,4 +1,4 @@
-package com.hfentonfearn.helpers;
+package com.hfentonfearn.utils;
 
 public class Constants {
     public static final CharSequence GAME_TITLE = "Cannon Shot";

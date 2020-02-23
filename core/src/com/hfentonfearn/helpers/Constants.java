@@ -1,6 +1,7 @@
 package com.hfentonfearn.helpers;
 
 public class Constants {
+    public static final CharSequence GAME_TITLE = "Cannon Shot";
     public static boolean DEBUGMODE = true;
 
     public static final float TIME_STEP = 1/60f;

@@ -3,10 +3,7 @@ package com.hfentonfearn.ecs;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Disposable;
-import com.hfentonfearn.entitysystems.CameraSystem;
-import com.hfentonfearn.entitysystems.EntityRenderSystem;
-import com.hfentonfearn.entitysystems.InputSystem;
-import com.hfentonfearn.entitysystems.PhysicsSystem;
+import com.hfentonfearn.entitysystems.*;
 import com.hfentonfearn.helpers.Constants;
 
 public class EntityManager extends PooledEngine {
@@ -34,6 +31,7 @@ public class EntityManager extends PooledEngine {
         //Particle System
 
         //GUI System
+        addSystem(new GUISystem());
 
         return this;
     }

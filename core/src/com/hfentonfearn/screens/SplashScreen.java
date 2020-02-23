@@ -1,53 +1,69 @@
 package com.hfentonfearn.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.hfentonfearn.Main;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.hfentonfearn.GameManager;
 import com.hfentonfearn.helpers.AssetLoader;
 
-public class SplashScreen implements Screen {
+public class SplashScreen extends AbstractScreen {
 
-    private SpriteBatch batch;
-    private Sprite sprite;
-    private Main game;
-    private long timer;
+    Texture logo;
+    float alpha = 0;
 
-    public SplashScreen(Main cannonShot) {
-        this.game = cannonShot;
-    }
+    Stage stage;
+    Table table;
 
     @Override
     public void show() {
-        timer = 255;
-        sprite = new Sprite(AssetLoader.splash);
-        sprite.setColor(1, 1, 1, 0);
 
-        float x, y;
-        x = (Gdx.graphics.getWidth() - sprite.getWidth()) / 2;
-        y = (Gdx.graphics.getHeight() - sprite.getHeight()) / 2;
-        sprite.setPosition(x,y);
-        batch = new SpriteBatch();
+        logo = new Texture(Gdx.files.internal("flipflopSplash.png"));
+        logo.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        stage = new Stage();
+        table = new Table();
+        table.setFillParent(true);
+
+        Image flipflop = new Image(logo);
+        flipflop.setOrigin(flipflop.getWidth() / 2, flipflop.getHeight() / 2);
+        flipflop.addAction(new Fade());
+
+        table.add(flipflop);
+        stage.addActor(table);
+        AssetLoader.load();
     }
 
     @Override
     public void render(float delta) {
-        if (updateTimer())
-            game.setScreen(new MainMenuScreen(game));
+        super.render(delta);
 
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        sprite.draw(batch);
-        batch.end();
+        if (alpha >= 1) {
+            if (AssetLoader.getManager().update()) {
+                AssetLoader.create();
+                GameManager.setScreen(new MainMenuScreen());
+            }
+        }
+
+        if (alpha >= 1)
+            alpha = 1;
+        else
+            alpha += 0.25f * delta;
+
+        stage.act();
+        stage.draw();
     }
 
-    private boolean updateTimer() {
-        sprite.setAlpha(timer);
-        timer -= 2;
-         return !(timer > 0);
+    private class Fade extends Action {
+        @Override
+        public boolean act(float delta) {
+            getActor().setColor(1, 1, 1, alpha);
+            return false;
+        }
     }
 
     @Override
@@ -72,7 +88,7 @@ public class SplashScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
-        game.dispose();
+        stage.dispose();
+        logo.dispose();
     }
 }

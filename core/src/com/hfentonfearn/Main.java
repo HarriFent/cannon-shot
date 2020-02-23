@@ -12,13 +12,7 @@ public class Main extends Game {
 	@Override
 	public void create () {
 		GameManager.init(this);
-		GameManager.setScreen(DEBUGMODE ? new GameScreen(this) : new SplashScreen(this));
+		GameManager.setScreen(new SplashScreen());
 		AssetLoader.load();
-	}
-
-	@Override
-	public void dispose () {
-		super.dispose();
-		AssetLoader.dispose();
 	}
 }

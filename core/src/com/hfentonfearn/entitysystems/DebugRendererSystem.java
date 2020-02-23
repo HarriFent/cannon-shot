@@ -70,8 +70,8 @@ public class DebugRendererSystem extends EntitySystem {
                 debugRenderer.setColor(Color.RED);
                 Gdx.gl.glLineWidth(3);
 
-                TransformComponent transformComponent = Components.transform.get(e);
-                debugRenderer.circle(transformComponent.position.x, transformComponent.position.y, 5);
+                /*TransformComponent transformComponent = Components.transform.get(e);
+                debugRenderer.circle(transformComponent.position.x, transformComponent.position.y, 5);*/
             }
             debugRenderer.end();
 

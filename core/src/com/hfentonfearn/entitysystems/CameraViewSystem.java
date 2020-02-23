@@ -29,7 +29,7 @@ public class CameraViewSystem extends EntitySystem {
         this.cam = cam;
         zoom = zoomLevel;
         zoom.setCurrentZoom(cam.zoom);
-        mapProps = AssetLoader.map.getProperties();
+        mapProps = AssetLoader.map.map.getProperties();
     }
 
     @Override
@@ -70,7 +70,7 @@ public class CameraViewSystem extends EntitySystem {
 
     private void setCameraToPlayer() {
         // Set the camera position to the player
-        Entity player;
+        /*Entity player;
         if (players.get(0) != null) {
             player = players.get(0);
             TransformComponent tm = Components.transform.get(player);
@@ -82,6 +82,6 @@ public class CameraViewSystem extends EntitySystem {
             cam.position.x = MathUtils.clamp(cam.position.x, cam.viewportWidth/2 * zoom.getCurrentZoom(), mapWidth - (cam.viewportWidth/2) * zoom.getCurrentZoom());
             cam.position.y = MathUtils.clamp(cam.position.y, cam.viewportHeight/2 * zoom.getCurrentZoom(), mapHeight - (cam.viewportHeight/2) * zoom.getCurrentZoom());
         }
-        cam.update();
+        cam.update();*/
     }
 }

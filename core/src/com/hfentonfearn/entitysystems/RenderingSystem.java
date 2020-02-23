@@ -32,7 +32,7 @@ public class RenderingSystem extends IteratingSystem {
         this.batch = new SpriteBatch();
         cam = camera;
         this.zoom = zoom;
-        this.mapRenderer = new CustomTiledMapRenderer(AssetLoader.map,this.batch);
+        this.mapRenderer = new CustomTiledMapRenderer(AssetLoader.map.map,this.batch);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class RenderingSystem extends IteratingSystem {
                     batch.enableBlending();
                     batch.begin();
 
-                    for (Entity entity : renderQueue) {
+                    /*for (Entity entity : renderQueue) {
                         TextureComponent tex = Components.texture.get(entity);
                         TransformComponent trans = Components.transform.get(entity);
 
@@ -66,16 +66,16 @@ public class RenderingSystem extends IteratingSystem {
                         batch.draw(tex.region, trans.position.x - trans.origin.x, trans.position.y - trans.origin.y,
                                 trans.origin.x, trans.origin.y, tex.region.getRegionWidth(), tex.region.getRegionHeight(),
                                 trans.scale.x, trans.scale.y, trans.rotation);
-                    }
+                    }*/
 
                     batch.end();
                     renderQueue.clear();
                     break;
                 case MAP:
-                    batch.begin();
+                   /* batch.begin();
                     TextureRegion tex = AssetLoader.bgMapView;
                     batch.draw(tex,0,0,WORLD_PIXEL_WIDTH,WORLD_PIXEL_HEIGHT);
-                    batch.end();
+                    batch.end();*/
             }
         }
     }

@@ -20,7 +20,7 @@ public class PlayerInputSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity player, float deltaTime) {
-        VelocityComponent velocity = Components.velocity.get(player);
+        /*VelocityComponent velocity = Components.velocity.get(player);
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             velocity.driveVelocity = ACCELERATION_DRIVE;
@@ -36,6 +36,6 @@ public class PlayerInputSystem extends IteratingSystem {
             velocity.turnVelocity = -ACCELERATION_TURN;
         } else {
             velocity.turnVelocity = 0;
-        }
+        }*/
     }
 }

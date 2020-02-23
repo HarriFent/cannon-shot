@@ -18,7 +18,7 @@ public class PlayerCollisionSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        CollisionComponent collision = Components.collision.get(entity);
+        CollisionComponent collision = Components.COLLISION.get(entity);
         for (Entity collidedEntity : collision.collisionEntities) {
             if (collidedEntity != null) {
                 TypeComponent type = collidedEntity.getComponent(TypeComponent.class);

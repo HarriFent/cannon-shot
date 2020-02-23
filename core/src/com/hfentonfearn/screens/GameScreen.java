@@ -1,42 +1,43 @@
 package com.hfentonfearn.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.hfentonfearn.Main;
-import com.hfentonfearn.gameworld.GameWorld;
-import com.hfentonfearn.helpers.FrameRate;
+import com.badlogic.gdx.InputMultiplexer;
+import com.hfentonfearn.GameManager;
+import com.hfentonfearn.ecs.EntityManager;
+import com.hfentonfearn.entitysystems.CameraSystem;
+import com.hfentonfearn.entitysystems.GUISystem;
+import com.hfentonfearn.entitysystems.InputSystem;
 
-public class GameScreen implements Screen {
+public class GameScreen extends AbstractScreen {
 
-    private final Main game;
-    private GameWorld gameWorld;
-    private FrameRate frameRate;
+    private EntityManager engine;
+    private InputMultiplexer multiplexer;
 
-
-    public GameScreen(Main game) {
-        this.game = game;
-        this.frameRate = new FrameRate();
+    public GameScreen() {
     }
 
     @Override
     public void show() {
-        gameWorld = new GameWorld();
+        engine = GameManager.initEngine();
+        createWorld(256, 256);
+
+        multiplexer = engine.getSystem(InputSystem.class).getMultiplexer();
+        multiplexer.addProcessor(engine.getSystem(GUISystem.class).getStage());
+    }
+
+    private void createWorld(int width, int height) {
+        engine.getSystem(CameraSystem.class).getCamera().position.set(width * 0.5f, height * 0.5f, 0);
+        engine.getSystem(CameraSystem.class).setWorldBounds(width, height);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        gameWorld.update(delta);
-        System.out.println();
-        frameRate.update();
-        frameRate.render();
+        super.render(delta);
+        engine.update(delta);
     }
 
     @Override
     public void resize(int width, int height) {
-        frameRate.resize(width,height);
+        engine.getSystem(GUISystem.class).resize(width, height);
     }
 
     @Override
@@ -56,6 +57,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        gameWorld.dispose();
+
     }
 }

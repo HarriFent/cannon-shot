@@ -2,6 +2,7 @@ package com.hfentonfearn;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.ecs.EntityManager;
 
 public class GameManager {
@@ -21,6 +22,7 @@ public class GameManager {
         }
         engine = new EntityManager();
         //Add Engine Helpers (EntityFactory)
+        EntityFactory.setEngine(engine);
         return engine;
     }
 

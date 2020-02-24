@@ -3,8 +3,9 @@
  <tileset firstgid="1" source="tiles_sheet.tsx"/>
  <layer id="1" name="background" width="100" height="100">
   <properties>
-   <property name="movingLeft" type="bool" value="true"/>
-   <property name="movingVelocity" type="float" value="1"/>
+   <property name="moving" type="bool" value="true"/>
+   <property name="movingVelocityX" type="float" value="1"/>
+   <property name="movingVelocityY" type="float" value="-1"/>
    <property name="repeating" type="bool" value="true"/>
   </properties>
   <data encoding="csv">

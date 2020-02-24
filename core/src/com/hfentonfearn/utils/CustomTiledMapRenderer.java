@@ -54,19 +54,9 @@ public class CustomTiledMapRenderer extends OrthogonalTiledMapRenderer {
         int tileHeight = (int) layer.getTileHeight();
         float offsetX = 0;
         float offsetY = 0;
-        if (layer.getProperties().containsKey("movingLeft")) {
-            float vel = layer.getProperties().get("movingVelocity", Float.class);
-            if (layer.getProperties().get("movingLeft", Boolean.class)) {
-                // Moving Left
-                if (movingTileCount * vel >= tileWidth)
-                    movingTileCount = 0;
-                offsetX = movingTileCount * vel;
-            } else {
-                //Moving Up
-                if (movingTileCount * vel >= tileHeight)
-                    movingTileCount = 0;
-                offsetY = movingTileCount * vel;
-            }
+        if (isLayerMoving(layer)) {
+            offsetX = getMovingVelocityX(layer);
+            offsetY = getMovingVelocityY(layer);
             movingTileCount++;
         }
 
@@ -75,5 +65,26 @@ public class CustomTiledMapRenderer extends OrthogonalTiledMapRenderer {
 
         TiledDrawable tiledDrawable = new TiledDrawable(tile.getTextureRegion());
         tiledDrawable.draw(batch, offsetX, offsetY,layer.getWidth() * tileWidth, layer.getHeight() * tileHeight);
+    }
+
+    private boolean isLayerMoving(TiledMapTileLayer layer) {
+        if (layer.getProperties().containsKey("moving")) {
+            return layer.getProperties().get("moving", Boolean.class);
+        }
+        return false;
+    }
+    private float getMovingVelocityX(TiledMapTileLayer layer) {
+        int tileWidth = (int) layer.getTileWidth();
+        float vel = layer.getProperties().get("movingVelocityX", Float.class);
+        if (movingTileCount * vel >= tileWidth)
+            movingTileCount = 0;
+        return movingTileCount * vel;
+    }
+    private float getMovingVelocityY(TiledMapTileLayer layer) {
+        int tileHeight = (int) layer.getTileHeight();
+        float vel = layer.getProperties().get("movingVelocityY", Float.class);
+        if (movingTileCount * vel >= tileHeight)
+            movingTileCount = 0;
+        return movingTileCount * vel;
     }
 }

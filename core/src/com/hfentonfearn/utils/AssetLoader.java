@@ -67,7 +67,7 @@ public class AssetLoader implements Disposable {
 
         public AssetShip(TextureAtlas atlas) {
             //ships = atlas.findRegions("ship");
-            playerShip = atlas.findRegion("whiteShip");
+            playerShip = atlas.findRegion("shipWhite");
         }
     }
 

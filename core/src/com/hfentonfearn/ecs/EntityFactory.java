@@ -3,16 +3,17 @@ package com.hfentonfearn.ecs;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.hfentonfearn.components.PhysicsComponent;
+import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.entitysystems.PhysicsSystem;
+import com.hfentonfearn.utils.AssetLoader;
 
-import static com.hfentonfearn.ecs.EntityFactory.PhysicsBuilder.*;
+import static com.hfentonfearn.ecs.EntityFactory.PhysicsBuilder.FixtureBuilder;
 
 public class EntityFactory {
 
@@ -28,15 +29,29 @@ public class EntityFactory {
         physicsSystem = engine.getSystem(PhysicsSystem.class);
     }
 
+    public static Entity createPlayer(Vector2 position) {
+        Entity entity = builder.createEntity(position).
+                physicsBody(BodyDef.BodyType.DynamicBody)
+                .sprite(AssetLoader.ship.playerShip)
+                .damping(0.5f,0.5f)
+                .addToEngine();
+        entity.add(new PlayerComponent());
+        return entity;
+    }
+
+
+
+    /**
+     *   Entity Builder Class
+     * */
     public static class EntityBuilder {
         private static final BodyDef.BodyType DEFAULT_BODY = BodyDef.BodyType.DynamicBody;
 
         public Vector2 position;
         public Entity entity;
 
-        public EntityBuilder createEntity (int categoryBits, Vector2 position) {
+        public EntityBuilder createEntity (Vector2 position) {
             entity = engine.createEntity();
-            entity.flags = categoryBits;
 
             this.position = position;
 
@@ -133,6 +148,12 @@ public class EntityFactory {
         public EntityBuilder sprite (TextureRegion region, float width, float height) {
             SpriteComponent spriteComp = engine.createComponent(SpriteComponent.class).init(region, position.x, position.y, width,
                     height);
+            entity.add(spriteComp);
+            return this;
+        }
+        public EntityBuilder sprite (TextureRegion region) {
+            SpriteComponent spriteComp = engine.createComponent(SpriteComponent.class).init(region, position.x, position.y, region.getRegionWidth(),
+                    region.getRegionHeight());
             entity.add(spriteComp);
             return this;
         }

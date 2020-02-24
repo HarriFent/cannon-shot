@@ -1,11 +1,17 @@
 package com.hfentonfearn.screens;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.hfentonfearn.GameManager;
+import com.hfentonfearn.components.PlayerComponent;
+import com.hfentonfearn.ecs.Components;
 import com.hfentonfearn.ecs.EntityManager;
 import com.hfentonfearn.entitysystems.CameraSystem;
 import com.hfentonfearn.entitysystems.GUISystem;
 import com.hfentonfearn.entitysystems.InputSystem;
+import com.hfentonfearn.utils.WorldBuilder;
 
 public class GameScreen extends AbstractScreen {
 
@@ -25,7 +31,11 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void createWorld(int width, int height) {
-        engine.getSystem(CameraSystem.class).getCamera().position.set(width * 0.1f, height * 0.1f, 0);
+        WorldBuilder worldBuilder = new WorldBuilder(width, height);
+        worldBuilder.createWorld();
+        Entity player = engine.getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
+        Body body = Components.PHYSICS.get(player).getBody();
+        engine.getSystem(CameraSystem.class).getCamera().position.set(body.getPosition().x, body.getPosition().y, 0);
         engine.getSystem(CameraSystem.class).setWorldBounds(width, height);
     }
 

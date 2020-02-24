@@ -32,12 +32,8 @@ public class CustomTiledMapRenderer extends OrthogonalTiledMapRenderer {
             }
         } else {
             if (layer instanceof TiledMapTileLayer) {
-                if (layer.getProperties().containsKey("repeating")) {
-                    if (layer.getProperties().get("repeating", Boolean.class)) {
-                        renderRepeatingLayer((TiledMapTileLayer) layer);
-                    } else {
-                        renderTileLayer((TiledMapTileLayer) layer);
-                    }
+                if (isLayerRepeating((TiledMapTileLayer) layer)) {
+                    renderRepeatingLayer((TiledMapTileLayer) layer);
                 } else {
                     renderTileLayer((TiledMapTileLayer) layer);
                 }
@@ -47,6 +43,12 @@ public class CustomTiledMapRenderer extends OrthogonalTiledMapRenderer {
                 renderObjects(layer);
             }
         }
+    }
+
+    private boolean isLayerRepeating(TiledMapTileLayer layer) {
+        if (layer.getProperties().containsKey("repeating"))
+            return layer.getProperties().get("repeating", Boolean.class);
+        return false;
     }
 
     private void renderRepeatingLayer(TiledMapTileLayer layer) {

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.hfentonfearn.GameManager;
 import com.hfentonfearn.utils.AssetLoader;
+import com.hfentonfearn.utils.Constants;
 
 public class SplashScreen extends AbstractScreen {
 
@@ -41,7 +42,7 @@ public class SplashScreen extends AbstractScreen {
     public void render(float delta) {
         super.render(delta);
 
-        if (alpha >= 1) {
+        if (alpha >= 1 || Constants.DEBUGMODE) {
             if (AssetLoader.getManager().update()) {
                 AssetLoader.create();
                 GameManager.setScreen(new MainMenuScreen());

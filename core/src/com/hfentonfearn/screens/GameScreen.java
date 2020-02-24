@@ -18,14 +18,14 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void show() {
         engine = GameManager.initEngine();
-        createWorld(256, 256);
+        createWorld(6400, 6400);
 
         multiplexer = engine.getSystem(InputSystem.class).getMultiplexer();
         multiplexer.addProcessor(engine.getSystem(GUISystem.class).getStage());
     }
 
     private void createWorld(int width, int height) {
-        engine.getSystem(CameraSystem.class).getCamera().position.set(width * 0.5f, height * 0.5f, 0);
+        engine.getSystem(CameraSystem.class).getCamera().position.set(width * 0.1f, height * 0.1f, 0);
         engine.getSystem(CameraSystem.class).setWorldBounds(width, height);
     }
 

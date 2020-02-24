@@ -16,6 +16,7 @@ public class CameraSystem extends EntitySystem {
     private OrthographicCamera camera;
     private Viewport viewport;
     private Vector2 target;
+    boolean smooth = false;
 
     private float minZoom;
     private float maxZoom;
@@ -46,6 +47,10 @@ public class CameraSystem extends EntitySystem {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        if (smooth && target != null) {
+            camera.position.add(camera.position.cpy().scl(-1)
+                    .add(target.x, target.y, 0).scl(0.04f));
+        }
     }
 
     public OrthographicCamera getCamera() {
@@ -101,8 +106,18 @@ public class CameraSystem extends EntitySystem {
         this.target = target;
     }
 
+    public void smoothFollow(Vector2 target) {
+        smooth = true;
+        this.target = target;
+    }
+
     public void goTo(float posX, float posY) {
         target = null;
         camera.position.set(posX, posY, 0);
+    }
+
+    public void goToSmooth(Vector2 position) {
+        target = position.cpy();
+        smooth = true;
     }
 }

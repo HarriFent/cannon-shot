@@ -1,0 +1,71 @@
+
+cannon-shot.png
+size: 512,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+button
+  rotate: false
+  xy: 342, 67
+  size: 48, 48
+  split: 13, 13, 13, 13
+  pad: 13, 13, 13, 13
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+cannon
+  rotate: false
+  xy: 138, 18
+  size: 29, 20
+  orig: 29, 20
+  offset: 0, 0
+  index: -1
+cannonBall
+  rotate: false
+  xy: 436, 105
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+explosion1
+  rotate: false
+  xy: 138, 40
+  size: 74, 75
+  orig: 74, 75
+  offset: 0, 0
+  index: -1
+explosion2
+  rotate: false
+  xy: 280, 56
+  size: 60, 59
+  orig: 60, 59
+  offset: 0, 0
+  index: -1
+explosion3
+  rotate: false
+  xy: 392, 74
+  size: 42, 41
+  orig: 42, 41
+  offset: 0, 0
+  index: -1
+sea
+  rotate: false
+  xy: 214, 51
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+shipBlack
+  rotate: false
+  xy: 70, 2
+  size: 66, 113
+  orig: 66, 113
+  offset: 0, 0
+  index: -1
+shipWhite
+  rotate: false
+  xy: 2, 2
+  size: 66, 113
+  orig: 66, 113
+  offset: 0, 0
+  index: -1

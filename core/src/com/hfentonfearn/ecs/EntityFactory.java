@@ -30,8 +30,10 @@ public class EntityFactory {
     }
 
     public static Entity createPlayer(Vector2 position) {
-        Entity entity = builder.createEntity(position).
-                physicsBody(BodyDef.BodyType.DynamicBody)
+        float[] polygon = AssetLoader.ship.collisionPoly;
+        Entity entity = builder.createEntity(position)
+                .physicsBody(BodyDef.BodyType.DynamicBody)
+                .polyCollider(polygon,1f)
                 .sprite(AssetLoader.ship.playerShip)
                 .damping(0.5f,0.5f)
                 .addToEngine();
@@ -82,6 +84,18 @@ public class EntityFactory {
             } else {
                 Gdx.app.error("EntityFactory", "entity is missing physics component!");
             }
+            return this;
+        }
+
+        public EntityBuilder polyCollider (float[] polygon, float density) {
+            PolygonShape poly = new PolygonShape();
+            poly.set(polygon);
+            PhysicsComponent physics = Components.PHYSICS.get(entity);
+            if (physics == null) {
+                physicsBody(DEFAULT_BODY);
+            }
+
+            physics.getBody().createFixture(poly, density);
             return this;
         }
 

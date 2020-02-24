@@ -1,0 +1,618 @@
+Index: core/src/com/hfentonfearn/ecs/EntityFactory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- core/src/com/hfentonfearn/ecs/EntityFactory.java	(revision 24d6e794e681bcd86167756b454b59731de7e34c)
++++ core/src/com/hfentonfearn/ecs/EntityFactory.java	(date 1582555190000)
+@@ -3,14 +3,13 @@
+ import com.badlogic.ashley.core.Entity;
+ import com.badlogic.ashley.core.PooledEngine;
+ import com.badlogic.gdx.Gdx;
++import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+ import com.badlogic.gdx.graphics.g2d.TextureRegion;
+ import com.badlogic.gdx.math.MathUtils;
+ import com.badlogic.gdx.math.Polygon;
+ import com.badlogic.gdx.math.Vector2;
+ import com.badlogic.gdx.physics.box2d.*;
+-import com.hfentonfearn.components.PhysicsComponent;
+-import com.hfentonfearn.components.PlayerComponent;
+-import com.hfentonfearn.components.SpriteComponent;
++import com.hfentonfearn.components.*;
+ import com.hfentonfearn.entitysystems.PhysicsSystem;
+ import com.hfentonfearn.utils.AssetLoader;
+ 
+@@ -38,10 +37,28 @@
+         Entity entity = builder.createEntity(position)
+                 .physicsBody(BodyDef.BodyType.DynamicBody)
+                 .polyCollider(p.getTransformedVertices(),1f)
++                .steeringBehavior()
+                 .sprite(AssetLoader.ship.playerShip)
+                 .damping(0.5f,0.5f)
+-                .addToEngine();
++                .getWithoutAdding();
++
+         entity.add(new PlayerComponent());
++
++        SteerableComponent steerable = engine.createComponent(SteerableComponent.class).init(Components.PHYSICS.get(entity).getBody(), 30.0f);
++
++        steerable.setMaxLinearSpeed(SteerableComponent.MAX_LINEAR_SPEED / 2);
++        steerable.setMaxLinearAcceleration(SteerableComponent.MAX_LINEAR_ACCELERATION / 10);
++
++        Arrive<Vector2> arriveSB = new Arrive<Vector2>(steerable)
++                .setTarget(steerable.targetLocation)
++                .setTimeToTarget(0.001f)
++                .setDecelerationRadius(2f)
++                .setArrivalTolerance(0.0001f);
++
++        Components.STEERING_BEHAVIOR.get(entity).setBehavior(arriveSB);
++        entity.add(steerable);
++
++        engine.addEntity(entity);
+         return entity;
+     }
+ 
+@@ -102,6 +119,23 @@
+             physics.getBody().createFixture(poly, density);
+             return this;
+         }
++
++        public EntityBuilder steeringBehavior () {
++            SteeringBehaviorComponent behaviorComp = engine.createComponent(SteeringBehaviorComponent.class);
++            entity.add(behaviorComp);
++            return this;
++        }
++
++        public EntityBuilder steerable (float radius) {
++            PhysicsComponent physics = Components.PHYSICS.get(entity);
++            if (physics == null) {
++                Gdx.app.error("Entity Factory", "cannot create a steerable without physics!");
++                return this;
++            }
++            SteerableComponent steerable = engine.createComponent(SteerableComponent.class).init(physics.getBody(), radius);
++            entity.add(steerable);
++            return this;
++        }
+ 
+         public EntityBuilder circleCollider (float radius, float density) {
+             CircleShape shape = new CircleShape();
+Index: core/src/com/hfentonfearn/ecs/Components.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- core/src/com/hfentonfearn/ecs/Components.java	(revision 24d6e794e681bcd86167756b454b59731de7e34c)
++++ core/src/com/hfentonfearn/ecs/Components.java	(date 1582555190000)
+@@ -1,16 +1,12 @@
+ package com.hfentonfearn.ecs;
+ 
+ import com.badlogic.ashley.core.ComponentMapper;
+-import com.hfentonfearn.components.CollisionComponent;
+-import com.hfentonfearn.components.PhysicsComponent;
+-import com.hfentonfearn.components.SpriteComponent;
++import com.hfentonfearn.components.*;
+ 
+-public class Components {/*
+-    public static final ComponentMapper<TransformComponent> transform = ComponentMapper.getFor(TransformComponent.class);
+-    public static final ComponentMapper<TextureComponent> texture = ComponentMapper.getFor(TextureComponent.class);
+-    public static final ComponentMapper<PhysicsComponent> physics = ComponentMapper.getFor(PhysicsComponent.class);
+-    public static final ComponentMapper<VelocityComponent> velocity = ComponentMapper.getFor(VelocityComponent.class);*/
++public class Components {
+     public static final ComponentMapper<CollisionComponent> COLLISION = ComponentMapper.getFor(CollisionComponent.class);
+     public static final ComponentMapper<SpriteComponent> SPRITE = ComponentMapper.getFor(SpriteComponent.class);
+     public static final ComponentMapper<PhysicsComponent> PHYSICS = ComponentMapper.getFor(PhysicsComponent.class);
++    public static final ComponentMapper<SteeringBehaviorComponent> STEERING_BEHAVIOR = ComponentMapper.getFor(SteeringBehaviorComponent.class);
++    public static final ComponentMapper<SteerableComponent> STEERABLE = ComponentMapper.getFor(SteerableComponent.class);
+ }
+Index: core/src/com/hfentonfearn/entitysystems/DebugRendererSystem.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- core/src/com/hfentonfearn/entitysystems/DebugRendererSystem.java	(revision 24d6e794e681bcd86167756b454b59731de7e34c)
++++ core/src/com/hfentonfearn/entitysystems/DebugRendererSystem.java	(date 1582555190000)
+@@ -14,7 +14,9 @@
+ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+ import com.badlogic.gdx.physics.box2d.Body;
+ import com.badlogic.gdx.utils.Array;
++import com.hfentonfearn.components.PlayerComponent;
+ import com.hfentonfearn.components.SpriteComponent;
++import com.hfentonfearn.components.SteerableComponent;
+ import com.hfentonfearn.ecs.Components;
+ 
+ import static com.hfentonfearn.utils.Constants.DEBUGMODE;
+@@ -30,6 +32,7 @@
+     private SpriteBatch debugBatch;
+     private BitmapFont font;
+     private ImmutableArray<Entity> renderEntities;
++    private Entity player;
+ 
+     private Array<String> strings;
+ 
+@@ -67,6 +70,8 @@
+             }
+             debugRenderer.end();
+ 
++            player = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
++
+             //Debug Overlay HUD
+             updateDebugStrings();
+ 
+@@ -86,5 +91,6 @@
+         strings.add("DEBUG MODE");
+         strings.add("Cam X Pos: " + Math.round(camera.position.x));
+         strings.add("Cam Y Pos: " + Math.round(camera.position.y));
++        strings.add("Player Target Pos: " + player.getComponent(SteerableComponent.class).targetLocation.getPosition().toString());
+     }
+ }
+Index: core/src/com/hfentonfearn/ecs/EntityManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- core/src/com/hfentonfearn/ecs/EntityManager.java	(revision 24d6e794e681bcd86167756b454b59731de7e34c)
++++ core/src/com/hfentonfearn/ecs/EntityManager.java	(date 1582555190000)
+@@ -20,7 +20,9 @@
+         addSystem(cameraSystem);
+         //Physics System
+         addSystem(new PhysicsSystem());
++
+         //AI Systems (Steering)
++        addSystem(new SteeringSystem());
+ 
+         //Health System
+ 
+@@ -44,7 +46,6 @@
+     @Override
+     public void update(float deltaTime) {
+         super.update(deltaTime);
+-        getSystem(PhysicsSystem.class).drawDebug();
+     }
+ 
+     public void dispose() {
+Index: core/src/com/hfentonfearn/entitysystems/InputSystem.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- core/src/com/hfentonfearn/entitysystems/InputSystem.java	(revision 24d6e794e681bcd86167756b454b59731de7e34c)
++++ core/src/com/hfentonfearn/entitysystems/InputSystem.java	(date 1582555190000)
+@@ -1,31 +1,45 @@
+ package com.hfentonfearn.entitysystems;
+ 
+ import com.badlogic.ashley.core.Engine;
+-import com.badlogic.ashley.core.EntitySystem;
++import com.badlogic.ashley.core.Entity;
++import com.badlogic.ashley.core.Family;
++import com.badlogic.ashley.systems.IteratingSystem;
+ import com.badlogic.gdx.Gdx;
+ import com.badlogic.gdx.Input;
+ import com.badlogic.gdx.InputMultiplexer;
+ import com.badlogic.gdx.InputProcessor;
+ import com.hfentonfearn.GameManager;
++import com.hfentonfearn.components.PlayerComponent;
++import com.hfentonfearn.ecs.Components;
+ import com.hfentonfearn.inputs.Keybinds;
+ import com.hfentonfearn.ui.PauseDialog;
+ import com.hfentonfearn.utils.AssetLoader;
++import com.hfentonfearn.utils.Location2;
+ 
+-public class InputSystem extends EntitySystem implements InputProcessor {
++public class InputSystem extends IteratingSystem implements InputProcessor {
+ 
+     private InputMultiplexer multiplexer;
+     private GUISystem guiSystem;
++    private Entity player;
++    private CameraSystem cameraSystem;
+ 
+     public InputSystem (GUISystem guiSystem) {
++        super(Family.all(PlayerComponent.class).get());
+         this.guiSystem = guiSystem;
+     }
+     
+     @Override
+     public void addedToEngine (Engine engine) {
+         super.addedToEngine(engine);
++        cameraSystem = engine.getSystem(CameraSystem.class);
+         initalizeInput();
+     }
+ 
++    @Override
++    protected void processEntity(Entity entity, float deltaTime) {
++        player = entity;
++    }
++
+     public InputMultiplexer getMultiplexer () {
+         return multiplexer;
+     }
+@@ -100,6 +114,11 @@
+ 
+     @Override
+     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
++        if (button == Input.Buttons.LEFT) {
++            if (player != null) {
++                Components.STEERABLE.get(player).targetLocation = new Location2(cameraSystem.screenToWorldCords(screenX,screenY));
++            }
++        }
+         return false;
+     }
+ 
+Index: core/src/com/hfentonfearn/entitysystems/SteeringSystem.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- core/src/com/hfentonfearn/entitysystems/SteeringSystem.java	(date 1582555190000)
++++ core/src/com/hfentonfearn/entitysystems/SteeringSystem.java	(date 1582555190000)
+@@ -0,0 +1,80 @@
++package com.hfentonfearn.entitysystems;
++
++import com.badlogic.ashley.core.Entity;
++import com.badlogic.ashley.core.Family;
++import com.badlogic.ashley.systems.IteratingSystem;
++import com.badlogic.gdx.ai.steer.SteeringAcceleration;
++import com.badlogic.gdx.ai.steer.SteeringBehavior;
++import com.badlogic.gdx.math.Vector2;
++import com.badlogic.gdx.physics.box2d.Body;
++import com.hfentonfearn.GameManager;
++import com.hfentonfearn.components.SteerableComponent;
++import com.hfentonfearn.components.SteeringBehaviorComponent;
++import com.hfentonfearn.ecs.Components;
++
++public class SteeringSystem extends IteratingSystem {
++
++    private static final SteeringAcceleration<Vector2> steeringOutput = new SteeringAcceleration<Vector2>(new Vector2());
++
++    public SteeringSystem() {
++        super(Family.all(SteeringBehaviorComponent.class).one(SteerableComponent.class).get());
++    }
++
++    @Override
++    protected void processEntity(Entity entity, float deltaTime) {
++        SteeringBehavior<Vector2> behavior = Components.STEERING_BEHAVIOR.get(entity).getBehavior();
++        SteerableComponent steerable = Components.STEERABLE.get(entity);
++
++        if(behavior == null) return;
++        if(steerable.getBody() == null) return;	//We shouldn't need this
++        behavior.calculateSteering(steeringOutput);
++        boolean anyAccelerations = false;
++        Body body = steerable.getBody();
++
++        if (!steeringOutput.linear.isZero()) {
++            Vector2 force = steeringOutput.linear.scl(deltaTime);
++            body.applyForceToCenter(force, true);
++            anyAccelerations = true;
++        }
++
++
++        // Update orientation and angular velocity
++        if (steerable.isIndependentFacing()) {
++            if (steeringOutput.angular != 0) {
++                body.applyTorque(steeringOutput.angular * deltaTime, true);
++                anyAccelerations = true;
++            }
++        }
++
++        else {
++            // If we haven't got any velocity, then we can do nothing.
++            Vector2 linVel = body.getLinearVelocity();
++            if (!linVel.isZero(steerable.getZeroLinearSpeedThreshold())) {
++                float newOrientation = steerable.vectorToAngle(linVel);
++                body.setAngularVelocity((newOrientation - steerable.getAngularVelocity()) * deltaTime); // this is superfluous if independentFacing is always true
++                body.setTransform(body.getPosition(), newOrientation);
++            }
++        }
++
++        if (anyAccelerations) {
++            // Cap the linear speed
++            Vector2 velocity = body.getLinearVelocity();
++            float currentSpeedSquare = velocity.len2();
++            float maxLinearSpeed = steerable.getMaxLinearSpeed();
++            if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
++                body.setLinearVelocity(velocity.scl(maxLinearSpeed / (float)Math.sqrt(currentSpeedSquare)));
++            }
++
++            // Cap the angular speed
++            float maxAngVelocity = steerable.getMaxAngularSpeed();
++            if (body.getAngularVelocity() > maxAngVelocity) {
++                body.setAngularVelocity(maxAngVelocity);
++            }
++        }
++    }
++
++    @Override
++    public boolean checkProcessing () {
++        return !GameManager.isPaused();
++    }
++}
+Index: core/src/com/hfentonfearn/components/SteerableComponent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- core/src/com/hfentonfearn/components/SteerableComponent.java	(date 1582555190000)
++++ core/src/com/hfentonfearn/components/SteerableComponent.java	(date 1582555190000)
+@@ -0,0 +1,176 @@
++package com.hfentonfearn.components;
++
++import com.badlogic.ashley.core.Component;
++import com.badlogic.gdx.ai.steer.Steerable;
++import com.badlogic.gdx.ai.utils.Location;
++import com.badlogic.gdx.math.Vector2;
++import com.badlogic.gdx.physics.box2d.Body;
++import com.hfentonfearn.utils.Location2;
++
++import static com.badlogic.gdx.utils.Pool.Poolable;
++
++public class SteerableComponent implements Component, Steerable<Vector2>, Poolable {
++
++    public static final float MAX_LINEAR_SPEED = 15f;
++    public static final float MAX_LINEAR_ACCELERATION = 10000;
++    public static final float MAX_ANGULAR_SPEED = 15;
++    public static final float MAX_ANGULAR_ACCELERATION = 300;
++    public static final float ZERO_LINEAR_SPEED_THRESHOLD = 0.001f;
++
++    private float maxLinearSpeed = MAX_LINEAR_SPEED;
++    private float maxLinearAcceleration = MAX_LINEAR_ACCELERATION;
++    private float maxAngluarSpeed = MAX_ANGULAR_SPEED;
++    private float maxAngluarAcceleration = MAX_ANGULAR_ACCELERATION;
++    private float zeroLinearSpeedThreshold = ZERO_LINEAR_SPEED_THRESHOLD;
++    private float boundingRadius;
++    private boolean independentFacing = false;
++
++    public Location<Vector2> targetLocation;
++
++    private boolean tagged = false;
++
++    private Body body;
++
++    /** Can only be created by PooledEngine */
++    private SteerableComponent () {
++        // private constructor
++    }
++
++    public Body getBody () {
++        return body;
++    }
++
++    public SteerableComponent init (Body body, float radius) {
++        this.body = body;
++        this.boundingRadius = radius;
++        targetLocation = new Location2(body.getPosition());
++        return this;
++    }
++
++    @Override
++    public float getMaxLinearSpeed () {
++        return maxLinearSpeed;
++    }
++
++    @Override
++    public void setMaxLinearSpeed (float maxLinearSpeed) {
++        this.maxLinearSpeed = maxLinearSpeed;
++    }
++
++    @Override
++    public float getMaxLinearAcceleration () {
++        return maxLinearAcceleration;
++    }
++
++    @Override
++    public void setMaxLinearAcceleration (float maxLinearAcceleration) {
++        this.maxLinearAcceleration = maxLinearAcceleration;
++    }
++
++    @Override
++    public float getMaxAngularSpeed () {
++        return maxAngluarSpeed;
++    }
++
++    @Override
++    public void setMaxAngularSpeed (float maxAngularSpeed) {
++        this.maxAngluarSpeed = maxAngularSpeed;
++    }
++
++    @Override
++    public float getMaxAngularAcceleration () {
++        return maxAngluarAcceleration;
++    }
++
++    @Override
++    public void setMaxAngularAcceleration (float maxAngularAcceleration) {
++        this.maxAngluarAcceleration = maxAngularAcceleration;
++    }
++
++    @Override
++    public float getZeroLinearSpeedThreshold() {
++        return zeroLinearSpeedThreshold;
++    }
++
++    @Override
++    public void setZeroLinearSpeedThreshold(float zeroLinearSpeedThreshold) {
++        this.zeroLinearSpeedThreshold = zeroLinearSpeedThreshold;
++    }
++
++    @Override
++    public Vector2 getPosition () {
++        return body.getPosition();
++    }
++
++    @Override
++    public float getOrientation () {
++        return body.getAngle();
++    }
++
++    @Override
++    public void setOrientation (float orientation) {
++        body.setTransform(getPosition(), orientation);
++    }
++
++    @Override
++    public Vector2 getLinearVelocity () {
++        return body.getLinearVelocity();
++    }
++
++    @Override
++    public float getAngularVelocity () {
++        return body.getAngularVelocity();
++    }
++
++    @Override
++    public float getBoundingRadius () {
++        return boundingRadius;
++    }
++
++    @Override
++    public boolean isTagged () {
++        return tagged;
++    }
++
++    @Override
++    public void setTagged (boolean tagged) {
++        this.tagged = tagged;
++    }
++
++    public void setIndependentFacing (boolean independentFacing) {
++        this.independentFacing = independentFacing;
++    }
++
++    public boolean isIndependentFacing () {
++        return independentFacing;
++    }
++
++    @Override
++    public Location<Vector2> newLocation () {
++        return new Location2();
++    }
++
++    @Override
++    public float vectorToAngle (Vector2 vector) {
++        return vector.angleRad();
++    }
++
++    @Override
++    public Vector2 angleToVector (Vector2 outVector, float angle) {
++        outVector.x = -(float) Math.sin(angle);
++        outVector.y = (float) Math.cos(angle);
++        return outVector;
++    }
++
++    @Override
++    public void reset () {
++        maxLinearSpeed = MAX_LINEAR_SPEED;
++        maxLinearAcceleration = MAX_LINEAR_ACCELERATION;
++
++        maxAngluarSpeed = MAX_ANGULAR_SPEED;
++        maxAngluarAcceleration = MAX_ANGULAR_ACCELERATION;
++        independentFacing = false;
++
++        tagged = false;
++    }
++}
+Index: core/src/com/hfentonfearn/components/SteeringBehaviorComponent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- core/src/com/hfentonfearn/components/SteeringBehaviorComponent.java	(date 1582555190000)
++++ core/src/com/hfentonfearn/components/SteeringBehaviorComponent.java	(date 1582555190000)
+@@ -0,0 +1,35 @@
++package com.hfentonfearn.components;
++
++import com.badlogic.ashley.core.Component;
++import com.badlogic.gdx.ai.steer.SteeringBehavior;
++import com.badlogic.gdx.math.Vector2;
++
++import static com.badlogic.gdx.utils.Pool.Poolable;
++
++public class SteeringBehaviorComponent implements Component, Poolable {
++
++    private SteeringBehavior<Vector2> behavior;
++
++    /** Can only be created by PooledEngine */
++    private SteeringBehaviorComponent () {
++        // private constructor
++    }
++
++    public SteeringBehaviorComponent init (SteeringBehavior<Vector2> behavior) {
++        setBehavior(behavior);
++        return this;
++    }
++
++    public void setBehavior (SteeringBehavior<Vector2> behavior) {
++        this.behavior = behavior;
++    }
++
++    public SteeringBehavior<Vector2> getBehavior () {
++        return behavior;
++    }
++
++    @Override
++    public void reset () {
++        behavior = null;
++    }
++}
+Index: core/src/com/hfentonfearn/utils/Location2.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- core/src/com/hfentonfearn/utils/Location2.java	(date 1582555190000)
++++ core/src/com/hfentonfearn/utils/Location2.java	(date 1582555190000)
+@@ -0,0 +1,56 @@
++package com.hfentonfearn.utils;
++
++import com.badlogic.gdx.ai.utils.Location;
++import com.badlogic.gdx.math.Vector2;
++
++public class Location2 implements Location<Vector2> {
++
++    private Vector2 position;
++    private float orientation;
++
++    public Location2() {
++        this(new Vector2(), 0);
++    }
++
++    public Location2(Vector2 position) {
++        this(position, 0);
++    }
++
++    public Location2(Vector2 position, float orientation) {
++        this.position = position;
++        this.orientation = orientation;
++    }
++
++    @Override
++    public Vector2 getPosition() {
++        return position;
++    }
++
++    @Override
++    public float getOrientation() {
++        return orientation;
++    }
++
++    @Override
++    public void setOrientation(float orientation) {
++        this.orientation = orientation;
++    }
++
++    @Override
++    public Location2 newLocation() {
++        return new Location2();
++    }
++
++    @Override
++    public float vectorToAngle(Vector2 vector) {
++        return vector.angleRad();
++    }
++
++    @Override
++    public Vector2 angleToVector(Vector2 outVector, float angle) {
++        outVector.x = -(float) Math.sin(angle);
++        outVector.y = (float) Math.cos(angle);
++        return outVector;
++    }
++
++}

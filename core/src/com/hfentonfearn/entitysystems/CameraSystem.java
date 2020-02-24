@@ -105,6 +105,4 @@ public class CameraSystem extends EntitySystem {
         target = null;
         camera.position.set(posX, posY, 0);
     }
-
-
 }

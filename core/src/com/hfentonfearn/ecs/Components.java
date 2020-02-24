@@ -1,9 +1,9 @@
 package com.hfentonfearn.ecs;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import com.hfentonfearn.components.*;
-import javafx.beans.value.ObservableBooleanValue;
-import jdk.nashorn.internal.objects.NativeString;
+import com.hfentonfearn.components.CollisionComponent;
+import com.hfentonfearn.components.PhysicsComponent;
+import com.hfentonfearn.components.SpriteComponent;
 
 public class Components {/*
     public static final ComponentMapper<TransformComponent> transform = ComponentMapper.getFor(TransformComponent.class);

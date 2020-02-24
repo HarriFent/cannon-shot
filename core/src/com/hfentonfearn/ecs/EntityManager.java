@@ -24,14 +24,19 @@ public class EntityManager extends PooledEngine {
 
         //Health System
 
+        GUISystem guiSystem = new GUISystem();
+        InputSystem inputSystem = new InputSystem(guiSystem);
+
         //Input System
-        addSystem(new InputSystem());
+        addSystem(inputSystem);
         //Entity Render System
         addSystem(new EntityRenderSystem());
+        //Debug Render System
+        addSystem(new DebugRendererSystem());
         //Particle System
 
         //GUI System
-        addSystem(new GUISystem());
+        addSystem(guiSystem);
 
         return this;
     }
@@ -39,7 +44,7 @@ public class EntityManager extends PooledEngine {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        //getSystem(PhysicsSystem.class).drawDebug();
+        getSystem(PhysicsSystem.class).drawDebug();
     }
 
     public void dispose() {

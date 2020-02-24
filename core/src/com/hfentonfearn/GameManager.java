@@ -1,6 +1,7 @@
 package com.hfentonfearn;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.ecs.EntityManager;
@@ -10,7 +11,7 @@ public class GameManager {
     private static Game game;
     private static EntityManager engine;
 
-    private static boolean paused = false;
+    private static boolean paused;
 
     public static void init(Game game) {
         GameManager.game = game;
@@ -23,6 +24,7 @@ public class GameManager {
         engine = new EntityManager();
         //Add Engine Helpers (EntityFactory)
         EntityFactory.setEngine(engine);
+        paused = false;
         return engine;
     }
 
@@ -33,7 +35,7 @@ public class GameManager {
         game.setScreen(screen);
     }
 
-    private static void disposeEngine() {
+    public static void disposeEngine() {
         if (engine != null) {
             engine.dispose();
         }
@@ -50,5 +52,11 @@ public class GameManager {
 
     public static void resume(){
         paused = false;
+    }
+
+    public static void exit () {
+        disposeEngine();
+        game.getScreen().dispose();
+        Gdx.app.exit();
     }
 }

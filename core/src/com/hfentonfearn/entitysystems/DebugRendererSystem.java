@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.ecs.Components;
@@ -61,8 +62,8 @@ public class DebugRendererSystem extends EntitySystem {
                 debugRenderer.setColor(Color.RED);
                 Gdx.gl.glLineWidth(3);
 
-                SpriteComponent spriteComponent = Components.SPRITE.get(e);
-                debugRenderer.circle(spriteComponent.getSprite().getX(), spriteComponent.getSprite().getY(), 5);
+                Body body = Components.PHYSICS.get(e).getBody();
+                debugRenderer.circle(body.getPosition().x, body.getPosition().y, 5);
             }
             debugRenderer.end();
 

@@ -4,8 +4,11 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
+import com.hfentonfearn.components.VelocityComponent;
+import com.hfentonfearn.ecs.Components;
 
 import static com.hfentonfearn.utils.Constants.*;
 
@@ -16,21 +19,20 @@ public class PlayerMovementSystem extends IteratingSystem {
     private Vector2 impulseVector = new Vector2();
 
     public PlayerMovementSystem() {
-        super(Family.all(PlayerComponent.class).get());
+        super(Family.all(PlayerComponent.class,VelocityComponent.class,PhysicsComponent.class).get());
     }
 
 
     @Override
     protected void processEntity(Entity player, float deltaTime) {
-        /*TransformComponent transform = Components.transform.get(player);
-        VelocityComponent velocity = Components.velocity.get(player);
+        VelocityComponent velocity = Components.VELOCITY.get(player);
         physics = Components.PHYSICS.get(player);
         Body body = physics.getBody();
 
-        if (velocity.turnVelocity != 0f) {
-            body.applyTorque(velocity.turnVelocity, true);
+        if (velocity.angularVelocity != 0f) {
+            body.applyTorque(velocity.angularVelocity, true);
             if (Math.abs(body.getAngularVelocity()) > VELOCITY_MAXTURNVEL) {
-                body.setAngularVelocity(velocity.turnVelocity > 0 ? VELOCITY_MAXTURNVEL : -VELOCITY_MAXTURNVEL);
+                body.setAngularVelocity(velocity.angularVelocity > 0 ? VELOCITY_MAXTURNVEL : -VELOCITY_MAXTURNVEL);
             }
         } else {
             if (Math.abs(body.getAngularVelocity()) > 0.1f) {
@@ -41,9 +43,9 @@ public class PlayerMovementSystem extends IteratingSystem {
         }
 
         currentVector = body.getLinearVelocity();
-        if(velocity.driveVelocity != 0f) {
+        if(velocity.linearVelocity != 0f) {
             // accelerate
-            impulseVector.set(0f, -velocity.driveVelocity * deltaTime).rotate(transform.rotation);
+            impulseVector.set(0f, -velocity.linearVelocity * deltaTime).rotate(body.getAngle());
             body.applyForceToCenter(impulseVector, true);
             currentVector = body.getLinearVelocity();
 
@@ -62,8 +64,6 @@ public class PlayerMovementSystem extends IteratingSystem {
         }
 
         handleDrift();
-        transform.position = new Vector2(body.getPosition().x * PPM, body.getPosition().y * PPM);
-        transform.rotation = (float) Math.toDegrees(body.getAngle());*/
     }
 
 

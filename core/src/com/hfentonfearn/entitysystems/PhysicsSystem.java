@@ -32,7 +32,6 @@ public class PhysicsSystem extends EntitySystem implements Disposable {
         super.addedToEngine(engine);
         this.camera = engine.getSystem(CameraSystem.class).getCamera();
         renderer = new Box2DDebugRenderer();
-
     }
 
     @Override

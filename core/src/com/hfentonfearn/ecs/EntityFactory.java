@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.SpriteComponent;
+import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.entitysystems.PhysicsSystem;
 import com.hfentonfearn.utils.AssetLoader;
 
@@ -39,7 +40,7 @@ public class EntityFactory {
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .polyCollider(p.getTransformedVertices(),1f)
                 .sprite(AssetLoader.ship.playerShip)
-                .damping(0.5f,0.5f)
+                .velocity(0,0)
                 .addToEngine();
         entity.add(new PlayerComponent());
         return entity;
@@ -88,6 +89,14 @@ public class EntityFactory {
             } else {
                 Gdx.app.error("EntityFactory", "entity is missing physics component!");
             }
+            return this;
+        }
+
+        public EntityBuilder velocity (float angular, float linear) {
+            VelocityComponent velocity = new VelocityComponent();
+            velocity.angularVelocity = angular;
+            velocity.linearVelocity = linear;
+            entity.add(velocity);
             return this;
         }
 
@@ -163,12 +172,6 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder sprite (TextureRegion region, float width, float height) {
-            SpriteComponent spriteComp = engine.createComponent(SpriteComponent.class).init(region, position.x, position.y, width,
-                    height);
-            entity.add(spriteComp);
-            return this;
-        }
         public EntityBuilder sprite (TextureRegion region) {
             SpriteComponent spriteComp = engine.createComponent(SpriteComponent.class).init(region, position.x, position.y, region.getRegionWidth(),
                     region.getRegionHeight());

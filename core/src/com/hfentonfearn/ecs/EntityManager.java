@@ -20,6 +20,8 @@ public class EntityManager extends PooledEngine {
         addSystem(cameraSystem);
         //Physics System
         addSystem(new PhysicsSystem());
+        //Player movement system
+        addSystem(new PlayerMovementSystem());
         //AI Systems (Steering)
 
         //Health System

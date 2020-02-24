@@ -14,7 +14,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
+import com.hfentonfearn.components.PhysicsComponent;
+import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.SpriteComponent;
+import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.ecs.Components;
 
 import static com.hfentonfearn.utils.Constants.DEBUGMODE;
@@ -84,7 +87,14 @@ public class DebugRendererSystem extends EntitySystem {
     private void updateDebugStrings() {
         strings = new Array<>();
         strings.add("DEBUG MODE");
-        strings.add("Cam X Pos: " + Math.round(camera.position.x));
-        strings.add("Cam Y Pos: " + Math.round(camera.position.y));
+        strings.add("Cam X Pos: " + camera.position.x);
+        strings.add("Cam Y Pos: " + camera.position.y);
+        Entity player = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
+        VelocityComponent velocity = Components.VELOCITY.get(player);
+        strings.add("Angular Velocity: " + velocity.angularVelocity);
+        strings.add("Linear Velocity: " + velocity.linearVelocity);
+        PhysicsComponent physics = Components.PHYSICS.get(player);
+        strings.add("Physics Pos: " + physics.getBody().getPosition());
+        strings.add("Physics Angle: " + physics.getBody().getAngle());
     }
 }

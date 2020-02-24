@@ -14,22 +14,24 @@ import com.badlogic.gdx.utils.Disposable;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.ecs.Components;
+import com.hfentonfearn.utils.AssetLoader;
+import com.hfentonfearn.utils.CustomTiledMapRenderer;
 
 public class EntityRenderSystem extends IteratingSystem implements Disposable {
 
     private static final int spriteRotationOffset = -0;
-    private static final float healthBarHeight = 0.15f;
+    private final CustomTiledMapRenderer mapRenderer;
 
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
     private CameraSystem cameraSystem;
-    private int currentLayer = -10;
 
     public EntityRenderSystem() {
         super(Family.one(SpriteComponent.class).get());
 
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
+        mapRenderer = new CustomTiledMapRenderer(AssetLoader.map.map,this.batch);
     }
 
     @Override
@@ -40,7 +42,8 @@ public class EntityRenderSystem extends IteratingSystem implements Disposable {
 
     @Override
     public void update (float deltaTime) {
-        currentLayer = 0;
+        mapRenderer.setView(cameraSystem.getCamera());
+        mapRenderer.render();
         batch.setProjectionMatrix(cameraSystem.getCamera().combined);
         batch.begin();
         shapeRenderer.setProjectionMatrix(cameraSystem.getCamera().combined);
@@ -53,19 +56,9 @@ public class EntityRenderSystem extends IteratingSystem implements Disposable {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         Sprite sprite = Components.SPRITE.get(entity).getSprite();
-        OrthographicCamera camera;
-        if(currentLayer >= 0){
-            camera = cameraSystem.getCamera();
-        }
-        else{
-            camera = cameraSystem.getCamera();
-            batch.setProjectionMatrix(camera.combined);
-        }
+        OrthographicCamera camera = cameraSystem.getCamera();
+        batch.setProjectionMatrix(camera.combined);
 
-        if (currentLayer != -1) {
-            batch.setProjectionMatrix(cameraSystem.getCamera().combined);
-            currentLayer = -1;
-        }
         if (Components.PHYSICS.has(entity)) {
             PhysicsComponent physics = Components.PHYSICS.get(entity);
             Vector2 pos = physics.getBody().getPosition();

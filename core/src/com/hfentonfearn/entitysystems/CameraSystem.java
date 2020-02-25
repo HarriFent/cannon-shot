@@ -60,7 +60,7 @@ public class CameraSystem extends EntitySystem {
     }
 
     public void followTargetEntity() {
-        Vector2 pos = Components.PHYSICS.get(targetEntity).getBody().getPosition();
+        Vector2 pos = Components.PHYSICS.get(targetEntity).getPosition();
         if (!pos.epsilonEquals(target))
             smoothFollow(pos);
         if (!pos.epsilonEquals(camera.position.x,camera.position.y)) {

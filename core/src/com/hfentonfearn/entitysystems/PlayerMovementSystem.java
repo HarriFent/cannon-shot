@@ -3,6 +3,7 @@ package com.hfentonfearn.entitysystems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.hfentonfearn.components.PhysicsComponent;
@@ -45,7 +46,7 @@ public class PlayerMovementSystem extends IteratingSystem {
         currentVector = body.getLinearVelocity();
         if(velocity.linearVelocity != 0f) {
             // accelerate
-            impulseVector.set(0f, -velocity.linearVelocity * deltaTime).rotate((float) Math.toDegrees(body.getAngle()));
+            impulseVector.set(0f, -velocity.linearVelocity * deltaTime).rotate( MathUtils.radiansToDegrees * body.getAngle());
             body.applyForceToCenter(impulseVector, true);
             currentVector = body.getLinearVelocity();
 

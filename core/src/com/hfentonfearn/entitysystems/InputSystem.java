@@ -81,16 +81,16 @@ public class InputSystem extends EntitySystem implements InputProcessor {
         VelocityComponent velocity = Components.VELOCITY.get(player);
         switch (keycode) {
             case Keybinds.FORWARD:
-                velocity.linearVelocity = 3;
+                velocity.linearVelocity = 10;
                 return;
             case Keybinds.BACKWARD:
-                velocity.linearVelocity = -2;
+                velocity.linearVelocity = -5;
                 return;
             case Keybinds.TURN_LEFT:
-                velocity.angularVelocity = 0.3f;
+                velocity.angularVelocity = 0.1f;
                 return;
             case Keybinds.TURN_RIGHT:
-                velocity.angularVelocity = -0.3f;
+                velocity.angularVelocity = -0.1f;
         }
 
     }

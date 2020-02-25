@@ -14,9 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.PhysicsComponent;
-import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.SpriteComponent;
-import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.ecs.Components;
 
 import static com.hfentonfearn.utils.Constants.DEBUGMODE;
@@ -33,12 +31,13 @@ public class DebugRendererSystem extends EntitySystem {
     private BitmapFont font;
     private ImmutableArray<Entity> renderEntities;
 
-    private Array<String> strings;
+    private static Array<String> strings;
 
     public DebugRendererSystem() {
         debugRenderer = new ShapeRenderer();
         font = new BitmapFont();
         debugBatch = new SpriteBatch();
+        strings = new Array<>();
     }
 
     public void addedToEngine (Engine engine) {
@@ -70,12 +69,12 @@ public class DebugRendererSystem extends EntitySystem {
             debugRenderer.end();
 
             //Debug Overlay HUD
-            updateDebugStrings();
+            Array<String> debugs = updateDebugStrings();
 
             debugBatch.begin();
             font.setColor(Color.RED);
-            float y = WORLD_PIXEL_HEIGHT - 20;
-            for (String str : strings) {
+            float y = WORLD_PIXEL_HEIGHT - 4;
+            for (String str : debugs) {
                 font.draw(debugBatch, str, 10, y);
                 y -= 20;
             }
@@ -83,17 +82,20 @@ public class DebugRendererSystem extends EntitySystem {
         }
     }
 
-    private void updateDebugStrings() {
+    private Array<String> updateDebugStrings() {
+        Array<String> output = new Array<>();
+        output.add("DEBUG MODE");
+        for (String str : strings)
+            output.add(str);
         strings = new Array<>();
-        strings.add("DEBUG MODE");
-        strings.add("Cam X Pos: " + camera.position.x);
-        strings.add("Cam Y Pos: " + camera.position.y);
-        Entity player = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
-        VelocityComponent velocity = Components.VELOCITY.get(player);
-        strings.add("Angular Velocity: " + velocity.angularVelocity);
-        strings.add("Linear Velocity: " + velocity.linearVelocity);
-        PhysicsComponent physics = Components.PHYSICS.get(player);
-        strings.add("Physics Pos: " + physics.getPosition());
-        strings.add("Physics Angle: " + physics.getBody().getAngle());
+        return output;
+    }
+
+    public static void addDebug(String string) {
+        strings.add(string);
+    }
+
+    public static void addDebug(String string, Object obj) {
+        strings.add(string + obj.toString());
     }
 }

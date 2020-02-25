@@ -45,7 +45,7 @@ public class PlayerMovementSystem extends IteratingSystem {
         currentVector = body.getLinearVelocity();
         if(velocity.linearVelocity != 0f) {
             // accelerate
-            impulseVector.set(0f, -velocity.linearVelocity * deltaTime).rotate(body.getAngle());
+            impulseVector.set(0f, -velocity.linearVelocity * deltaTime).rotate((float) Math.toDegrees(body.getAngle()));
             body.applyForceToCenter(impulseVector, true);
             currentVector = body.getLinearVelocity();
 

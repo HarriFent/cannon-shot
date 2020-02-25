@@ -35,6 +35,7 @@ public class GameScreen extends AbstractScreen {
         Entity player = engine.getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
         engine.getSystem(CameraSystem.class).setTargetEntity(player);
         engine.getSystem(CameraSystem.class).setWorldBounds(width, height);
+        engine.getSystem(CameraSystem.class).zoom(0.5f);
     }
 
     @Override

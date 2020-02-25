@@ -42,6 +42,7 @@ public class EntityFactory {
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .polyCollider(p.getTransformedVertices(),1f)
                 .sprite(AssetLoader.ship.playerShip)
+                .damping(1,0.2f)
                 .velocity(0,0)
                 .addToEngine();
         entity.add(new PlayerComponent());

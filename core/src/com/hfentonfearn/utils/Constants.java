@@ -19,7 +19,7 @@ public class Constants {
     public static final float VELOCITY_DRIFT = 0.96f;
 
     //Velocity drive and turn limit
-    public static final float VELOCITY_MAXDRIVEVEL = 3f;
+    public static final float VELOCITY_MAXDRIVEVEL = 5f;
     //public static final float VELOCITY_MAXDRIVEVEL = DEBUGMODE ? 5f : 3f;
     public static final float VELOCITY_MAXTURNVEL = 2f;
 

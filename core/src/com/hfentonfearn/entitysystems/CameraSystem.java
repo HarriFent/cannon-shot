@@ -25,7 +25,6 @@ public class CameraSystem extends EntitySystem {
     private float minZoom;
     private float maxZoom;
 
-    private float panScalar = 0.25f;
     private float zoomScalar = 0.25f;
 
     private Rectangle worldBounds;

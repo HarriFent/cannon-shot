@@ -17,6 +17,9 @@ import com.hfentonfearn.inputs.Keybinds;
 import com.hfentonfearn.ui.PauseDialog;
 import com.hfentonfearn.utils.AssetLoader;
 
+import static com.hfentonfearn.utils.Constants.ACCELERATION_DRIVE;
+import static com.hfentonfearn.utils.Constants.ACCELERATION_TURN;
+
 public class InputSystem extends EntitySystem implements InputProcessor {
 
     private InputMultiplexer multiplexer;
@@ -81,16 +84,16 @@ public class InputSystem extends EntitySystem implements InputProcessor {
         VelocityComponent velocity = Components.VELOCITY.get(player);
         switch (keycode) {
             case Keybinds.FORWARD:
-                velocity.linearVelocity = 10;
+                velocity.linearVelocity = ACCELERATION_DRIVE;
                 return;
             case Keybinds.BACKWARD:
-                velocity.linearVelocity = -5;
+                velocity.linearVelocity = -ACCELERATION_DRIVE;
                 return;
             case Keybinds.TURN_LEFT:
-                velocity.angularVelocity = 0.1f;
+                velocity.angularVelocity = ACCELERATION_TURN;
                 return;
             case Keybinds.TURN_RIGHT:
-                velocity.angularVelocity = -0.1f;
+                velocity.angularVelocity = -ACCELERATION_TURN;
         }
 
     }

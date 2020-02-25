@@ -50,12 +50,13 @@ public class CameraSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
+        DebugRendererSystem.addDebug("Camera Size: " + camera.viewportWidth + ", " + camera.viewportHeight);
         super.update(deltaTime);
         if (targetEntity != null)
             followTargetEntity();
         if (smooth && target != null) {
             camera.position.add(camera.position.cpy().scl(-1)
-                    .add(target.x, target.y, 0).scl(0.04f));
+                    .add(target.x, target.y, 0).scl(0.1f));
         }
     }
 

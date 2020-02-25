@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.Disposable;
 import com.hfentonfearn.GameManager;
 import com.hfentonfearn.listeners.GameContactListener;
 
+import static com.hfentonfearn.utils.Constants.PPM;
+
 public class PhysicsSystem extends EntitySystem implements Disposable {
     public static final float TIME_STEP = 1.0f / 60.f;
     public static final int VELOCITY_ITERATIONS = 8;
@@ -56,7 +58,7 @@ public class PhysicsSystem extends EntitySystem implements Disposable {
         if (renderer == null) {
             renderer = new Box2DDebugRenderer();
         }
-        renderer.render(world, camera.combined);
+        renderer.render(world, camera.combined.cpy().scl(PPM));
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.hfentonfearn.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Pool.*;
+import com.badlogic.gdx.utils.Pool.Poolable;
+
+import static com.hfentonfearn.utils.Constants.PPM;
 
 public class PhysicsComponent implements Component, Poolable {
 
@@ -20,6 +23,10 @@ public class PhysicsComponent implements Component, Poolable {
 
     public Body getBody () {
         return body;
+    }
+
+    public Vector2 getPosition() {
+        return body.getPosition().scl(PPM);
     }
 
     @Override

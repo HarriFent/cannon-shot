@@ -16,6 +16,7 @@ import com.hfentonfearn.entitysystems.PhysicsSystem;
 import com.hfentonfearn.utils.AssetLoader;
 
 import static com.hfentonfearn.ecs.EntityFactory.PhysicsBuilder.FixtureBuilder;
+import static com.hfentonfearn.utils.Constants.MPP;
 
 public class EntityFactory {
 
@@ -35,7 +36,8 @@ public class EntityFactory {
         TextureRegion textureRegion = AssetLoader.ship.playerShip;
         float[] polygon = AssetLoader.ship.collisionPoly;
         Polygon p = new Polygon(polygon);
-        p.translate(-textureRegion.getRegionWidth()/2,-textureRegion.getRegionHeight()/2);
+        p.translate(-textureRegion.getRegionWidth()/2 * MPP,-textureRegion.getRegionHeight()/2 * MPP);
+        p.setScale(MPP,MPP);
         Entity entity = builder.createEntity(position)
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .polyCollider(p.getTransformedVertices(),1f)
@@ -72,7 +74,7 @@ public class EntityFactory {
         public EntityBuilder physicsBody (BodyDef.BodyType type) {
             BodyDef def = new BodyDef();
             def.type = type;
-            def.position.set(position);
+            def.position.set(position.scl(MPP));
             Body body = physicsSystem.createBody(def);
             body.setUserData(entity);
 

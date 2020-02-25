@@ -46,7 +46,6 @@ public class EntityManager extends PooledEngine {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        getSystem(PhysicsSystem.class).drawDebug();
     }
 
     public void dispose() {

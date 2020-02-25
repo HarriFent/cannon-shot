@@ -87,10 +87,10 @@ public class InputSystem extends EntitySystem implements InputProcessor {
                 velocity.linearVelocity = -2;
                 return;
             case Keybinds.TURN_LEFT:
-                velocity.angularVelocity = 1;
+                velocity.angularVelocity = 0.3f;
                 return;
             case Keybinds.TURN_RIGHT:
-                velocity.angularVelocity = -1;
+                velocity.angularVelocity = -0.3f;
         }
 
     }

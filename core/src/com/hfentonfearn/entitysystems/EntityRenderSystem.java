@@ -61,7 +61,7 @@ public class EntityRenderSystem extends IteratingSystem implements Disposable {
 
         if (Components.PHYSICS.has(entity)) {
             PhysicsComponent physics = Components.PHYSICS.get(entity);
-            Vector2 pos = physics.getBody().getPosition();
+            Vector2 pos = physics.getPosition();
             sprite.setCenter(pos.x, pos.y);
             sprite.setRotation((MathUtils.radiansToDegrees * physics.getBody().getAngle()) + spriteRotationOffset);
         }

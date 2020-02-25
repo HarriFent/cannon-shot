@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
@@ -65,8 +64,8 @@ public class DebugRendererSystem extends EntitySystem {
                 debugRenderer.setColor(Color.RED);
                 Gdx.gl.glLineWidth(3);
 
-                Body body = Components.PHYSICS.get(e).getBody();
-                debugRenderer.circle(body.getPosition().x, body.getPosition().y, 5);
+                PhysicsComponent physics = Components.PHYSICS.get(e);
+                debugRenderer.circle(physics.getPosition().x, physics.getPosition().y, 5);
             }
             debugRenderer.end();
 
@@ -94,7 +93,7 @@ public class DebugRendererSystem extends EntitySystem {
         strings.add("Angular Velocity: " + velocity.angularVelocity);
         strings.add("Linear Velocity: " + velocity.linearVelocity);
         PhysicsComponent physics = Components.PHYSICS.get(player);
-        strings.add("Physics Pos: " + physics.getBody().getPosition());
+        strings.add("Physics Pos: " + physics.getPosition());
         strings.add("Physics Angle: " + physics.getBody().getAngle());
     }
 }

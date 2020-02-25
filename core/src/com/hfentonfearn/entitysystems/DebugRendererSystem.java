@@ -18,7 +18,7 @@ import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.ecs.Components;
 
 import static com.hfentonfearn.utils.Constants.DEBUGMODE;
-import static com.hfentonfearn.utils.Constants.WORLD_PIXEL_HEIGHT;
+import static com.hfentonfearn.utils.Constants.WINDOW_HEIGHT;
 
 public class DebugRendererSystem extends EntitySystem {
 
@@ -73,7 +73,7 @@ public class DebugRendererSystem extends EntitySystem {
 
             debugBatch.begin();
             font.setColor(Color.RED);
-            float y = WORLD_PIXEL_HEIGHT - 4;
+            float y = WINDOW_HEIGHT - 4;
             for (String str : debugs) {
                 font.draw(debugBatch, str, 10, y);
                 y -= 20;

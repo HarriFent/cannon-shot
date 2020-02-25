@@ -106,9 +106,13 @@ public class AssetLoader implements Disposable {
     public static class AssetMap {
 
         public final TiledMap map;
+        public int width;
+        public int height;
 
         public AssetMap () {
             map = new TmxMapLoader().load(MAP);
+            width = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
+            height = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);;
         }
     }
 

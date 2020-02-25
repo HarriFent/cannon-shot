@@ -9,6 +9,7 @@ import com.hfentonfearn.ecs.EntityManager;
 import com.hfentonfearn.entitysystems.CameraSystem;
 import com.hfentonfearn.entitysystems.GUISystem;
 import com.hfentonfearn.entitysystems.InputSystem;
+import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.WorldBuilder;
 
 public class GameScreen extends AbstractScreen {
@@ -22,7 +23,7 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void show() {
         engine = GameManager.initEngine();
-        createWorld(6400, 6400);
+        createWorld(AssetLoader.map.width, AssetLoader.map.height);
 
         multiplexer = engine.getSystem(InputSystem.class).getMultiplexer();
         multiplexer.addProcessor(engine.getSystem(GUISystem.class).getStage());

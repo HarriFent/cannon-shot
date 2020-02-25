@@ -44,6 +44,19 @@ public class MainMenuScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(stage);
     }
 
+    public void add(String title, final AbstractScreen screen) {
+        TextButton btn = new TextButton(title,  getButtonStyle());
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                GameManager.setScreen(screen);
+            }
+        });
+        table.add(btn);
+        table.row();
+    }
+
     private void addOption() {
         TextButton optionsButton = new TextButton("Options",  getButtonStyle());
         optionsButton.addListener(new ChangeListener(){
@@ -65,19 +78,6 @@ public class MainMenuScreen extends AbstractScreen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 Gdx.app.exit();
-            }
-        });
-        table.add(btn);
-        table.row();
-    }
-
-    public void add(String title, final AbstractScreen screen) {
-        TextButton btn = new TextButton(title,  getButtonStyle());
-        btn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                GameManager.setScreen(screen);
             }
         });
         table.add(btn);

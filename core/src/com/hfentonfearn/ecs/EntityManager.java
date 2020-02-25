@@ -16,7 +16,7 @@ public class EntityManager extends PooledEngine {
     private EntityManager initSystems() {
         //Add all the entity systems here
         //Camera System
-        CameraSystem cameraSystem = new CameraSystem(Constants.WORLD_PIXEL_WIDTH, Constants.WORLD_PIXEL_HEIGHT);
+        CameraSystem cameraSystem = new CameraSystem(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
         addSystem(cameraSystem);
         //Physics System
         addSystem(new PhysicsSystem());

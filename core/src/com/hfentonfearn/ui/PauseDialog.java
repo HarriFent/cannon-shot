@@ -19,6 +19,7 @@ public class PauseDialog extends Dialog {
         setModal(true);
 
         TextButton mainMenuButton = new TextButton("Main Menu", skin);
+        mainMenuButton.pad(10);
         mainMenuButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -28,6 +29,7 @@ public class PauseDialog extends Dialog {
         });
 
         TextButton closeButton = new TextButton("Close", skin);
+        closeButton.pad(10);
         closeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -37,6 +39,7 @@ public class PauseDialog extends Dialog {
         });
 
         TextButton exitButton = new TextButton("Exit", skin);
+        exitButton.pad(10);
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -44,11 +47,11 @@ public class PauseDialog extends Dialog {
             }
         });
 
-        getButtonTable().add(mainMenuButton);
+        getButtonTable().add(mainMenuButton).pad(5);
         getButtonTable().row();
         getButtonTable().add(closeButton);
         getButtonTable().row();
-        getButtonTable().add(exitButton);
+        getButtonTable().add(exitButton).pad(5);
 
     }
 }

@@ -49,53 +49,8 @@ public class PlayerMovementSystem extends IteratingSystem {
                 body.setLinearVelocity(currentVector);
             }
         }
+        handleDrift();
     }
-    /*
-    @Override
-        protected void processEntity(Entity player, float deltaTime) {
-            VelocityComponent velocity = Components.VELOCITY.get(player);
-            physics = Components.PHYSICS.get(player);
-            Body body = physics.getBody();
-
-            if (velocity.angularVelocity != 0f) {
-                body.applyTorque(velocity.angularVelocity, true);
-                if (Math.abs(body.getAngularVelocity()) > VELOCITY_MAXTURNVEL) {
-                    body.setAngularVelocity(velocity.angularVelocity > 0 ? VELOCITY_MAXTURNVEL : -VELOCITY_MAXTURNVEL);
-                }
-            } else {
-                if (Math.abs(body.getAngularVelocity()) > 0.1f) {
-                    body.applyTorque(body.getAngularVelocity() < 0 ? VELOCITY_DECELERATION : -VELOCITY_DECELERATION, true);
-                } else {
-                    body.setAngularVelocity(0);
-                }
-            }
-
-            currentVector = body.getLinearVelocity();
-            if(velocity.linearVelocity != 0f) {
-                // accelerate
-                impulseVector.set(0f, -velocity.linearVelocity * deltaTime).rotate( MathUtils.radiansToDegrees * body.getAngle());
-                body.applyForceToCenter(impulseVector, true);
-                currentVector = body.getLinearVelocity();
-
-                if(currentVector.len() >= VELOCITY_MAXDRIVEVEL) {
-                    currentVector.nor().scl(VELOCITY_MAXDRIVEVEL);
-                    body.setLinearVelocity(currentVector);
-                }
-            } else {
-                // decelerate
-                impulseVector.set(currentVector).nor().scl(-1f * VELOCITY_DECELERATION);
-                if(currentVector.len() / body.getMass() > 0.1f) {
-                    body.applyForceToCenter(impulseVector,true);
-                } else {
-                    body.setLinearVelocity(0f, 0f);
-                }
-            }
-
-            handleDrift();
-        }
-    */
-
-
 
     private void handleDrift() {
         final Vector2 forwardSpeed = getForwardVelocity();

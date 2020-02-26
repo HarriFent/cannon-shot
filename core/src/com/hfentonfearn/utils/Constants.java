@@ -19,13 +19,17 @@ public class Constants {
     public static final float VELOCITY_DRIFT = 0.96f;
 
     //Velocity drive and turn limit
-    public static final float VELOCITY_MAXDRIVEVEL = 5f;
-    //public static final float VELOCITY_MAXDRIVEVEL = DEBUGMODE ? 5f : 3f;
+    //public static final float VELOCITY_MAXDRIVEVEL = 5f;
+    public static final float VELOCITY_MAXDRIVEVEL = DEBUGMODE ? 5f : 3f;
     public static final float VELOCITY_MAXTURNVEL = 2f;
 
     //Velocity impulse and angle set with player input
-    public static final float ACCELERATION_TURN = 0.02f;
-    public static final float ACCELERATION_DRIVE = 9f;
+    public static final float ACCELERATION_TURN = 0.1f;
+    public static final float ACCELERATION_DRIVE = 20f;
+
+    //Angular and Linear Damping for player
+    public static final float DAMPING_ANGULAR = 2f;
+    public static final float DAMPING_LINEAR = 0.5f;
 
     //Deceleration rate
     public static final float VELOCITY_DECELERATION = 0.1f;

@@ -16,7 +16,7 @@ import com.hfentonfearn.entitysystems.PhysicsSystem;
 import com.hfentonfearn.utils.AssetLoader;
 
 import static com.hfentonfearn.ecs.EntityFactory.PhysicsBuilder.FixtureBuilder;
-import static com.hfentonfearn.utils.Constants.MPP;
+import static com.hfentonfearn.utils.Constants.*;
 
 public class EntityFactory {
 
@@ -42,7 +42,7 @@ public class EntityFactory {
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .polyCollider(p.getTransformedVertices(),1f)
                 .sprite(AssetLoader.ship.playerShip)
-                .damping(1,0.2f)
+                .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .velocity(0,0)
                 .addToEngine();
         entity.add(new PlayerComponent());

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.SpriteComponent;
@@ -55,19 +56,19 @@ public class EntityRenderSystem extends IteratingSystem implements Disposable {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        Sprite sprite = Components.SPRITE.get(entity).getSprite();
+        Array<Sprite> sprites = Components.SPRITE.get(entity).getSprites();
         OrthographicCamera camera = cameraSystem.getCamera();
         batch.setProjectionMatrix(camera.combined);
 
-        if (Components.PHYSICS.has(entity)) {
-            PhysicsComponent physics = Components.PHYSICS.get(entity);
-            Vector2 pos = physics.getPosition();
-            sprite.setCenter(pos.x, pos.y);
-            sprite.setRotation((MathUtils.radiansToDegrees * physics.getBody().getAngle()) + spriteRotationOffset);
+        for (Sprite sprite : sprites) {
+            if (Components.PHYSICS.has(entity)) {
+                PhysicsComponent physics = Components.PHYSICS.get(entity);
+                Vector2 pos = physics.getPosition();
+                sprite.setCenter(pos.x, pos.y);
+                sprite.setRotation((MathUtils.radiansToDegrees * physics.getBody().getAngle()) + spriteRotationOffset);
+            }
+            sprite.draw(batch);
         }
-
-        sprite.draw(batch);
-
         //Render health bar and stuff
     }
 

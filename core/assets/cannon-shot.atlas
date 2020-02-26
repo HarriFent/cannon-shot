@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 button
   rotate: false
-  xy: 342, 67
+  xy: 394, 67
   size: 48, 48
   split: 13, 13, 13, 13
   pad: 13, 13, 13, 13
@@ -15,54 +15,61 @@ button
   index: -1
 cannon
   rotate: false
-  xy: 138, 18
+  xy: 122, 18
   size: 29, 20
   orig: 29, 20
   offset: 0, 0
   index: -1
 cannonBall
   rotate: false
-  xy: 436, 105
+  xy: 326, 57
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 explosion1
   rotate: false
-  xy: 138, 40
+  xy: 122, 40
   size: 74, 75
   orig: 74, 75
   offset: 0, 0
   index: -1
 explosion2
   rotate: false
-  xy: 280, 56
+  xy: 264, 56
   size: 60, 59
   orig: 60, 59
   offset: 0, 0
   index: -1
 explosion3
   rotate: false
-  xy: 392, 74
+  xy: 444, 74
   size: 42, 41
   orig: 42, 41
   offset: 0, 0
   index: -1
+hullLarge
+  rotate: false
+  xy: 70, 7
+  size: 50, 108
+  orig: 50, 108
+  offset: 0, 0
+  index: -1
+sailWhite
+  rotate: false
+  xy: 326, 69
+  size: 66, 46
+  orig: 66, 46
+  offset: 0, 0
+  index: -1
 sea
   rotate: false
-  xy: 214, 51
+  xy: 198, 51
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 shipBlack
-  rotate: false
-  xy: 70, 2
-  size: 66, 113
-  orig: 66, 113
-  offset: 0, 0
-  index: -1
-shipWhite
   rotate: false
   xy: 2, 2
   size: 66, 113

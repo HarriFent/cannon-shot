@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.SpriteComponent;
@@ -50,11 +51,11 @@ public class EntityFactory {
     }
 
     public static void createLandMass(Polygon poly) {
-        poly.setPosition(0,0);
+        poly.setPosition(poly.getX()*MPP,poly.getY()*MPP);
         poly.setScale(MPP,MPP);
         Entity entity = builder.createEntity(new Vector2(0,0))
                 .physicsBody(BodyDef.BodyType.StaticBody)
-                .polyCollider(poly.getTransformedVertices(),1f)
+                .chainPolyCollider(poly.getTransformedVertices(),1f)
                 .addToEngine();
     }
 
@@ -109,7 +110,19 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder polyCollider (float[] polygon, float density) {
+        public EntityBuilder polyCollider(float[] polygon, float density) {
+            PolygonShape poly = new PolygonShape();
+            poly.set(polygon);
+            PhysicsComponent physics = Components.PHYSICS.get(entity);
+            if (physics == null) {
+                physicsBody(DEFAULT_BODY);
+            }
+
+            physics.getBody().createFixture(poly, density);
+            return this;
+        }
+
+        public EntityBuilder chainPolyCollider (float[] polygon, float density) {
             ChainShape poly = new ChainShape();
             poly.createLoop(polygon);
             PhysicsComponent physics = Components.PHYSICS.get(entity);
@@ -199,7 +212,6 @@ public class EntityFactory {
         public Entity getWithoutAdding () {
             return entity;
         }
-
     }
 
 

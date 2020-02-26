@@ -98,8 +98,8 @@ public class CameraSystem extends EntitySystem {
             float yMin = (camera.viewportHeight * camera.zoom * 0.5f);
             float yMax = worldBounds.height - yMin;
 
-            float x = MathUtils.clamp(camera.position.x, xMin, xMax);
-            float y = MathUtils.clamp(camera.position.y, yMin, yMax);
+            float x = MathUtils.round(MathUtils.clamp(camera.position.x, xMin, xMax));
+            float y = MathUtils.round(MathUtils.clamp(camera.position.y, yMin, yMax));
 
             camera.position.set(x, y, 0);
         }

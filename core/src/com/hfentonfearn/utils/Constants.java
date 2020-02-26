@@ -25,12 +25,10 @@ public class Constants {
 
     //Velocity impulse and angle set with player input
     public static final float ACCELERATION_TURN = 0.1f;
-    public static final float ACCELERATION_DRIVE = 20f;
+    public static final float ACCELERATION_DRIVE = 30f;
 
     //Angular and Linear Damping for player
     public static final float DAMPING_ANGULAR = 2f;
     public static final float DAMPING_LINEAR = 0.5f;
 
-    //Deceleration rate
-    public static final float VELOCITY_DECELERATION = 0.1f;
 }

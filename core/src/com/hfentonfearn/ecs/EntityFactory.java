@@ -4,10 +4,11 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.SpriteComponent;
@@ -15,7 +16,6 @@ import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.entitysystems.PhysicsSystem;
 import com.hfentonfearn.utils.AssetLoader;
 
-import static com.hfentonfearn.ecs.EntityFactory.PhysicsBuilder.FixtureBuilder;
 import static com.hfentonfearn.utils.Constants.*;
 
 public class EntityFactory {
@@ -24,15 +24,15 @@ public class EntityFactory {
     private static PhysicsSystem physicsSystem;
     private static EntityBuilder builder = new EntityBuilder();
 
-    private static PhysicsBuilder physicsBuilder = new PhysicsBuilder();
-    private static FixtureBuilder fixtureBuilder = new FixtureBuilder();
+//    private static PhysicsBuilder physicsBuilder = new PhysicsBuilder();
+//    private static FixtureBuilder fixtureBuilder = new FixtureBuilder();
 
     public static void setEngine (PooledEngine engine) {
         EntityFactory.engine = engine;
         physicsSystem = engine.getSystem(PhysicsSystem.class);
     }
 
-    public static Entity createPlayer(Vector2 position) {
+    public static void createPlayer(Vector2 position) {
         TextureRegion textureRegion = AssetLoader.ship.playerShip;
         float[] polygon = AssetLoader.ship.collisionPoly;
         Polygon p = new Polygon(polygon);
@@ -44,11 +44,19 @@ public class EntityFactory {
                 .sprite(AssetLoader.ship.playerShip)
                 .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .velocity(0,0)
-                .addToEngine();
+                .getWithoutAdding();
         entity.add(new PlayerComponent());
-        return entity;
+        engine.addEntity(entity);
     }
 
+    public static void createLandMass(Polygon poly) {
+        poly.setPosition(0,0);
+        poly.setScale(MPP,MPP);
+        Entity entity = builder.createEntity(new Vector2(0,0))
+                .physicsBody(BodyDef.BodyType.StaticBody)
+                .polyCollider(poly.getTransformedVertices(),1f)
+                .addToEngine();
+    }
 
 
     /**
@@ -62,15 +70,13 @@ public class EntityFactory {
 
         public EntityBuilder createEntity (Vector2 position) {
             entity = engine.createEntity();
-
             this.position = position;
-
             return this;
         }
 
-        public PhysicsBuilder buildPhysics (BodyDef.BodyType type) {
+        /*public PhysicsBuilder buildPhysics (BodyDef.BodyType type) {
             return physicsBuilder.reset(type, position, entity);
-        }
+        }*/
 
         public EntityBuilder physicsBody (BodyDef.BodyType type) {
             BodyDef def = new BodyDef();
@@ -104,8 +110,8 @@ public class EntityFactory {
         }
 
         public EntityBuilder polyCollider (float[] polygon, float density) {
-            PolygonShape poly = new PolygonShape();
-            poly.set(polygon);
+            ChainShape poly = new ChainShape();
+            poly.createLoop(polygon);
             PhysicsComponent physics = Components.PHYSICS.get(entity);
             if (physics == null) {
                 physicsBody(DEFAULT_BODY);
@@ -115,7 +121,10 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder circleCollider (float radius, float density) {
+        /**
+         * Circle Collider, Circle Sensor and Range Sensor
+         */
+        /*public EntityBuilder circleCollider (float radius, float density) {
             CircleShape shape = new CircleShape();
             shape.setRadius(radius);
             PhysicsComponent physics = Components.PHYSICS.get(entity);
@@ -173,7 +182,7 @@ public class EntityFactory {
             body.createFixture(sensorDef);
             poly.dispose();
             return this;
-        }
+        }*/
 
         public EntityBuilder sprite (TextureRegion region) {
             SpriteComponent spriteComp = engine.createComponent(SpriteComponent.class).init(region, position.x, position.y, region.getRegionWidth(),
@@ -193,7 +202,11 @@ public class EntityFactory {
 
     }
 
-    public static class PhysicsBuilder {
+
+    /**
+     * Physics Builder and Fixture Builder
+     */
+    /*public static class PhysicsBuilder {
         private Body body;
 
         public PhysicsBuilder reset (BodyDef.BodyType type, Vector2 position, Entity entity) {
@@ -237,5 +250,5 @@ public class EntityFactory {
 
         }
 
-    }
+    }*/
 }

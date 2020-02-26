@@ -28,6 +28,7 @@ public class WorldBuilder {
                     break;
                 case "rock":
                     //Create ocean rocks
+                    EntityFactory.createRocks(((PolygonMapObject)object).getPolygon());
                     break;
                 default:
                     //Error

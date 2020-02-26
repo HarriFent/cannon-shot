@@ -59,6 +59,15 @@ public class EntityFactory {
                 .addToEngine();
     }
 
+    public static void createRocks(Polygon poly) {
+        poly.setPosition(poly.getX()*MPP,poly.getY()*MPP);
+        poly.setScale(MPP,MPP);
+        Entity entity = builder.createEntity(new Vector2(0,0))
+                .physicsBody(BodyDef.BodyType.StaticBody)
+                .chainPolyCollider(poly.getTransformedVertices(),1f)
+                .addToEngine();
+    }
+
 
     /**
      *   Entity Builder Class

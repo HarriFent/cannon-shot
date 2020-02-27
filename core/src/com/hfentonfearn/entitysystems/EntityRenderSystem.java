@@ -43,8 +43,10 @@ public class EntityRenderSystem extends IteratingSystem implements Disposable {
 
     @Override
     public void update (float deltaTime) {
+        //Render Tiled Map
         mapRenderer.setView(cameraSystem.getCamera());
         mapRenderer.render();
+
         batch.setProjectionMatrix(cameraSystem.getCamera().combined);
         batch.begin();
         shapeRenderer.setProjectionMatrix(cameraSystem.getCamera().combined);
@@ -69,7 +71,7 @@ public class EntityRenderSystem extends IteratingSystem implements Disposable {
             }
             sprite.draw(batch);
         }
-        //Render health bar and stuff
+        //Render health bar and stuff with the shapeRenderer
     }
 
     @Override

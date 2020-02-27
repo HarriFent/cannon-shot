@@ -34,9 +34,8 @@ public class EntityFactory {
     }
 
     public static void createPlayer(Vector2 position) {
-        TextureRegion textureRegion = AssetLoader.playerShip.ship;
         Polygon p = new Polygon(AssetLoader.playerShip.collision);
-        p.translate(-textureRegion.getRegionWidth()/2 * MPP,-textureRegion.getRegionHeight()/2 * MPP);
+        p.translate(-AssetLoader.playerShip.sail.getRegionWidth()/2 * MPP,-AssetLoader.playerShip.ship.getRegionHeight()/2 * MPP);
         p.setScale(MPP,MPP);
         Entity entity = builder.createEntity(position)
                 .physicsBody(BodyDef.BodyType.DynamicBody)

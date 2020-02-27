@@ -33,13 +33,9 @@ public class EntityFactory {
     }
 
     public static void createPlayer(Vector2 position) {
-        /*Polygon p = new Polygon(AssetLoader.playerShip.collision);
-        p.translate(-AssetLoader.playerShip.sail.getRegionWidth()/2 * MPP,-AssetLoader.playerShip.ship.getRegionHeight()/2 * MPP);
-        p.setScale(MPP,MPP);*/
         AssetLoader.playerShip.loadLoader();
         Entity entity = builder.createEntity(position)
                 .physicsBody(BodyDef.BodyType.DynamicBody)
-                //.polyCollider(p.getTransformedVertices(),1f)
                 .bodyLoader(AssetLoader.playerShip.loader,1)
                 .sprite(AssetLoader.playerShip.ship)
                 .sprite(AssetLoader.playerShip.sail)

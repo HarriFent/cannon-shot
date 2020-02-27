@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Interpolation;
+import com.hfentonfearn.ecs.EntityFactory;
 
 public class ZoomSystem extends EntitySystem {
 
@@ -48,6 +49,7 @@ public class ZoomSystem extends EntitySystem {
         if (zoom == ZOOM_CLOSE)
             zoom = ZOOM_FAR;
         zoomTo(zoom, 2f);
+        EntityFactory.createCloud();
     }
 
     public void zoomIn() {

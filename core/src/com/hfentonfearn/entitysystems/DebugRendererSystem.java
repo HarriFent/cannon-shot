@@ -43,7 +43,7 @@ public class DebugRendererSystem extends EntitySystem {
     public void addedToEngine (Engine engine) {
         cameraSystem = engine.getSystem(CameraSystem.class);
         physicsSystem = engine.getSystem(PhysicsSystem.class);
-        renderEntities = engine.getEntitiesFor(Family.all(SpriteComponent.class).get());
+        renderEntities = engine.getEntitiesFor(Family.all(SpriteComponent.class, PhysicsComponent.class).get());
     }
 
     public void update(float deltaTime) {

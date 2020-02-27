@@ -53,6 +53,7 @@ public class AssetLoader implements Disposable {
         map = new AssetMap();
         playerShip = new AssetPlayerShip(atlas);
         ui = new AssetsUI();
+        clouds = new AssetCloud(atlas);
     }
 
     @Override
@@ -119,7 +120,7 @@ public class AssetLoader implements Disposable {
         }
     }
 
-    private static class AssetCloud {
+    public static class AssetCloud {
         public final AtlasRegion[] clouds;
 
         public AssetCloud (TextureAtlas atlas) {

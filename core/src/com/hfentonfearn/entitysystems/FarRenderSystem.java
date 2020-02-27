@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.hfentonfearn.components.FarDrawComponent;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.utils.AssetLoader;
@@ -29,7 +30,7 @@ public class FarRenderSystem extends IteratingSystem implements Disposable {
     private ZoomSystem zoomSystem;
 
     public FarRenderSystem() {
-        super(Family.one(SpriteComponent.class).get());
+        super(Family.one(SpriteComponent.class, FarDrawComponent.class).get());
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         mapRenderer = new CustomTiledMapRenderer(AssetLoader.map.map,this.batch);

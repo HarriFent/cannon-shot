@@ -3,19 +3,20 @@ package com.hfentonfearn.ecs;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.hfentonfearn.components.PhysicsComponent;
-import com.hfentonfearn.components.PlayerComponent;
-import com.hfentonfearn.components.SpriteComponent;
-import com.hfentonfearn.components.VelocityComponent;
+import com.hfentonfearn.components.*;
 import com.hfentonfearn.entitysystems.PhysicsSystem;
+import com.hfentonfearn.entitysystems.ZoomSystem;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.BodyEditorLoader;
 import com.hfentonfearn.utils.Components;
 
+import static com.hfentonfearn.entitysystems.ZoomSystem.ZOOM_FAR;
+import static com.hfentonfearn.entitysystems.ZoomSystem.ZOOM_MAP;
 import static com.hfentonfearn.utils.Constants.*;
 
 public class EntityFactory {
@@ -37,10 +38,12 @@ public class EntityFactory {
         Entity entity = builder.createEntity(position)
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .bodyLoader(AssetLoader.playerShip.loader,1)
-                .sprite(AssetLoader.playerShip.ship)
-                .sprite(AssetLoader.playerShip.sail)
                 .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .velocity(0,0)
+                .sprite(AssetLoader.playerShip.ship)
+                .sprite(AssetLoader.playerShip.sail)
+                .type(TypeComponent.PLAYER)
+                .drawDistance(ZOOM_FAR)
                 .getWithoutAdding();
         entity.add(new PlayerComponent());
         engine.addEntity(entity);
@@ -52,6 +55,7 @@ public class EntityFactory {
         Entity entity = builder.createEntity(new Vector2(0,0))
                 .physicsBody(BodyDef.BodyType.StaticBody)
                 .chainPolyCollider(poly.getTransformedVertices(),1f)
+                .type(TypeComponent.LAND)
                 .addToEngine();
     }
 
@@ -61,9 +65,20 @@ public class EntityFactory {
         Entity entity = builder.createEntity(new Vector2(0,0))
                 .physicsBody(BodyDef.BodyType.StaticBody)
                 .chainPolyCollider(poly.getTransformedVertices(),1f)
+                .type(TypeComponent.SCENERY)
                 .addToEngine();
     }
 
+    public static void createCloud() {
+        Sprite cloudSprite = new Sprite(AssetLoader.clouds.getRandomCloud());
+        cloudSprite.setAlpha(0);
+
+        Entity entity = builder.createEntity(new Vector2(0,0))
+                .sprite(cloudSprite)
+                .type(TypeComponent.CLOUD)
+                .drawDistance(ZOOM_MAP)
+                .addToEngine();
+    }
 
     /**
      *   Entity Builder Class
@@ -146,14 +161,42 @@ public class EntityFactory {
             return this;
         }
 
+        public EntityBuilder type (String typeString) {
+            TypeComponent type = new TypeComponent(typeString);
+            entity.add(type);
+            return this;
+        }
+
+        public EntityBuilder drawDistance (float Zoom) {
+            if (Zoom == ZoomSystem.ZOOM_MAP){
+                entity.add(new MapDrawComponent());
+            }
+            if (Zoom == ZOOM_FAR){
+                entity.add(new FarDrawComponent());
+            }
+            return this;
+        }
+
         public EntityBuilder sprite (TextureRegion region) {
-            SpriteComponent sprite = Components.SPRITE.get(entity);
-            if (sprite == null) {
-                SpriteComponent spriteComp = engine.createComponent(SpriteComponent.class).init(region, position.x, position.y, region.getRegionWidth(),
+            SpriteComponent spriteComp = Components.SPRITE.get(entity);
+            if (spriteComp == null) {
+                spriteComp = engine.createComponent(SpriteComponent.class).init(region, position.x, position.y, region.getRegionWidth(),
                         region.getRegionHeight());
                 entity.add(spriteComp);
             } else {
-                sprite.addSprite(region, position.x, position.y, region.getRegionWidth(), region.getRegionHeight());
+                spriteComp.addSprite(region, position.x, position.y, region.getRegionWidth(), region.getRegionHeight());
+            }
+            return this;
+        }
+
+
+        public EntityBuilder sprite (Sprite sprite) {
+            SpriteComponent spriteComp = Components.SPRITE.get(entity);
+            if (spriteComp == null) {
+                spriteComp = engine.createComponent(SpriteComponent.class).init(sprite);
+                entity.add(spriteComp);
+            } else {
+                spriteComp.addSprite(sprite);
             }
             return this;
         }

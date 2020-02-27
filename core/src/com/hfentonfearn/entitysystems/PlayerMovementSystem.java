@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.VelocityComponent;
@@ -72,5 +73,10 @@ public class PlayerMovementSystem extends IteratingSystem {
 
     private Vector2 multiply(float a, Vector2 v) {
         return new Vector2(a * v.x, a * v.y);
+    }
+
+    @Override
+    public boolean checkProcessing () {
+        return !GameManager.isPaused();
     }
 }

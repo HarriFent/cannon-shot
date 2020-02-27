@@ -1,12 +1,12 @@
 
 cannon-shot.png
-size: 512,128
+size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 button
   rotate: false
-  xy: 394, 67
+  xy: 120, 66
   size: 48, 48
   split: 13, 13, 13, 13
   pad: 13, 13, 13, 13
@@ -15,63 +15,84 @@ button
   index: -1
 cannon
   rotate: false
-  xy: 122, 18
+  xy: 808, 157
   size: 29, 20
   orig: 29, 20
   offset: 0, 0
   index: -1
 cannonBall
   rotate: false
-  xy: 326, 57
+  xy: 884, 183
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
+cloud1
+  rotate: false
+  xy: 510, 130
+  size: 228, 124
+  orig: 228, 124
+  offset: 0, 0
+  index: -1
+cloud2
+  rotate: false
+  xy: 270, 119
+  size: 238, 135
+  orig: 238, 135
+  offset: 0, 0
+  index: -1
+cloud3
+  rotate: false
+  xy: 2, 116
+  size: 266, 138
+  orig: 266, 138
+  offset: 0, 0
+  index: -1
 explosion1
   rotate: false
-  xy: 122, 40
+  xy: 808, 179
   size: 74, 75
   orig: 74, 75
   offset: 0, 0
   index: -1
 explosion2
   rotate: false
-  xy: 264, 56
+  xy: 884, 195
   size: 60, 59
   orig: 60, 59
   offset: 0, 0
   index: -1
 explosion3
   rotate: false
-  xy: 444, 74
+  xy: 946, 213
   size: 42, 41
   orig: 42, 41
   offset: 0, 0
   index: -1
 hullLarge
   rotate: false
-  xy: 70, 7
+  xy: 2, 6
   size: 50, 108
   orig: 50, 108
   offset: 0, 0
   index: -1
 sailWhite
   rotate: false
-  xy: 326, 69
+  xy: 54, 2
   size: 66, 46
   orig: 66, 46
   offset: 0, 0
   index: -1
 sea
   rotate: false
-  xy: 198, 51
+  xy: 54, 50
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 shipBlack
   rotate: false
-  xy: 2, 2
+  xy: 740, 141
   size: 66, 113
   orig: 66, 113
   offset: 0, 0

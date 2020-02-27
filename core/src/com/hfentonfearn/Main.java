@@ -1,8 +1,8 @@
 package com.hfentonfearn;
 
 import com.badlogic.gdx.Game;
-import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.screens.SplashScreen;
+import com.hfentonfearn.utils.AssetLoader;
 
 public class Main extends Game {
 	

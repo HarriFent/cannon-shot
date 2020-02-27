@@ -2,7 +2,7 @@ package com.hfentonfearn.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.hfentonfearn.CannonShot;
+import com.hfentonfearn.Main;
 
 import static com.hfentonfearn.utils.Constants.WINDOW_HEIGHT;
 import static com.hfentonfearn.utils.Constants.WINDOW_WIDTH;
@@ -15,6 +15,6 @@ public class DesktopLauncher {
 		config.width = WINDOW_WIDTH;
 		config.height = WINDOW_HEIGHT;
 
-		new LwjglApplication(new CannonShot(), config);
+		new LwjglApplication(new Main(), config);
 	}
 }

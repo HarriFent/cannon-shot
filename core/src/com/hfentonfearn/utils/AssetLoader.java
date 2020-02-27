@@ -13,8 +13,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 
 public class AssetLoader implements Disposable {
 
@@ -35,7 +33,7 @@ public class AssetLoader implements Disposable {
     public static AssetFonts fonts;
     public static AssetMap map;
     public static AssetsUI ui;
-    public static AssetShip ship;
+    public static AssetPlayerShip playerShip;
     public static AssetProjectile projectile;
 
     public static Skin skin;
@@ -54,7 +52,7 @@ public class AssetLoader implements Disposable {
         hotkey = new AssetHotkey(atlas);
         fonts = new AssetFonts(skin);
         map = new AssetMap();
-        ship = new AssetShip(atlas);
+        playerShip = new AssetPlayerShip(atlas);
         ui = new AssetsUI();
     }
 
@@ -63,23 +61,16 @@ public class AssetLoader implements Disposable {
         manager.dispose();
     }
 
-    public static class AssetShip {
-        //public final Array<AtlasRegion> ships;
-        public final AtlasRegion playerShip;
-        public final float[] collisionPoly;
+    public static class AssetPlayerShip {
+        public final AtlasRegion ship;
+        public final BodyEditorLoader bodyLoader;
+        public final AtlasRegion sail;
 
-        public AssetShip(TextureAtlas atlas) {
+        public AssetPlayerShip(TextureAtlas atlas) {
             //ships = atlas.findRegions("ship");
-            playerShip = atlas.findRegion("shipWhite");
-
-            JsonReader json = new JsonReader();
-            JsonValue base = json.parse(Gdx.files.internal("objects/ships/shipCollision.json"));
-            JsonValue vertArray = base.get("collisionPoly");
-            float[] verts = new float[vertArray.size];
-            for (int i = 0; i < vertArray.size; i++) {
-                verts[i] = vertArray.getFloat(i);
-            }
-            collisionPoly = verts;
+            ship = atlas.findRegion("hullLarge");
+            sail = atlas.findRegion("sailWhite");
+            bodyLoader = new BodyEditorLoader(Gdx.files.internal("objects/ships/playerShip.json"));
         }
     }
 

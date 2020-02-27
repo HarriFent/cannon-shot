@@ -6,16 +6,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.*;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.entitysystems.PhysicsSystem;
 import com.hfentonfearn.utils.AssetLoader;
+import com.hfentonfearn.utils.BodyEditorLoader;
 
 import static com.hfentonfearn.utils.Constants.*;
 
@@ -34,15 +32,9 @@ public class EntityFactory {
     }
 
     public static void createPlayer(Vector2 position) {
-        TextureRegion textureRegion = AssetLoader.ship.playerShip;
-        float[] polygon = AssetLoader.ship.collisionPoly;
-        Polygon p = new Polygon(polygon);
-        p.translate(-textureRegion.getRegionWidth()/2 * MPP,-textureRegion.getRegionHeight()/2 * MPP);
-        p.setScale(MPP,MPP);
         Entity entity = builder.createEntity(position)
-                .physicsBody(BodyDef.BodyType.DynamicBody)
-                .polyCollider(p.getTransformedVertices(),1f)
-                .sprite(AssetLoader.ship.playerShip)
+                .bodyFromLoader(AssetLoader.playerShip.bodyLoader)
+                .sprite(AssetLoader.playerShip.ship)
                 .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .velocity(0,0)
                 .getWithoutAdding();
@@ -84,10 +76,10 @@ public class EntityFactory {
             return this;
         }
 
+
         /*public PhysicsBuilder buildPhysics (BodyDef.BodyType type) {
             return physicsBuilder.reset(type, position, entity);
         }*/
-
         public EntityBuilder physicsBody (BodyDef.BodyType type) {
             BodyDef def = new BodyDef();
             def.type = type;
@@ -97,6 +89,14 @@ public class EntityFactory {
 
             PhysicsComponent physics = engine.createComponent(PhysicsComponent.class).init(body);
             entity.add(physics);
+            return this;
+        }
+
+        public EntityBuilder bodyFromLoader(BodyEditorLoader bodyLoader) {
+
+            FixtureDef fd = new FixtureDef();
+            fd.density = 1;
+            bodyLoader.attachFixture(Components.PHYSICS.get(entity).getBody(), "playerShip", fd, 1);
             return this;
         }
 
@@ -207,9 +207,14 @@ public class EntityFactory {
         }*/
 
         public EntityBuilder sprite (TextureRegion region) {
-            SpriteComponent spriteComp = engine.createComponent(SpriteComponent.class).init(region, position.x, position.y, region.getRegionWidth(),
-                    region.getRegionHeight());
-            entity.add(spriteComp);
+            SpriteComponent sprite = Components.SPRITE.get(entity);
+            if (sprite == null) {
+                SpriteComponent spriteComp = engine.createComponent(SpriteComponent.class).init(region, position.x, position.y, region.getRegionWidth(),
+                        region.getRegionHeight());
+                entity.add(spriteComp);
+            } else {
+                sprite.addSprite(region, position.x, position.y, region.getRegionWidth(), region.getRegionHeight());
+            }
             return this;
         }
 

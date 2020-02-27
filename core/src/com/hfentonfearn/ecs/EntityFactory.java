@@ -80,10 +80,10 @@ public class EntityFactory {
             return this;
         }
 
-
         /*public PhysicsBuilder buildPhysics (BodyDef.BodyType type) {
             return physicsBuilder.reset(type, position, entity);
         }*/
+
         public EntityBuilder physicsBody (BodyDef.BodyType type) {
             BodyDef def = new BodyDef();
             def.type = type;
@@ -143,6 +143,18 @@ public class EntityFactory {
             FixtureDef fd = new FixtureDef();
             fd.density = density;
             loader.attachFixture(Components.PHYSICS.get(entity).getBody(), "playership", fd, 0.5f);
+            return this;
+        }
+
+        public EntityBuilder sprite (TextureRegion region) {
+            SpriteComponent sprite = Components.SPRITE.get(entity);
+            if (sprite == null) {
+                SpriteComponent spriteComp = engine.createComponent(SpriteComponent.class).init(region, position.x, position.y, region.getRegionWidth(),
+                        region.getRegionHeight());
+                entity.add(spriteComp);
+            } else {
+                sprite.addSprite(region, position.x, position.y, region.getRegionWidth(), region.getRegionHeight());
+            }
             return this;
         }
 
@@ -208,18 +220,6 @@ public class EntityFactory {
             poly.dispose();
             return this;
         }*/
-
-        public EntityBuilder sprite (TextureRegion region) {
-            SpriteComponent sprite = Components.SPRITE.get(entity);
-            if (sprite == null) {
-                SpriteComponent spriteComp = engine.createComponent(SpriteComponent.class).init(region, position.x, position.y, region.getRegionWidth(),
-                        region.getRegionHeight());
-                entity.add(spriteComp);
-            } else {
-                sprite.addSprite(region, position.x, position.y, region.getRegionWidth(), region.getRegionHeight());
-            }
-            return this;
-        }
 
         public Entity addToEngine () {
             engine.addEntity(entity);

@@ -15,34 +15,24 @@ public class SpriteComponent implements Component, Poolable {
         // private constructor
     }
 
-    public SpriteComponent init (TextureRegion region, float x, float y, float width, float height) {
-        sprites = new Array<>();
+    private Sprite createSprite(TextureRegion region, float x, float y, float width, float height) {
         Sprite sprite = new Sprite(region);
         sprite.setBounds(x, y, width, height);
-        sprite.setOriginCenter();
-        sprites.add(sprite);
-        return this;
+        return sprite;
     }
 
-    public SpriteComponent init (Sprite sprite) {
+    public SpriteComponent init(TextureRegion region, float x, float y, float width, float height) {
         sprites = new Array<>();
+        Sprite sprite = createSprite(region,x,y,width,height);
+        sprite.setOriginCenter();
         sprites.add(sprite);
         return this;
     }
 
     public void addSprite(TextureRegion region, float x, float y, float width, float height) {
-        Sprite sprite = new Sprite(region);
-        sprite.setBounds(x, y, width, height);
+        Sprite sprite = createSprite(region,x,y,width,height);
         sprite.setOriginCenter();
         sprites.add(sprite);
-    }
-
-    public void addSprite(Sprite sprite) {
-        sprites.add(sprite);
-    }
-
-    public Sprite getSprite (int index) {
-        return sprites.get(index);
     }
 
     public Array<Sprite> getSprites () {

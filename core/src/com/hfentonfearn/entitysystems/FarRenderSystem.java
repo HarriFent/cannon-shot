@@ -18,7 +18,7 @@ import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 import com.hfentonfearn.utils.CustomTiledMapRenderer;
 
-public class EntityRenderSystem extends IteratingSystem implements Disposable {
+public class FarRenderSystem extends IteratingSystem implements Disposable {
 
     private static final int spriteRotationOffset = -0;
     private final CustomTiledMapRenderer mapRenderer;
@@ -26,10 +26,10 @@ public class EntityRenderSystem extends IteratingSystem implements Disposable {
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
     private CameraSystem cameraSystem;
+    private ZoomSystem zoomSystem;
 
-    public EntityRenderSystem() {
+    public FarRenderSystem() {
         super(Family.one(SpriteComponent.class).get());
-
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         mapRenderer = new CustomTiledMapRenderer(AssetLoader.map.map,this.batch);
@@ -39,21 +39,24 @@ public class EntityRenderSystem extends IteratingSystem implements Disposable {
     public void addedToEngine (Engine engine) {
         super.addedToEngine(engine);
         cameraSystem = engine.getSystem(CameraSystem.class);
+        zoomSystem = engine.getSystem(ZoomSystem.class);
     }
 
     @Override
     public void update (float deltaTime) {
-        //Render Tiled Map
-        mapRenderer.setView(cameraSystem.getCamera());
-        mapRenderer.render();
+        if (zoomSystem.isZooming() || zoomSystem.getZoom() == ZoomSystem.ZOOM_FAR) {
+            //Render Tiled Map
+            mapRenderer.setView(cameraSystem.getCamera());
+            mapRenderer.render();
 
-        batch.setProjectionMatrix(cameraSystem.getCamera().combined);
-        batch.begin();
-        shapeRenderer.setProjectionMatrix(cameraSystem.getCamera().combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        super.update(deltaTime);
-        batch.end();
-        shapeRenderer.end();
+            batch.setProjectionMatrix(cameraSystem.getCamera().combined);
+            batch.begin();
+            shapeRenderer.setProjectionMatrix(cameraSystem.getCamera().combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            super.update(deltaTime);
+            batch.end();
+            shapeRenderer.end();
+        }
     }
 
     @Override

@@ -9,7 +9,7 @@ public class ZoomSystem extends EntitySystem {
 
     OrthographicCamera camera;
 
-    public static final float ZOOM_CLOSE = 0.2f;
+    public static final float ZOOM_CLOSE = 0.1f;
     public static final float ZOOM_FAR = 1.5f;
     public static final float ZOOM_MAP = 3;
 
@@ -30,11 +30,8 @@ public class ZoomSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
-        DebugRendererSystem.addDebug("Camera Value: ", camera.zoom);
-
         timeToCameraZoomTarget -= deltaTime;
-        float progress = timeToCameraZoomTarget < 0 ? 1 : 1f - timeToCameraZoomTarget / cameraZoomDuration;
-        camera.zoom = Interpolation.fade.apply(cameraZoomOrigin, cameraZoomTarget, progress);
+        camera.zoom = Interpolation.fade.apply(cameraZoomOrigin, cameraZoomTarget, getProgress());
     }
 
     private void zoomTo (float newZoom, float duration){
@@ -57,5 +54,17 @@ public class ZoomSystem extends EntitySystem {
         if (zoom == ZOOM_MAP)
             zoom = ZOOM_FAR;
         zoomTo(zoom, 2f);
+    }
+
+    public float getProgress() {
+        return timeToCameraZoomTarget < 0 ? 1 : 1f - timeToCameraZoomTarget / cameraZoomDuration;
+    }
+
+    public boolean isZooming() {
+        return getProgress() < 1;
+    }
+
+    public float getZoom() {
+        return zoom;
     }
 }

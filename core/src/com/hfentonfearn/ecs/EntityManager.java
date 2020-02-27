@@ -33,7 +33,8 @@ public class EntityManager extends PooledEngine {
         //Input System
         addSystem(inputSystem);
         //Entity Render System
-        addSystem(new EntityRenderSystem());
+        addSystem(new FarRenderSystem());
+        addSystem(new MapRenderSystem());
         //Debug Render System
         addSystem(new DebugRendererSystem());
         //Particle System

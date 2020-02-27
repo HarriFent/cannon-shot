@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 public class AssetLoader implements Disposable {
@@ -34,7 +33,6 @@ public class AssetLoader implements Disposable {
     public static AssetMap map;
     public static AssetsUI ui;
     public static AssetPlayerShip playerShip;
-    public static AssetProjectile projectile;
 
     public static Skin skin;
 
@@ -48,7 +46,6 @@ public class AssetLoader implements Disposable {
         TextureAtlas atlas = manager.get(TEXTURE_ATLAS_OBJECTS);
 
         skin = manager.get(SKIN);
-        projectile = new AssetProjectile(atlas);
         hotkey = new AssetHotkey(atlas);
         fonts = new AssetFonts(skin);
         map = new AssetMap();
@@ -100,13 +97,15 @@ public class AssetLoader implements Disposable {
     public static class AssetMap {
 
         public final TiledMap map;
-        public int width;
-        public int height;
+        public final int width;
+        public final int height;
+        public final Texture mapOverview;
 
         public AssetMap () {
             map = new TmxMapLoader().load(MAP);
             width = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
             height = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);;
+            mapOverview = new Texture(Gdx.files.internal("tiledMap/mapView.png"));
         }
     }
 
@@ -115,14 +114,6 @@ public class AssetLoader implements Disposable {
 
         public AssetHotkey (TextureAtlas atlas) {
             button = atlas.createPatch("button");
-        }
-    }
-
-    public static class AssetProjectile {
-        public final Array<AtlasRegion> projectiles;
-
-        public AssetProjectile (TextureAtlas atlas) {
-            projectiles = atlas.findRegions("projectile");
         }
     }
 

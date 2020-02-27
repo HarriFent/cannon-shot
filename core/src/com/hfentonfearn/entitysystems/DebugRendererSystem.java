@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.SpriteComponent;
-import com.hfentonfearn.ecs.Components;
+import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.utils.Constants.DEBUGMODE;
 import static com.hfentonfearn.utils.Constants.WINDOW_HEIGHT;

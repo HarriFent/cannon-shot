@@ -67,6 +67,7 @@ public class AssetLoader implements Disposable {
         public final AtlasRegion ship;
         public final AtlasRegion sail;
         public final float[] collision;
+        public BodyEditorLoader loader;
 
         public AssetPlayerShip(TextureAtlas atlas) {
             //ships = atlas.findRegions("ship");
@@ -80,6 +81,10 @@ public class AssetLoader implements Disposable {
             for (int i = 0; i < vertArray.size; i++) {
                 collision[i] = vertArray.getFloat(i);
             }
+        }
+
+        public void loadLoader() {
+            loader = new BodyEditorLoader(Gdx.files.internal("objects/ships/playerShip.json"));
         }
     }
 

@@ -4,8 +4,8 @@ public class Constants {
     public static boolean DEBUGMODE = true;
 
     public static final float TIME_STEP = 1/60f;
-    public static final int VELOCITY_ITERATIONS = 8;
-    public static final int POSITION_ITERATIONS = 8;
+    public static final int VELOCITY_ITERATIONS = 2;
+    public static final int POSITION_ITERATIONS = 2;
 
     //Physics world conversion
     public static final float PPM = 100; // PPM = Pixel perMeter

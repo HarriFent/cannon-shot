@@ -14,8 +14,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.SpriteComponent;
-import com.hfentonfearn.ecs.Components;
 import com.hfentonfearn.utils.AssetLoader;
+import com.hfentonfearn.utils.Components;
 import com.hfentonfearn.utils.CustomTiledMapRenderer;
 
 public class EntityRenderSystem extends IteratingSystem implements Disposable {

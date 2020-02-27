@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.VelocityComponent;
-import com.hfentonfearn.ecs.Components;
+import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.utils.Constants.*;
 

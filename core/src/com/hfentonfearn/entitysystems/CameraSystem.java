@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.hfentonfearn.ecs.Components;
+import com.hfentonfearn.utils.Components;
 
 public class CameraSystem extends EntitySystem {
 

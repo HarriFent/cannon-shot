@@ -1,4 +1,4 @@
-package com.hfentonfearn.ecs;
+package com.hfentonfearn.utils;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.hfentonfearn.components.CollisionComponent;

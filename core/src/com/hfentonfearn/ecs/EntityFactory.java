@@ -6,16 +6,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.*;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.entitysystems.PhysicsSystem;
 import com.hfentonfearn.utils.AssetLoader;
+import com.hfentonfearn.utils.BodyEditorLoader;
+import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.utils.Constants.*;
 
@@ -34,12 +33,10 @@ public class EntityFactory {
     }
 
     public static void createPlayer(Vector2 position) {
-        Polygon p = new Polygon(AssetLoader.playerShip.collision);
-        p.translate(-AssetLoader.playerShip.sail.getRegionWidth()/2 * MPP,-AssetLoader.playerShip.ship.getRegionHeight()/2 * MPP);
-        p.setScale(MPP,MPP);
+        AssetLoader.playerShip.loadLoader();
         Entity entity = builder.createEntity(position)
                 .physicsBody(BodyDef.BodyType.DynamicBody)
-                .polyCollider(p.getTransformedVertices(),1f)
+                .bodyLoader(AssetLoader.playerShip.loader,1)
                 .sprite(AssetLoader.playerShip.ship)
                 .sprite(AssetLoader.playerShip.sail)
                 .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
@@ -139,6 +136,13 @@ public class EntityFactory {
             }
 
             physics.getBody().createFixture(poly, density);
+            return this;
+        }
+
+        public EntityBuilder bodyLoader (BodyEditorLoader loader, float density) {
+            FixtureDef fd = new FixtureDef();
+            fd.density = density;
+            loader.attachFixture(Components.PHYSICS.get(entity).getBody(), "playership", fd, 0.5f);
             return this;
         }
 

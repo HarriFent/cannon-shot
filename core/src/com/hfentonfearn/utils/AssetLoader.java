@@ -13,6 +13,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class AssetLoader implements Disposable {
 
@@ -63,14 +65,21 @@ public class AssetLoader implements Disposable {
 
     public static class AssetPlayerShip {
         public final AtlasRegion ship;
-        public final BodyEditorLoader bodyLoader;
         public final AtlasRegion sail;
+        public final float[] collision;
 
         public AssetPlayerShip(TextureAtlas atlas) {
             //ships = atlas.findRegions("ship");
             ship = atlas.findRegion("hullLarge");
             sail = atlas.findRegion("sailWhite");
-            bodyLoader = new BodyEditorLoader(Gdx.files.internal("objects/ships/playerShip.json"));
+
+            JsonReader json = new JsonReader();
+            JsonValue base = json.parse(Gdx.files.internal("objects/ships/shipCollision.json"));
+            JsonValue vertArray = base.get("collisionPoly");
+            collision = new float[vertArray.size];
+            for (int i = 0; i < vertArray.size; i++) {
+                collision[i] = vertArray.getFloat(i);
+            }
         }
     }
 

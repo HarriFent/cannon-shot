@@ -6,14 +6,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.entitysystems.PhysicsSystem;
 import com.hfentonfearn.utils.AssetLoader;
-import com.hfentonfearn.utils.BodyEditorLoader;
 
 import static com.hfentonfearn.utils.Constants.*;
 
@@ -32,9 +34,15 @@ public class EntityFactory {
     }
 
     public static void createPlayer(Vector2 position) {
+        TextureRegion textureRegion = AssetLoader.playerShip.ship;
+        Polygon p = new Polygon(AssetLoader.playerShip.collision);
+        p.translate(-textureRegion.getRegionWidth()/2 * MPP,-textureRegion.getRegionHeight()/2 * MPP);
+        p.setScale(MPP,MPP);
         Entity entity = builder.createEntity(position)
-                .bodyFromLoader(AssetLoader.playerShip.bodyLoader)
+                .physicsBody(BodyDef.BodyType.DynamicBody)
+                .polyCollider(p.getTransformedVertices(),1f)
                 .sprite(AssetLoader.playerShip.ship)
+                .sprite(AssetLoader.playerShip.sail)
                 .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .velocity(0,0)
                 .getWithoutAdding();
@@ -89,14 +97,6 @@ public class EntityFactory {
 
             PhysicsComponent physics = engine.createComponent(PhysicsComponent.class).init(body);
             entity.add(physics);
-            return this;
-        }
-
-        public EntityBuilder bodyFromLoader(BodyEditorLoader bodyLoader) {
-
-            FixtureDef fd = new FixtureDef();
-            fd.density = 1;
-            bodyLoader.attachFixture(Components.PHYSICS.get(entity).getBody(), "playerShip", fd, 1);
             return this;
         }
 

@@ -18,6 +18,7 @@ public class EntityManager extends PooledEngine {
         //Camera System
         CameraSystem cameraSystem = new CameraSystem(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
         addSystem(cameraSystem);
+        addSystem(new ZoomSystem());
         //Physics System
         addSystem(new PhysicsSystem());
         //Player movement system

@@ -62,11 +62,11 @@ public class InputSystem extends EntitySystem implements InputProcessor {
                 return true;
             case Keybinds.ZOOM_IN:
                 //Z00M In
-
+                getEngine().getSystem(ZoomSystem.class).zoomIn();
                 return true;
             case Keybinds.ZOOM_OUT:
                 //Z00M Out
-
+                getEngine().getSystem(ZoomSystem.class).zoomOut();
                 return true;
 
             case Input.Keys.ESCAPE:

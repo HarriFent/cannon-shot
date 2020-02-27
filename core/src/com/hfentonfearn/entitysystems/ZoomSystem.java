@@ -32,6 +32,8 @@ public class ZoomSystem extends EntitySystem {
     public void update(float deltaTime) {
         timeToCameraZoomTarget -= deltaTime;
         camera.zoom = Interpolation.fade.apply(cameraZoomOrigin, cameraZoomTarget, getProgress());
+        DebugRendererSystem.addDebug("Zooming In: ", isZoomingIn());
+        DebugRendererSystem.addDebug("Zooming Out: ", isZoomingOut());
     }
 
     private void zoomTo (float newZoom, float duration){
@@ -62,6 +64,14 @@ public class ZoomSystem extends EntitySystem {
 
     public boolean isZooming() {
         return getProgress() < 1;
+    }
+
+    public boolean isZoomingIn() {
+        return cameraZoomOrigin > cameraZoomTarget && isZooming();
+    }
+
+    public boolean isZoomingOut() {
+        return cameraZoomOrigin < cameraZoomTarget && isZooming();
     }
 
     public float getZoom() {

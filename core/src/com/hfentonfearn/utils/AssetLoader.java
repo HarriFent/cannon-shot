@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -33,6 +34,7 @@ public class AssetLoader implements Disposable {
     public static AssetMap map;
     public static AssetsUI ui;
     public static AssetPlayerShip playerShip;
+    public static AssetCloud clouds;
 
     public static Skin skin;
 
@@ -117,4 +119,18 @@ public class AssetLoader implements Disposable {
         }
     }
 
+    private static class AssetCloud {
+        public final AtlasRegion[] clouds;
+
+        public AssetCloud (TextureAtlas atlas) {
+            clouds = new AtlasRegion[3];
+            clouds[0] = atlas.findRegion("cloud1");
+            clouds[1] = atlas.findRegion("cloud2");
+            clouds[2] = atlas.findRegion("cloud3");
+        }
+
+        public AtlasRegion getRandomCloud() {
+            return clouds[MathUtils.random(2)];
+        }
+    }
 }

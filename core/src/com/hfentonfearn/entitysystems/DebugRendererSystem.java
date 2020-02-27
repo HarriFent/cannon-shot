@@ -12,45 +12,38 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.hfentonfearn.components.PlayerComponent;
-import com.hfentonfearn.components.TextureComponent;
-import com.hfentonfearn.components.TransformComponent;
-import com.hfentonfearn.gameworld.ZoomLevel;
-import com.hfentonfearn.helpers.MappersHandler;
+import com.hfentonfearn.components.PhysicsComponent;
+import com.hfentonfearn.components.SpriteComponent;
+import com.hfentonfearn.ecs.Components;
 
-import static com.hfentonfearn.helpers.Constants.*;
+import static com.hfentonfearn.utils.Constants.DEBUGMODE;
+import static com.hfentonfearn.utils.Constants.WINDOW_HEIGHT;
 
 public class DebugRendererSystem extends EntitySystem {
 
-    private OrthographicCamera cam;
+    private PhysicsSystem physicsSystem;
+    private CameraSystem cameraSystem;
+    private OrthographicCamera camera;
+
     private ShapeRenderer debugRenderer;
-    private Box2DDebugRenderer debug2dRenderer;
     private SpriteBatch debugBatch;
     private BitmapFont font;
-    private World world;
-    private ZoomLevel zoom;
     private ImmutableArray<Entity> renderEntities;
-    private ImmutableArray<Entity> players;
 
-    private Array<String> strings;
+    private static Array<String> strings;
 
-    public DebugRendererSystem(World world, OrthographicCamera camera, ZoomLevel zoomLevel) {
-        cam = camera;
+    public DebugRendererSystem() {
         debugRenderer = new ShapeRenderer();
         font = new BitmapFont();
         debugBatch = new SpriteBatch();
-        this.world = world;
-        debug2dRenderer = new Box2DDebugRenderer();
-        zoom = zoomLevel;
+        strings = new Array<>();
     }
 
     public void addedToEngine (Engine engine) {
-        renderEntities = engine.getEntitiesFor(Family.all(TransformComponent.class, TextureComponent.class).get());
-        players = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
+        cameraSystem = engine.getSystem(CameraSystem.class);
+        physicsSystem = engine.getSystem(PhysicsSystem.class);
+        renderEntities = engine.getEntitiesFor(Family.all(SpriteComponent.class).get());
     }
 
     public void update(float deltaTime) {
@@ -60,28 +53,30 @@ public class DebugRendererSystem extends EntitySystem {
 
         if (DEBUGMODE) {
             //Render Physics World
-            debug2dRenderer.render(world, new Matrix4(cam.combined).scl(PPM));
+            physicsSystem.drawDebug();
+            camera = cameraSystem.getCamera();
 
-            debugRenderer.setProjectionMatrix(cam.combined);
+            debugRenderer.setProjectionMatrix(camera.combined);
             debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-
             //Render Render Queue
             for (Entity e : renderEntities) {
                 debugRenderer.setColor(Color.RED);
                 Gdx.gl.glLineWidth(3);
 
-                TransformComponent transformComponent = MappersHandler.transform.get(e);
-                debugRenderer.circle(transformComponent.position.x, transformComponent.position.y, 5);
+                PhysicsComponent physics = Components.PHYSICS.get(e);
+                debugRenderer.circle(physics.getPosition().x, physics.getPosition().y, 5);
             }
+            debugRenderer.setColor(Color.BLUE);
+            debugRenderer.circle(500, 500, 5);
             debugRenderer.end();
 
             //Debug Overlay HUD
-            updateDebugStrings();
+            Array<String> debugs = updateDebugStrings();
 
             debugBatch.begin();
             font.setColor(Color.RED);
-            float y = WORLD_PIXEL_HEIGHT - 20;
-            for (String str : strings) {
+            float y = WINDOW_HEIGHT - 4;
+            for (String str : debugs) {
                 font.draw(debugBatch, str, 10, y);
                 y -= 20;
             }
@@ -89,13 +84,20 @@ public class DebugRendererSystem extends EntitySystem {
         }
     }
 
-    private void updateDebugStrings() {
+    private Array<String> updateDebugStrings() {
+        Array<String> output = new Array<>();
+        output.add("DEBUG MODE");
+        for (String str : strings)
+            output.add(str);
         strings = new Array<>();
-        strings.add("DEBUG MODE");
-        strings.add("Cam X Pos: " + Math.round(cam.position.x));
-        strings.add("Cam Y Pos: " + Math.round(cam.position.y));
-        strings.add("Zooming in: " + zoom.isZoomingIn() + " Zooming out: " + zoom.isZoomingOut());
-        strings.add("Zoom Level: " + zoom.getZoomValue() + ", " + zoom.toString() + ", CurrentZoom: " + zoom.getCurrentZoom());
-        //strings.add("Player Entities: " + players.get(0).getComponent(CollisionComponent.class).collisionEntities.toString());
+        return output;
+    }
+
+    public static void addDebug(String string) {
+        strings.add(string);
+    }
+
+    public static void addDebug(String string, Object obj) {
+        strings.add(string + obj.toString());
     }
 }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.hfentonfearn.components.MapDrawComponent;
 import com.hfentonfearn.components.SpriteComponent;
+import com.hfentonfearn.components.StaticMovementComponent;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 
@@ -21,7 +22,7 @@ public class MapRenderSystem extends IteratingSystem implements Disposable {
     private ZoomSystem zoomSystem;
 
     public MapRenderSystem() {
-        super(Family.one(SpriteComponent.class, MapDrawComponent.class).get());
+        super(Family.all(SpriteComponent.class, MapDrawComponent.class).get());
         batch = new SpriteBatch();
     }
 
@@ -49,7 +50,11 @@ public class MapRenderSystem extends IteratingSystem implements Disposable {
             if(!zoomSystem.isZooming()){
                 map.setAlpha(1f);
             } else {
-                map.setAlpha(zoomSystem.getProgress());
+                if (zoomSystem.getProgress() > 0.5) {
+                    map.setAlpha((float) ((zoomSystem.getProgress() - 0.5) * 2));
+                } else {
+                    map.setAlpha(0f);
+                }
             }
 
             //Draw sprites
@@ -64,6 +69,13 @@ public class MapRenderSystem extends IteratingSystem implements Disposable {
     protected void processEntity(Entity entity, float deltaTime) {
         Array<Sprite> sprites = Components.SPRITE.get(entity).getSprites();
         for (Sprite sprite : sprites) {
+            if (zoomSystem.getProgress() < 0.5) {
+                sprite.setAlpha(zoomSystem.getProgress() * 2);
+            } else {
+                StaticMovementComponent movementComponent = Components.STATIC_MOVEMENT.get(entity);
+                sprite.translate(movementComponent.movement.x,movementComponent.movement.y);
+                sprite.setAlpha((float) (1 - (zoomSystem.getProgress()-0.5)*2));
+            }
             sprite.draw(batch);
         }
     }

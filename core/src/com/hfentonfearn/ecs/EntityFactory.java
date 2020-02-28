@@ -69,13 +69,14 @@ public class EntityFactory {
                 .addToEngine();
     }
 
-    public static void createCloud() {
+    public static void createCloud(Vector2 position, Vector2 movement) {
         Sprite cloudSprite = new Sprite(AssetLoader.clouds.getRandomCloud());
-        cloudSprite.setAlpha(0);
-
-        Entity entity = builder.createEntity(new Vector2(0,0))
+        cloudSprite.setCenter(position.x,position.y);
+        cloudSprite.scale(3);
+        Entity entity = builder.createEntity(position)
                 .sprite(cloudSprite)
                 .type(TypeComponent.CLOUD)
+                .staticMovement(movement)
                 .drawDistance(ZOOM_MAP)
                 .addToEngine();
     }
@@ -198,6 +199,11 @@ public class EntityFactory {
             } else {
                 spriteComp.addSprite(sprite);
             }
+            return this;
+        }
+
+        public EntityBuilder staticMovement(Vector2 movement) {
+            entity.add(new StaticMovementComponent(movement));
             return this;
         }
 

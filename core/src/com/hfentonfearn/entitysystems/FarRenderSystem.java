@@ -30,7 +30,7 @@ public class FarRenderSystem extends IteratingSystem implements Disposable {
     private ZoomSystem zoomSystem;
 
     public FarRenderSystem() {
-        super(Family.one(SpriteComponent.class, FarDrawComponent.class).get());
+        super(Family.all(SpriteComponent.class, FarDrawComponent.class).get());
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         mapRenderer = new CustomTiledMapRenderer(AssetLoader.map.map,this.batch);

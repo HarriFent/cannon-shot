@@ -1,10 +1,16 @@
 package com.hfentonfearn.entitysystems;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.hfentonfearn.components.MapDrawComponent;
+import com.hfentonfearn.components.SpriteComponent;
+import com.hfentonfearn.components.StaticMovementComponent;
 import com.hfentonfearn.ecs.EntityFactory;
 
 public class ZoomSystem extends EntitySystem {
@@ -18,6 +24,7 @@ public class ZoomSystem extends EntitySystem {
     private float zoom;
 
     float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
+    private ImmutableArray<Entity> clouds;
 
     public ZoomSystem() {
         zoom = ZOOM_FAR;
@@ -28,14 +35,20 @@ public class ZoomSystem extends EntitySystem {
         super.addedToEngine(engine);
         camera = engine.getSystem(CameraSystem.class).getCamera();
         zoomTo(zoom,0);
+        clouds = engine.getEntitiesFor(Family.all(StaticMovementComponent.class,SpriteComponent.class, MapDrawComponent.class).get());
     }
 
     @Override
     public void update(float deltaTime) {
         timeToCameraZoomTarget -= deltaTime;
         camera.zoom = Interpolation.fade.apply(cameraZoomOrigin, cameraZoomTarget, getProgress());
+        if (!isZooming()&& clouds.size() > 0){
+            for (Entity e: clouds)
+                getEngine().removeEntity(e);
+        }
         DebugRendererSystem.addDebug("Zooming In: ", isZoomingIn());
         DebugRendererSystem.addDebug("Zooming Out: ", isZoomingOut());
+        DebugRendererSystem.addDebug("Num of Clouds: ", clouds.size());
     }
 
     private void zoomTo (float newZoom, float duration){

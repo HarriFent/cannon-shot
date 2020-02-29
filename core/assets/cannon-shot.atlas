@@ -2,7 +2,7 @@
 cannon-shot.png
 size: 1024,256
 format: RGBA8888
-filter: Nearest,Nearest
+filter: MipMapNearestNearest,MipMapNearestNearest
 repeat: none
 button
   rotate: false
@@ -29,23 +29,23 @@ cannonBall
   index: -1
 cloud1
   rotate: false
-  xy: 510, 130
-  size: 228, 124
-  orig: 228, 124
-  offset: 0, 0
-  index: -1
-cloud2
-  rotate: false
   xy: 270, 119
   size: 238, 135
   orig: 238, 135
   offset: 0, 0
   index: -1
-cloud3
+cloud2
   rotate: false
   xy: 2, 116
   size: 266, 138
   orig: 266, 138
+  offset: 0, 0
+  index: -1
+cloud3
+  rotate: false
+  xy: 510, 130
+  size: 228, 124
+  orig: 228, 124
   offset: 0, 0
   index: -1
 explosion1

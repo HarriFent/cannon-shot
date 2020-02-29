@@ -41,29 +41,39 @@ public class MapRenderSystem extends IteratingSystem implements Disposable {
             float viewHeight = camera.viewportHeight;
 
             //Create map sprite
+            Sprite mapbg = new Sprite(AssetLoader.map.mapBackground);
+            mapbg.setSize(viewWidth,viewHeight);
             Sprite map = new Sprite(AssetLoader.map.mapOverview);
             map.setSize((float) (viewHeight * 0.9), (float) (viewHeight * 0.9));
             map.setOriginCenter();
             map.setOriginBasedPosition(viewWidth/2,viewHeight/2);
 
+
             //Set Map Alpha
             if(!zoomSystem.isZooming()){
                 map.setAlpha(1f);
+                mapbg.setAlpha(1f);
             } else {
                 if (zoomSystem.getProgress() > 0.5) {
-                    map.setAlpha((float) ((zoomSystem.getProgress() - 0.5) * 2));
+                    float alpha = (float) ((zoomSystem.getProgress() - 0.5) * 2);
+                    map.setAlpha(alpha);
+                    mapbg.setAlpha(alpha);
                 } else {
                     map.setAlpha(0f);
+                    mapbg.setAlpha(0f);
                 }
             }
 
             //Draw sprites
             batch.begin();
+            mapbg.draw(batch);
             map.draw(batch);
             super.update(deltaTime);
             batch.end();
         }
     }
+
+
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {

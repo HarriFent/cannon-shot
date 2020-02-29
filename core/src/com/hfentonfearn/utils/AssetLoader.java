@@ -103,12 +103,14 @@ public class AssetLoader implements Disposable {
         public final int width;
         public final int height;
         public final Texture mapOverview;
+        public final Texture mapBackground;
 
         public AssetMap () {
             map = new TmxMapLoader().load(MAP);
             width = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
             height = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);;
             mapOverview = new Texture(Gdx.files.internal("tiledMap/mapView.png"));
+            mapBackground = new Texture(Gdx.files.internal("tiledMap/mapBackground.png"));
         }
     }
 

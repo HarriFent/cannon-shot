@@ -58,32 +58,34 @@ public class ZoomSystem extends EntitySystem {
     }
 
     public void zoomOut() {
-        if (zoom == ZOOM_FAR)
-            zoom = ZOOM_MAP;
-        if (zoom == ZOOM_CLOSE)
-            zoom = ZOOM_FAR;
-        zoomTo(zoom, 2f);
-        for (int i = 0; i < 4; i++) {
-            Vector2 movement = new Vector2(3,0);
-            Vector2 position = new Vector2();
-            float width = camera.viewportWidth;
-            float height = camera.viewportHeight;
-            switch (i) {
-                case 0:
-                    movement.scl(-1);
-                    position = new Vector2(width * 1/4, height * 1/4);
-                    break;
-                case 1:
-                    movement.scl(-1);
-                    position = new Vector2(width * 1/4, height * 3/4);
-                    break;
-                case 2:
-                    position = new Vector2(width * 3/4, height * 1/4);
-                    break;
-                case 3:
-                    position = new Vector2(width * 3/4, height * 3/4);
+        if (zoom != ZOOM_MAP) {
+            if (zoom == ZOOM_FAR)
+                zoom = ZOOM_MAP;
+            if (zoom == ZOOM_CLOSE)
+                zoom = ZOOM_FAR;
+            zoomTo(zoom, 2f);
+            for (int i = 0; i < 4; i++) {
+                Vector2 movement = new Vector2(3, 0);
+                Vector2 position = new Vector2();
+                float width = camera.viewportWidth;
+                float height = camera.viewportHeight;
+                switch (i) {
+                    case 0:
+                        movement.scl(-1);
+                        position = new Vector2(width * 1 / 4, height * 1 / 4);
+                        break;
+                    case 1:
+                        movement.scl(-1);
+                        position = new Vector2(width * 1 / 4, height * 3 / 4);
+                        break;
+                    case 2:
+                        position = new Vector2(width * 3 / 4, height * 1 / 4);
+                        break;
+                    case 3:
+                        position = new Vector2(width * 3 / 4, height * 3 / 4);
+                }
+                EntityFactory.createCloud(position, movement);
             }
-            EntityFactory.createCloud(position, movement);
         }
     }
 

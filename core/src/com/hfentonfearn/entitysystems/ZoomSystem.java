@@ -8,10 +8,10 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
-import com.hfentonfearn.components.MapDrawComponent;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.components.StaticMovementComponent;
 import com.hfentonfearn.ecs.EntityFactory;
+import com.hfentonfearn.utils.Components;
 
 public class ZoomSystem extends EntitySystem {
 
@@ -35,7 +35,7 @@ public class ZoomSystem extends EntitySystem {
         super.addedToEngine(engine);
         camera = engine.getSystem(CameraSystem.class).getCamera();
         zoomTo(zoom,0);
-        clouds = engine.getEntitiesFor(Family.all(StaticMovementComponent.class,SpriteComponent.class, MapDrawComponent.class).get());
+        clouds = engine.getEntitiesFor(Family.all(StaticMovementComponent.class,SpriteComponent.class).get());
     }
 
     @Override
@@ -64,28 +64,8 @@ public class ZoomSystem extends EntitySystem {
             if (zoom == ZOOM_CLOSE)
                 zoom = ZOOM_FAR;
             zoomTo(zoom, 2f);
-            for (int i = 0; i < 4; i++) {
-                Vector2 movement = new Vector2(3, 0);
-                Vector2 position = new Vector2();
-                float width = camera.viewportWidth;
-                float height = camera.viewportHeight;
-                switch (i) {
-                    case 0:
-                        movement.scl(-1);
-                        position = new Vector2(width * 1 / 4, height * 1 / 4);
-                        break;
-                    case 1:
-                        movement.scl(-1);
-                        position = new Vector2(width * 1 / 4, height * 3 / 4);
-                        break;
-                    case 2:
-                        position = new Vector2(width * 3 / 4, height * 1 / 4);
-                        break;
-                    case 3:
-                        position = new Vector2(width * 3 / 4, height * 3 / 4);
-                }
-                EntityFactory.createCloud(position, movement);
-            }
+            createClouds(new Vector2(3, 0),
+                    new Vector2(0,camera.viewportHeight * 1 / 4));
         }
     }
 
@@ -95,6 +75,29 @@ public class ZoomSystem extends EntitySystem {
         if (zoom == ZOOM_MAP)
             zoom = ZOOM_FAR;
         zoomTo(zoom, 2f);
+        createClouds(new Vector2(-3, 0),
+                new Vector2(camera.viewportWidth * 1 / 4,camera.viewportHeight * 1 / 4));
+    }
+
+    private void createClouds(Vector2 movement, Vector2 position) {
+        for (int i = 0; i < 4; i++) {
+            Vector2 newMovement = movement.cpy();
+            Vector2 newPosition = position.cpy();
+            switch (i) {
+                case 1:
+                    newPosition.scl(new Vector2(1,3));
+                    break;
+                case 2:
+                    newMovement.scl(-1);
+                    newPosition.set(camera.viewportWidth - newPosition.x,newPosition.y);
+                    break;
+                case 3:
+                    newMovement.scl(-1);
+                    newPosition.set(camera.viewportWidth - newPosition.x,newPosition.y * 3);
+                default:
+            }
+            Entity cloud = EntityFactory.createCloud(newPosition, newMovement);
+        }
     }
 
     public float getProgress() {
@@ -102,7 +105,7 @@ public class ZoomSystem extends EntitySystem {
     }
 
     public boolean isZooming() {
-        return getProgress() < 1;
+        return getProgress() < 1 && getProgress() > 0;
     }
 
     public boolean isZoomingIn() {

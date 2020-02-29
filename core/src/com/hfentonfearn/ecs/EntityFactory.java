@@ -69,16 +69,17 @@ public class EntityFactory {
                 .addToEngine();
     }
 
-    public static void createCloud(Vector2 position, Vector2 movement) {
+    public static Entity createCloud(Vector2 position, Vector2 movement) {
         Sprite cloudSprite = new Sprite(AssetLoader.clouds.getRandomCloud());
         cloudSprite.setCenter(position.x,position.y);
-        cloudSprite.scale(3);
+        cloudSprite.setScale(3);
         Entity entity = builder.createEntity(position)
                 .sprite(cloudSprite)
                 .type(TypeComponent.CLOUD)
                 .staticMovement(movement)
                 .drawDistance(ZOOM_MAP)
                 .addToEngine();
+        return entity;
     }
 
     /**

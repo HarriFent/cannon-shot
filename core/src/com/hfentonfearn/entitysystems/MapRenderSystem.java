@@ -35,7 +35,7 @@ public class MapRenderSystem extends IteratingSystem implements Disposable {
 
     @Override
     public void update (float deltaTime) {
-        if (zoomSystem.getZoom() == ZoomSystem.ZOOM_MAP) {
+        if (zoomSystem.getZoom() == ZoomSystem.ZOOM_MAP || (zoomSystem.isZoomingIn() && zoomSystem.getZoom() == ZoomSystem.ZOOM_FAR)) {
             OrthographicCamera camera = cameraSystem.getCamera();
             float viewWidth = camera.viewportWidth;
             float viewHeight = camera.viewportHeight;
@@ -50,19 +50,24 @@ public class MapRenderSystem extends IteratingSystem implements Disposable {
 
 
             //Set Map Alpha
-            if(!zoomSystem.isZooming()){
-                map.setAlpha(1f);
-                mapbg.setAlpha(1f);
-            } else {
-                if (zoomSystem.getProgress() > 0.5) {
-                    float alpha = (float) ((zoomSystem.getProgress() - 0.5) * 2);
-                    map.setAlpha(alpha);
-                    mapbg.setAlpha(alpha);
-                } else {
-                    map.setAlpha(0f);
-                    mapbg.setAlpha(0f);
+            float alpha = zoomSystem.getZoom() == ZoomSystem.ZOOM_MAP ? 1 : 0;
+            if(zoomSystem.isZooming()) {
+                if (zoomSystem.isZoomingIn()){
+                    if (zoomSystem.getProgress() > 0.5) {
+                        alpha = 0;
+                    } else {
+                        alpha = (1 -zoomSystem.getProgress()) * 2;
+                    }
+                }else {
+                    if (zoomSystem.getProgress() > 0.5) {
+                        alpha = (float) ((zoomSystem.getProgress() - 0.5) * 2);
+                    } else {
+                        alpha = 0;
+                    }
                 }
             }
+            map.setAlpha(alpha);
+            mapbg.setAlpha(alpha);
 
             //Draw sprites
             batch.begin();
@@ -73,18 +78,26 @@ public class MapRenderSystem extends IteratingSystem implements Disposable {
         }
     }
 
-
-
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         Array<Sprite> sprites = Components.SPRITE.get(entity).getSprites();
         for (Sprite sprite : sprites) {
-            if (zoomSystem.getProgress() < 0.5) {
-                sprite.setAlpha(zoomSystem.getProgress() * 2);
-            } else {
-                StaticMovementComponent movementComponent = Components.STATIC_MOVEMENT.get(entity);
-                sprite.translate(movementComponent.movement.x,movementComponent.movement.y);
-                sprite.setAlpha((float) (1 - (zoomSystem.getProgress()-0.5)*2));
+            if (zoomSystem.isZoomingIn()) {
+                if (zoomSystem.getProgress() < 0.5) {
+                    sprite.setAlpha(zoomSystem.getProgress() * 2);
+                } else {
+                    StaticMovementComponent movementComponent = Components.STATIC_MOVEMENT.get(entity);
+                    sprite.translate(movementComponent.movement.x, movementComponent.movement.y);
+                    sprite.setAlpha((float) (1 - (zoomSystem.getProgress() - 0.5) * 2));
+                }
+            } else if (zoomSystem.isZoomingOut()) {
+                if (zoomSystem.getProgress() < 0.5) {
+                    StaticMovementComponent movementComponent = Components.STATIC_MOVEMENT.get(entity);
+                    sprite.translate(movementComponent.movement.x, movementComponent.movement.y);
+                    sprite.setAlpha(zoomSystem.getProgress() * 2);
+                } else {
+                    sprite.setAlpha((float) (1 - (zoomSystem.getProgress() - 0.5) * 2));
+                }
             }
             sprite.draw(batch);
         }

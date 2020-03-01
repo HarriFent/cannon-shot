@@ -54,6 +54,7 @@ public class MapRenderSystem extends IteratingSystem implements Disposable {
             map.setCenter(viewWidth/2,viewHeight/2);
 
             Sprite cross = new Sprite(AssetLoader.minimap.cross);
+            cross.setScale(0.5f);
             for (Entity player : players) {
                 Vector2 pos = Components.PHYSICS.get(player).getPosition();
                 pos = positionToMiniMap(pos.cpy(), map.getX(), map.getY(),(float) (viewHeight * 0.9), (float) (viewHeight * 0.9));

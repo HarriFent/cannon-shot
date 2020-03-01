@@ -29,9 +29,19 @@ public class SpriteComponent implements Component, Poolable {
         return this;
     }
 
+    public SpriteComponent init(Sprite sprite) {
+        sprites = new Array<>();
+        sprites.add(sprite);
+        return this;
+    }
+
     public void addSprite(TextureRegion region, float x, float y, float width, float height) {
         Sprite sprite = createSprite(region,x,y,width,height);
         sprite.setOriginCenter();
+        sprites.add(sprite);
+    }
+
+    public void addSprite(Sprite sprite) {
         sprites.add(sprite);
     }
 

@@ -17,9 +17,10 @@ public class WorldBuilder {
     }
 
     public void createWorld() {
+        //EntityFactory.createPlayer(new Vector2(500,5800));
         EntityFactory.createPlayer(new Vector2(500,500));
 
-        MapLayer layer = AssetLoader.map.map.getLayers().get("collision");
+        MapLayer layer = AssetLoader.map.tiledMap.getLayers().get("collision");
         for (MapObject object : layer.getObjects()) {
             switch (object.getProperties().get("type", String.class)) {
                 case "ground":

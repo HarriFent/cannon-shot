@@ -3,6 +3,7 @@ package com.hfentonfearn.screens;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.math.Vector2;
 import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.ecs.EntityManager;
@@ -10,6 +11,7 @@ import com.hfentonfearn.entitysystems.CameraSystem;
 import com.hfentonfearn.entitysystems.GUISystem;
 import com.hfentonfearn.entitysystems.InputSystem;
 import com.hfentonfearn.utils.AssetLoader;
+import com.hfentonfearn.utils.Components;
 import com.hfentonfearn.utils.WorldBuilder;
 
 public class GameScreen extends AbstractScreen {
@@ -33,8 +35,10 @@ public class GameScreen extends AbstractScreen {
         WorldBuilder worldBuilder = new WorldBuilder(width, height);
         worldBuilder.createWorld();
         Entity player = engine.getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
+        Vector2 playerpos = Components.PHYSICS.get(player).getPosition();
         engine.getSystem(CameraSystem.class).setTargetEntity(player);
         engine.getSystem(CameraSystem.class).setWorldBounds(width, height);
+        engine.getSystem(CameraSystem.class).goTo(playerpos.x, playerpos.y);
         engine.getSystem(CameraSystem.class).zoom(0.5f);
     }
 

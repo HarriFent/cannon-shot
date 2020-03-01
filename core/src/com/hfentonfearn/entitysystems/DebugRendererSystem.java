@@ -43,7 +43,7 @@ public class DebugRendererSystem extends EntitySystem {
     public void addedToEngine (Engine engine) {
         cameraSystem = engine.getSystem(CameraSystem.class);
         physicsSystem = engine.getSystem(PhysicsSystem.class);
-        renderEntities = engine.getEntitiesFor(Family.all(SpriteComponent.class).get());
+        renderEntities = engine.getEntitiesFor(Family.all(SpriteComponent.class, PhysicsComponent.class).get());
     }
 
     public void update(float deltaTime) {
@@ -66,8 +66,6 @@ public class DebugRendererSystem extends EntitySystem {
                 PhysicsComponent physics = Components.PHYSICS.get(e);
                 debugRenderer.circle(physics.getPosition().x, physics.getPosition().y, 5);
             }
-            debugRenderer.setColor(Color.BLUE);
-            debugRenderer.circle(500, 500, 5);
             debugRenderer.end();
 
             //Debug Overlay HUD

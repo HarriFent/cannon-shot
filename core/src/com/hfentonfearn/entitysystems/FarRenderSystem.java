@@ -12,13 +12,14 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.hfentonfearn.components.FarDrawComponent;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 import com.hfentonfearn.utils.CustomTiledMapRenderer;
 
-public class EntityRenderSystem extends IteratingSystem implements Disposable {
+public class FarRenderSystem extends IteratingSystem implements Disposable {
 
     private static final int spriteRotationOffset = -0;
     private final CustomTiledMapRenderer mapRenderer;
@@ -26,32 +27,37 @@ public class EntityRenderSystem extends IteratingSystem implements Disposable {
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
     private CameraSystem cameraSystem;
+    private ZoomSystem zoomSystem;
 
-    public EntityRenderSystem() {
-        super(Family.one(SpriteComponent.class).get());
-
+    public FarRenderSystem() {
+        super(Family.all(SpriteComponent.class, FarDrawComponent.class).get());
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        mapRenderer = new CustomTiledMapRenderer(AssetLoader.map.map,this.batch);
+        mapRenderer = new CustomTiledMapRenderer(AssetLoader.map.tiledMap,this.batch);
     }
 
     @Override
     public void addedToEngine (Engine engine) {
         super.addedToEngine(engine);
         cameraSystem = engine.getSystem(CameraSystem.class);
+        zoomSystem = engine.getSystem(ZoomSystem.class);
     }
 
     @Override
     public void update (float deltaTime) {
-        mapRenderer.setView(cameraSystem.getCamera());
-        mapRenderer.render();
-        batch.setProjectionMatrix(cameraSystem.getCamera().combined);
-        batch.begin();
-        shapeRenderer.setProjectionMatrix(cameraSystem.getCamera().combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        super.update(deltaTime);
-        batch.end();
-        shapeRenderer.end();
+        if (zoomSystem.isZooming() || zoomSystem.getZoom() == ZoomSystem.ZOOM_FAR) {
+            //Render Tiled Map
+            mapRenderer.setView(cameraSystem.getCamera());
+            mapRenderer.render();
+
+            batch.setProjectionMatrix(cameraSystem.getCamera().combined);
+            batch.begin();
+            shapeRenderer.setProjectionMatrix(cameraSystem.getCamera().combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            super.update(deltaTime);
+            batch.end();
+            shapeRenderer.end();
+        }
     }
 
     @Override
@@ -69,7 +75,7 @@ public class EntityRenderSystem extends IteratingSystem implements Disposable {
             }
             sprite.draw(batch);
         }
-        //Render health bar and stuff
+        //Render health bar and stuff with the shapeRenderer
     }
 
     @Override

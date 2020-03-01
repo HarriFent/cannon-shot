@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 public class AssetLoader implements Disposable {
@@ -32,9 +32,10 @@ public class AssetLoader implements Disposable {
     public static AssetHotkey hotkey;
     public static AssetFonts fonts;
     public static AssetMap map;
+    public static AssetMiniMap minimap;
     public static AssetsUI ui;
     public static AssetPlayerShip playerShip;
-    public static AssetProjectile projectile;
+    public static AssetCloud clouds;
 
     public static Skin skin;
 
@@ -48,12 +49,13 @@ public class AssetLoader implements Disposable {
         TextureAtlas atlas = manager.get(TEXTURE_ATLAS_OBJECTS);
 
         skin = manager.get(SKIN);
-        projectile = new AssetProjectile(atlas);
         hotkey = new AssetHotkey(atlas);
         fonts = new AssetFonts(skin);
         map = new AssetMap();
+        minimap = new AssetMiniMap();
         playerShip = new AssetPlayerShip(atlas);
         ui = new AssetsUI();
+        clouds = new AssetCloud(atlas);
     }
 
     @Override
@@ -97,16 +99,28 @@ public class AssetLoader implements Disposable {
         }
     }
 
+    public static class AssetMiniMap {
+        public final Texture mapOverview;
+        public final Texture mapBackground;
+        public final Texture cross;
+
+        public AssetMiniMap() {
+            mapOverview = new Texture(Gdx.files.internal("tiledMap/mapView.png"));
+            mapBackground = new Texture(Gdx.files.internal("tiledMap/mapBackground.png"));
+            cross = new Texture(Gdx.files.internal("tiledMap/cross.png"));
+        }
+    }
+
     public static class AssetMap {
 
-        public final TiledMap map;
-        public int width;
-        public int height;
+        public final TiledMap tiledMap;
+        public final int width;
+        public final int height;
 
         public AssetMap () {
-            map = new TmxMapLoader().load(MAP);
-            width = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
-            height = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);;
+            tiledMap = new TmxMapLoader().load(MAP);
+            width = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
+            height = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
         }
     }
 
@@ -118,12 +132,18 @@ public class AssetLoader implements Disposable {
         }
     }
 
-    public static class AssetProjectile {
-        public final Array<AtlasRegion> projectiles;
+    public static class AssetCloud {
+        public final AtlasRegion[] clouds;
 
-        public AssetProjectile (TextureAtlas atlas) {
-            projectiles = atlas.findRegions("projectile");
+        public AssetCloud (TextureAtlas atlas) {
+            clouds = new AtlasRegion[3];
+            clouds[0] = atlas.findRegion("cloud1");
+            clouds[1] = atlas.findRegion("cloud2");
+            clouds[2] = atlas.findRegion("cloud3");
+        }
+
+        public AtlasRegion getRandomCloud() {
+            return clouds[MathUtils.random(2)];
         }
     }
-
 }

@@ -31,4 +31,8 @@ public class Constants {
     public static final float DAMPING_ANGULAR = 2f;
     public static final float DAMPING_LINEAR = 0.5f;
 
+    //Shooting Constants
+    public static final float CANNONBALL_DYING_VELOCITY = 1f;
+
+
 }

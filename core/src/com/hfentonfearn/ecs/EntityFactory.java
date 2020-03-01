@@ -39,13 +39,13 @@ public class EntityFactory {
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .bodyLoader(AssetLoader.playerShip.loader,1)
                 .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
-                .velocity(0,0)
                 .sprite(AssetLoader.playerShip.ship)
                 .sprite(AssetLoader.playerShip.sail)
                 .type(TypeComponent.PLAYER)
                 .drawDistance(ZOOM_FAR)
                 .getWithoutAdding();
         entity.add(new PlayerComponent());
+        entity.add(new VelocityComponent());
         engine.addEntity(entity);
     }
 
@@ -78,6 +78,19 @@ public class EntityFactory {
                 .type(TypeComponent.CLOUD)
                 .staticMovement(movement)
                 .drawDistance(ZOOM_MAP)
+                .addToEngine();
+        return entity;
+    }
+
+    public static Entity createCannonBall(Vector2 position, Vector2 linearVel) {
+        Entity entity = builder.createEntity(position)
+                .sprite(AssetLoader.projectiles.cannonBall)
+                .physicsBody(BodyDef.BodyType.DynamicBody)
+                .circleCollider(0.05f,3f)
+                .velocity(linearVel)
+                .damping(0f,1)
+                .type(TypeComponent.CANNONBALL)
+                .drawDistance(ZOOM_FAR)
                 .addToEngine();
         return entity;
     }
@@ -124,11 +137,11 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder velocity (float angular, float linear) {
-            VelocityComponent velocity = new VelocityComponent();
-            velocity.angularVelocity = angular;
-            velocity.linearVelocity = linear;
-            entity.add(velocity);
+        public EntityBuilder velocity (Vector2 linear) {
+            if (Components.PHYSICS.has(entity)) {
+                PhysicsComponent physics = Components.PHYSICS.get(entity);
+                physics.getBody().setLinearVelocity(linear);
+            }
             return this;
         }
 
@@ -208,10 +221,7 @@ public class EntityFactory {
             return this;
         }
 
-        /**
-         * Circle Collider, Circle Sensor and Range Sensor
-         */
-        /*public EntityBuilder circleCollider (float radius, float density) {
+        public EntityBuilder circleCollider (float radius, float density) {
             CircleShape shape = new CircleShape();
             shape.setRadius(radius);
             PhysicsComponent physics = Components.PHYSICS.get(entity);
@@ -222,7 +232,10 @@ public class EntityFactory {
             physics.getBody().createFixture(shape, density);
             return this;
         }
-
+        /**
+         *  Circle Sensor and Range Sensor
+         */
+        /*
         public EntityBuilder circleSensor (float radius) {
             CircleShape shape = new CircleShape();
             shape.setRadius(radius);

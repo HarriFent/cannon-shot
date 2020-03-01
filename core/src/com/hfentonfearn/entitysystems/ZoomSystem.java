@@ -42,13 +42,10 @@ public class ZoomSystem extends EntitySystem {
     public void update(float deltaTime) {
         timeToCameraZoomTarget -= deltaTime;
         camera.zoom = Interpolation.fade.apply(cameraZoomOrigin, cameraZoomTarget, getProgress());
-        if (!isZooming()&& clouds.size() > 0){
+        if (!isZooming() && clouds.size() > 0){
             for (Entity e: clouds)
                 getEngine().removeEntity(e);
         }
-        DebugRendererSystem.addDebug("Zooming In: ", isZoomingIn());
-        DebugRendererSystem.addDebug("Zooming Out: ", isZoomingOut());
-        DebugRendererSystem.addDebug("Num of Clouds: ", clouds.size());
     }
 
     private void zoomTo (float newZoom, float duration){

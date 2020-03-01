@@ -36,6 +36,7 @@ public class AssetLoader implements Disposable {
     public static AssetsUI ui;
     public static AssetPlayerShip playerShip;
     public static AssetCloud clouds;
+    public static AssetProjectiles projectiles;
 
     public static Skin skin;
 
@@ -56,6 +57,7 @@ public class AssetLoader implements Disposable {
         playerShip = new AssetPlayerShip(atlas);
         ui = new AssetsUI();
         clouds = new AssetCloud(atlas);
+        projectiles = new AssetProjectiles(atlas);
     }
 
     @Override
@@ -144,6 +146,14 @@ public class AssetLoader implements Disposable {
 
         public AtlasRegion getRandomCloud() {
             return clouds[MathUtils.random(2)];
+        }
+    }
+
+    public static class AssetProjectiles {
+        public final AtlasRegion cannonBall;
+
+        public AssetProjectiles (TextureAtlas atlas) {
+            cannonBall = atlas.findRegion("cannonBall");
         }
     }
 }

@@ -3,6 +3,7 @@ package com.hfentonfearn.ecs;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
@@ -90,6 +91,15 @@ public class EntityFactory {
                 .velocity(linearVel)
                 .damping(0f,1)
                 .type(TypeComponent.CANNONBALL)
+                .drawDistance(ZOOM_FAR)
+                .addToEngine();
+        return entity;
+    }
+
+    public static Entity createCannonBallSplash(Vector2 position) {
+        Entity entity = builder.createEntity(position)
+                .animation(AssetLoader.effects.cannonSplash)
+                .physicsBody(BodyDef.BodyType.DynamicBody)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
         return entity;
@@ -213,6 +223,11 @@ public class EntityFactory {
             } else {
                 spriteComp.addSprite(sprite);
             }
+            return this;
+        }
+
+        public EntityBuilder animation (Animation<TextureRegion> animation) {
+            entity.add(new AnimationComponent(animation));
             return this;
         }
 

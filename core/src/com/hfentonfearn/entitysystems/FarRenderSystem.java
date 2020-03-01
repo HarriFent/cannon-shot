@@ -7,11 +7,13 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.hfentonfearn.components.AnimationComponent;
 import com.hfentonfearn.components.FarDrawComponent;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.SpriteComponent;
@@ -30,7 +32,7 @@ public class FarRenderSystem extends IteratingSystem implements Disposable {
     private ZoomSystem zoomSystem;
 
     public FarRenderSystem() {
-        super(Family.all(SpriteComponent.class, FarDrawComponent.class).get());
+        super(Family.all(FarDrawComponent.class).one(SpriteComponent.class, AnimationComponent.class).get());
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         mapRenderer = new CustomTiledMapRenderer(AssetLoader.map.tiledMap,this.batch);
@@ -62,18 +64,28 @@ public class FarRenderSystem extends IteratingSystem implements Disposable {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        Array<Sprite> sprites = Components.SPRITE.get(entity).getSprites();
         OrthographicCamera camera = cameraSystem.getCamera();
         batch.setProjectionMatrix(camera.combined);
-
-        for (Sprite sprite : sprites) {
+        if (Components.SPRITE.has(entity)) {
+            Array<Sprite> sprites = Components.SPRITE.get(entity).getSprites();
+            for (Sprite sprite : sprites) {
+                if (Components.PHYSICS.has(entity)) {
+                    PhysicsComponent physics = Components.PHYSICS.get(entity);
+                    Vector2 pos = physics.getPosition();
+                    sprite.setCenter(pos.x, pos.y);
+                    sprite.setRotation((MathUtils.radiansToDegrees * physics.getBody().getAngle()) + spriteRotationOffset);
+                }
+                sprite.draw(batch);
+            }
+        } else if (Components.ANIMATION.has(entity)) {
+            AnimationComponent ani = Components.ANIMATION.get(entity);
+            ani.stateTime += deltaTime;
             if (Components.PHYSICS.has(entity)) {
                 PhysicsComponent physics = Components.PHYSICS.get(entity);
                 Vector2 pos = physics.getPosition();
-                sprite.setCenter(pos.x, pos.y);
-                sprite.setRotation((MathUtils.radiansToDegrees * physics.getBody().getAngle()) + spriteRotationOffset);
+                TextureRegion currentFrame = ani.animation.getKeyFrame(ani.stateTime, false);
+                batch.draw(currentFrame, pos.x - currentFrame.getRegionWidth()/2, pos.y - currentFrame.getRegionHeight()/2);
             }
-            sprite.draw(batch);
         }
         //Render health bar and stuff with the shapeRenderer
     }

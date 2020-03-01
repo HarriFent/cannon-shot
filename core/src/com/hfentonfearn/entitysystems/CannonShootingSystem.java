@@ -7,8 +7,8 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
+import com.hfentonfearn.components.AnimationComponent;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.ecs.EntityFactory;
@@ -24,6 +24,7 @@ public class CannonShootingSystem extends EntitySystem {
     private int timer = 0;
     private ImmutableArray<Entity> players;
     private Array<Entity> ballArray = new Array<>();
+    private Array<Entity> splashArray = new Array<>();
 
     @Override
     public void addedToEngine (Engine engine) {
@@ -43,18 +44,25 @@ public class CannonShootingSystem extends EntitySystem {
                     physics.getPosition(),
                     physics.getBody().getAngle(),
                     dir);
-            Entity cannonBall = EntityFactory.createCannonBall(cannonBallPos, dir.nor().scl(5));
-            ballArray.add(cannonBall);
+            ballArray.add(EntityFactory.createCannonBall(cannonBallPos, dir.nor().scl(5)));
             timer = 100;
         }
         if (timer > 0) timer--;
         for (Entity e: ballArray) {
             PhysicsComponent physics = Components.PHYSICS.get(e);
             if (physics.getBody().getLinearVelocity().len() < CANNONBALL_DYING_VELOCITY) {
-                Body b = Components.PHYSICS.get(e).getBody();
-                getEngine().getSystem(PhysicsSystem.class).destroyBody(b);
+                splashArray.add(EntityFactory.createCannonBallSplash(physics.getPosition()));
+                getEngine().getSystem(PhysicsSystem.class).destroyBody(physics.getBody());
                 getEngine().removeEntity(e);
                 ballArray.removeValue(e,false);
+            }
+        }
+        for (Entity e : splashArray) {
+            AnimationComponent ani = Components.ANIMATION.get(e);
+            if (ani.animation.isAnimationFinished(ani.stateTime)) {
+                getEngine().getSystem(PhysicsSystem.class).destroyBody(Components.PHYSICS.get(e).getBody());
+                getEngine().removeEntity(e);
+                splashArray.removeValue(e,false);
             }
         }
     }

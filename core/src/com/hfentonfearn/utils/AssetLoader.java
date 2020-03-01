@@ -1,0 +1,149 @@
+package com.hfentonfearn.utils;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Disposable;
+
+public class AssetLoader implements Disposable {
+
+    public static AssetManager manager;
+
+    public static AssetManager getManager () {
+        if (manager == null) {
+            manager = new AssetManager();
+        }
+        return manager;
+    }
+
+    public static final String TEXTURE_ATLAS_OBJECTS = "cannon-shot.atlas";
+    public static final String SKIN = "skin/level-plane-ui.json";
+    public static final String MAP = "tiledMap/world1.tmx";
+
+    public static AssetHotkey hotkey;
+    public static AssetFonts fonts;
+    public static AssetMap map;
+    public static AssetMiniMap minimap;
+    public static AssetsUI ui;
+    public static AssetPlayerShip playerShip;
+    public static AssetCloud clouds;
+
+    public static Skin skin;
+
+    public static void load () {
+        getManager(); // Insure the manager exists
+        manager.load(TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
+        manager.load(SKIN, Skin.class);
+    }
+
+    public static void create () {
+        TextureAtlas atlas = manager.get(TEXTURE_ATLAS_OBJECTS);
+
+        skin = manager.get(SKIN);
+        hotkey = new AssetHotkey(atlas);
+        fonts = new AssetFonts(skin);
+        map = new AssetMap();
+        minimap = new AssetMiniMap();
+        playerShip = new AssetPlayerShip(atlas);
+        ui = new AssetsUI();
+        clouds = new AssetCloud(atlas);
+    }
+
+    @Override
+    public void dispose () {
+        manager.dispose();
+    }
+
+    public static class AssetPlayerShip {
+        public final AtlasRegion ship;
+        public final AtlasRegion sail;
+        public BodyEditorLoader loader;
+
+        public AssetPlayerShip(TextureAtlas atlas) {
+            //ships = atlas.findRegions("ship");
+            ship = atlas.findRegion("hullLarge");
+            sail = atlas.findRegion("sailWhite");
+        }
+
+        public void loadLoader() {
+            loader = new BodyEditorLoader(Gdx.files.internal("objects/ships/playerShip.json"));
+        }
+    }
+
+    public static class AssetFonts {
+
+        public final BitmapFont font;
+
+        public AssetFonts (Skin skin) {
+            TextureRegion region = skin.getAtlas().findRegion("font-export");
+            font = new BitmapFont(Gdx.files.internal("skin/font-export.fnt"), region);
+        }
+
+    }
+
+    public static class AssetsUI {
+
+        public Texture mainMenu;
+
+        public AssetsUI () {
+            mainMenu = new Texture(Gdx.files.internal("ui/MainMenu.png"));
+        }
+    }
+
+    public static class AssetMiniMap {
+        public final Texture mapOverview;
+        public final Texture mapBackground;
+        public final Texture cross;
+
+        public AssetMiniMap() {
+            mapOverview = new Texture(Gdx.files.internal("tiledMap/mapView.png"));
+            mapBackground = new Texture(Gdx.files.internal("tiledMap/mapBackground.png"));
+            cross = new Texture(Gdx.files.internal("tiledMap/cross.png"));
+        }
+    }
+
+    public static class AssetMap {
+
+        public final TiledMap tiledMap;
+        public final int width;
+        public final int height;
+
+        public AssetMap () {
+            tiledMap = new TmxMapLoader().load(MAP);
+            width = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
+            height = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
+        }
+    }
+
+    public static class AssetHotkey {
+        public final NinePatch button;
+
+        public AssetHotkey (TextureAtlas atlas) {
+            button = atlas.createPatch("button");
+        }
+    }
+
+    public static class AssetCloud {
+        public final AtlasRegion[] clouds;
+
+        public AssetCloud (TextureAtlas atlas) {
+            clouds = new AtlasRegion[3];
+            clouds[0] = atlas.findRegion("cloud1");
+            clouds[1] = atlas.findRegion("cloud2");
+            clouds[2] = atlas.findRegion("cloud3");
+        }
+
+        public AtlasRegion getRandomCloud() {
+            return clouds[MathUtils.random(2)];
+        }
+    }
+}

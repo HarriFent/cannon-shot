@@ -3,11 +3,8 @@ package com.hfentonfearn.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.MathUtils;
@@ -36,6 +33,8 @@ public class AssetLoader implements Disposable {
     public static AssetsUI ui;
     public static AssetPlayerShip playerShip;
     public static AssetCloud clouds;
+    public static AssetProjectiles projectiles;
+    public static AssetEffects effects;
 
     public static Skin skin;
 
@@ -56,6 +55,8 @@ public class AssetLoader implements Disposable {
         playerShip = new AssetPlayerShip(atlas);
         ui = new AssetsUI();
         clouds = new AssetCloud(atlas);
+        projectiles = new AssetProjectiles(atlas);
+        effects = new AssetEffects();
     }
 
     @Override
@@ -145,5 +146,33 @@ public class AssetLoader implements Disposable {
         public AtlasRegion getRandomCloud() {
             return clouds[MathUtils.random(2)];
         }
+    }
+
+    public static class AssetProjectiles {
+        public final AtlasRegion cannonBall;
+
+        public AssetProjectiles (TextureAtlas atlas) {
+            cannonBall = atlas.findRegion("cannonBall");
+        }
+    }
+
+    public static class AssetEffects {
+        public final Animation<TextureRegion> cannonSplash;
+
+        public AssetEffects() {
+            cannonSplash = getAnimationFromSheet(new Texture(Gdx.files.internal("piratepack/waterSplash.png")),0.06f, 4,1);
+        }
+    }
+
+    private static Animation<TextureRegion> getAnimationFromSheet(Texture spriteSheet, float fps, int cols, int rows) {
+        TextureRegion[][] tmp = TextureRegion.split(spriteSheet,spriteSheet.getWidth() / cols,spriteSheet.getHeight() / rows);
+        TextureRegion[] frames = new TextureRegion[cols * rows];
+        int index = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                frames[index++] = tmp[i][j];
+            }
+        }
+        return new Animation<>(fps, frames);
     }
 }

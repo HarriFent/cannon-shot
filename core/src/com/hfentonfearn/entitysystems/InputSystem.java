@@ -24,6 +24,7 @@ public class InputSystem extends EntitySystem implements InputProcessor {
 
     private InputMultiplexer multiplexer;
     private GUISystem guiSystem;
+    private CannonShootingSystem cannonShootingSystem;
     private ImmutableArray<Entity> players;
     private Entity player;
 
@@ -34,6 +35,7 @@ public class InputSystem extends EntitySystem implements InputProcessor {
     @Override
     public void addedToEngine (Engine engine) {
         super.addedToEngine(engine);
+        cannonShootingSystem = engine.getSystem(CannonShootingSystem.class);
         players = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
         initalizeInput();
     }
@@ -140,21 +142,25 @@ public class InputSystem extends EntitySystem implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        cannonShootingSystem.setMouseDown(true);
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        cannonShootingSystem.setMouseDown(false);
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        cannonShootingSystem.setMousePos(screenX,screenY);
         return false;
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        cannonShootingSystem.setMousePos(screenX,screenY);
         return false;
     }
 

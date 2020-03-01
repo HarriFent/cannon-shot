@@ -8,10 +8,10 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.components.StaticMovementComponent;
 import com.hfentonfearn.ecs.EntityFactory;
-import com.hfentonfearn.utils.Components;
 
 public class ZoomSystem extends EntitySystem {
 
@@ -59,8 +59,10 @@ public class ZoomSystem extends EntitySystem {
 
     public void zoomOut() {
         if (zoom != ZOOM_MAP) {
-            if (zoom == ZOOM_FAR)
+            if (zoom == ZOOM_FAR) {
                 zoom = ZOOM_MAP;
+                GameManager.pause();
+            }
             if (zoom == ZOOM_CLOSE)
                 zoom = ZOOM_FAR;
             zoomTo(zoom, 2f);
@@ -72,8 +74,10 @@ public class ZoomSystem extends EntitySystem {
     public void zoomIn() {
         if (zoom == ZOOM_FAR)
             zoom = ZOOM_CLOSE;
-        if (zoom == ZOOM_MAP)
+        if (zoom == ZOOM_MAP) {
             zoom = ZOOM_FAR;
+            GameManager.resume();
+        }
         zoomTo(zoom, 2f);
         createClouds(new Vector2(-3, 0),
                 new Vector2(camera.viewportWidth * 1 / 4,camera.viewportHeight * 1 / 4));

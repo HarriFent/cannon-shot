@@ -33,7 +33,7 @@ public class FarRenderSystem extends IteratingSystem implements Disposable {
         super(Family.all(SpriteComponent.class, FarDrawComponent.class).get());
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        mapRenderer = new CustomTiledMapRenderer(AssetLoader.map.map,this.batch);
+        mapRenderer = new CustomTiledMapRenderer(AssetLoader.map.tiledMap,this.batch);
     }
 
     @Override

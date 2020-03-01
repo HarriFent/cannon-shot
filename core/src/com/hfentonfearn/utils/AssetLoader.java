@@ -32,6 +32,7 @@ public class AssetLoader implements Disposable {
     public static AssetHotkey hotkey;
     public static AssetFonts fonts;
     public static AssetMap map;
+    public static AssetMiniMap minimap;
     public static AssetsUI ui;
     public static AssetPlayerShip playerShip;
     public static AssetCloud clouds;
@@ -51,6 +52,7 @@ public class AssetLoader implements Disposable {
         hotkey = new AssetHotkey(atlas);
         fonts = new AssetFonts(skin);
         map = new AssetMap();
+        minimap = new AssetMiniMap();
         playerShip = new AssetPlayerShip(atlas);
         ui = new AssetsUI();
         clouds = new AssetCloud(atlas);
@@ -97,20 +99,28 @@ public class AssetLoader implements Disposable {
         }
     }
 
-    public static class AssetMap {
-
-        public final TiledMap map;
-        public final int width;
-        public final int height;
+    public static class AssetMiniMap {
         public final Texture mapOverview;
         public final Texture mapBackground;
+        public final Texture cross;
 
-        public AssetMap () {
-            map = new TmxMapLoader().load(MAP);
-            width = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
-            height = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);;
+        public AssetMiniMap() {
             mapOverview = new Texture(Gdx.files.internal("tiledMap/mapView.png"));
             mapBackground = new Texture(Gdx.files.internal("tiledMap/mapBackground.png"));
+            cross = new Texture(Gdx.files.internal("tiledMap/cross.png"));
+        }
+    }
+
+    public static class AssetMap {
+
+        public final TiledMap tiledMap;
+        public final int width;
+        public final int height;
+
+        public AssetMap () {
+            tiledMap = new TmxMapLoader().load(MAP);
+            width = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
+            height = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
         }
     }
 

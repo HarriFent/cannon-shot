@@ -66,8 +66,6 @@ public class DebugRendererSystem extends EntitySystem {
                 PhysicsComponent physics = Components.PHYSICS.get(e);
                 debugRenderer.circle(physics.getPosition().x, physics.getPosition().y, 5);
             }
-            debugRenderer.setColor(Color.BLUE);
-            debugRenderer.circle(500, 500, 5);
             debugRenderer.end();
 
             //Debug Overlay HUD

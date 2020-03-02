@@ -33,6 +33,8 @@ public class Constants {
 
     //Shooting Constants
     public static final float CANNONBALL_DYING_VELOCITY = 1f;
+    public static final float CANNONBALL_FIRING_VELOCITY = 7f;
+    public static final float CANNONBALL_DAMPING = 2f;
 
 
 }

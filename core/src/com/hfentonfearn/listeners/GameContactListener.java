@@ -8,20 +8,31 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.hfentonfearn.components.TypeComponent;
 import com.hfentonfearn.utils.Components;
 
+import static com.hfentonfearn.components.TypeComponent.CANNONBALL;
+import static com.hfentonfearn.components.TypeComponent.PLAYER;
+
 public class GameContactListener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
         Entity entityA = (Entity) contact.getFixtureA().getBody().getUserData();
         Entity entityB = (Entity) contact.getFixtureB().getBody().getUserData();
-        if (Components.TYPE.get(entityA).type == TypeComponent.CANNONBALL) {
-            if (Components.TYPE.get(entityB).type == TypeComponent.ENEMY) {
-                Components.HEALTH.get(entityB).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
-            }
-        } else  if (Components.TYPE.get(entityB).type == TypeComponent.CANNONBALL) {
-            if (Components.TYPE.get(entityA).type == TypeComponent.ENEMY) {
-                Components.HEALTH.get(entityA).damage(Components.PHYSICS.get(entityB).getBody().getLinearVelocity().len());
-            }
+        if (!runContact(entityA,entityB)) runContact(entityB,entityA);
+    }
+
+    public boolean runContact(Entity entityA, Entity entityB) {
+        switch (Components.TYPE.get(entityA).type) {
+            case CANNONBALL:
+                if (Components.TYPE.get(entityB).type == TypeComponent.ENEMY)
+                    Components.HEALTH.get(entityB).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
+                if (Components.TYPE.get(entityB).type == TypeComponent.PLAYER)
+                    //Remove player ship health
+                return true;
+            case PLAYER:
+                if (Components.TYPE.get(entityB).type == TypeComponent.ENEMY)
+                    Components.HEALTH.get(entityB).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
+                return true;
         }
+        return false;
     }
 
     @Override

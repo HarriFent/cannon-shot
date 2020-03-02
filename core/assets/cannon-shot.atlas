@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 button
   rotate: false
-  xy: 78, 29
+  xy: 116, 62
   size: 48, 48
   split: 13, 13, 13, 13
   pad: 13, 13, 13, 13
@@ -15,85 +15,106 @@ button
   index: -1
 cannon
   rotate: false
-  xy: 132, 91
+  xy: 884, 182
   size: 29, 20
   orig: 29, 20
   offset: 0, 0
   index: -1
 cannonBall
   rotate: false
-  xy: 922, 193
+  xy: 98, 39
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 cloud1
   rotate: false
-  xy: 270, 116
+  xy: 270, 115
   size: 238, 135
   orig: 238, 135
   offset: 0, 0
   index: -1
 cloud2
   rotate: false
-  xy: 2, 113
+  xy: 2, 112
   size: 266, 138
   orig: 266, 138
   offset: 0, 0
   index: -1
 cloud3
   rotate: false
-  xy: 510, 127
+  xy: 510, 126
   size: 228, 124
   orig: 228, 124
   offset: 0, 0
   index: -1
 explosion1
   rotate: false
-  xy: 2, 2
+  xy: 808, 175
   size: 74, 75
   orig: 74, 75
   offset: 0, 0
   index: -1
 explosion2
   rotate: false
-  xy: 860, 192
+  xy: 54, 51
   size: 60, 59
   orig: 60, 59
   offset: 0, 0
   index: -1
 explosion3
   rotate: false
-  xy: 860, 149
+  xy: 54, 8
   size: 42, 41
   orig: 42, 41
   offset: 0, 0
   index: -1
 hullLarge
   rotate: false
-  xy: 808, 143
+  xy: 2, 2
   size: 50, 108
   orig: 50, 108
   offset: 0, 0
   index: -1
 sailWhite
   rotate: false
-  xy: 922, 205
+  xy: 884, 204
   size: 66, 46
   orig: 66, 46
   offset: 0, 0
   index: -1
 shipBlack
   rotate: false
-  xy: 740, 138
+  xy: 740, 137
   size: 66, 113
   orig: 66, 113
   offset: 0, 0
   index: -1
 waterSplash
   rotate: false
-  xy: 2, 79
-  size: 128, 32
-  orig: 128, 32
+  xy: 808, 141
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
-  index: -1
+  index: 1
+waterSplash
+  rotate: false
+  xy: 952, 218
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2
+waterSplash
+  rotate: false
+  xy: 166, 78
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 3
+waterSplash
+  rotate: false
+  xy: 842, 141
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 4

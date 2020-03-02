@@ -12,4 +12,5 @@ public class Components {
     public static final ComponentMapper<TypeComponent> TYPE = ComponentMapper.getFor(TypeComponent.class);
     public static final ComponentMapper<AnimationComponent> ANIMATION = ComponentMapper.getFor(AnimationComponent.class);
     public static final ComponentMapper<HealthComponent> HEALTH = ComponentMapper.getFor(HealthComponent.class);
+    public static final ComponentMapper<KillComponent> KILL = ComponentMapper.getFor(KillComponent.class);
 }

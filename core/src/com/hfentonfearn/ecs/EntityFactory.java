@@ -108,6 +108,7 @@ public class EntityFactory {
                 .velocity(linearVel)
                 .damping(0f, CANNONBALL_DAMPING)
                 .type(CANNONBALL)
+                .killable()
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
         return entity;
@@ -115,7 +116,7 @@ public class EntityFactory {
 
     public static Entity createCannonBallSplash(Vector2 position) {
         Entity entity = builder.createEntity(position)
-                .animation(AssetLoader.effects.cannonSplash)
+                .animation(AssetLoader.effects.cannonSplash, true)
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
@@ -243,8 +244,10 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder animation (Animation<TextureRegion> animation) {
+        public EntityBuilder animation(Animation<TextureRegion> animation, boolean killAfterAnimation) {
             entity.add(new AnimationComponent(animation));
+            if (killAfterAnimation)
+                entity.add(new KillComponent(true));
             return this;
         }
 
@@ -253,10 +256,16 @@ public class EntityFactory {
             return this;
         }
 
+        public EntityBuilder killable() {
+            entity.add(new KillComponent());
+            return this;
+        }
+
         public EntityBuilder staticMovement(Vector2 movement) {
             entity.add(new StaticMovementComponent(movement));
             return this;
         }
+
         public EntityBuilder circleCollider (float radius, float density) {
             CircleShape shape = new CircleShape();
             shape.setRadius(radius);

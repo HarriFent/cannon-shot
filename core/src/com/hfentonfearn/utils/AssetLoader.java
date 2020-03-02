@@ -78,6 +78,8 @@ public class AssetLoader implements Disposable {
         }
 
         public void loadLoader() {
+            if (loader != null)
+                return;
             loader = new BodyEditorLoader(Gdx.files.internal("objects/ships/playerShip.json"));
         }
     }
@@ -92,6 +94,8 @@ public class AssetLoader implements Disposable {
         }
 
         public void loadLoader() {
+            if (loader != null)
+                return;
             loader = new BodyEditorLoader(Gdx.files.internal("objects/ships/enemyShip.json"));
         }
     }

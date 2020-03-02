@@ -9,16 +9,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.VelocityComponent;
+import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.inputs.Keybinds;
 import com.hfentonfearn.ui.PauseDialog;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 
-import static com.hfentonfearn.utils.Constants.ACCELERATION_DRIVE;
-import static com.hfentonfearn.utils.Constants.ACCELERATION_TURN;
+import static com.hfentonfearn.utils.Constants.*;
 
 public class InputSystem extends EntitySystem implements InputProcessor {
 
@@ -142,7 +143,12 @@ public class InputSystem extends EntitySystem implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        cannonShootingSystem.setMouseDown(true);
+        if (DEBUGMODE){
+            Vector2 pos = getEngine().getSystem(CameraSystem.class).screenToWorldCords(screenX,screenY);
+            EntityFactory.createEnemyShip(pos, 40);
+        } else {
+            cannonShootingSystem.setMouseDown(true);
+        }
         return false;
     }
 

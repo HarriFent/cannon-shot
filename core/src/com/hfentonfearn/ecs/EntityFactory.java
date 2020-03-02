@@ -39,7 +39,7 @@ public class EntityFactory {
         AssetLoader.playerShip.loadLoader();
         Entity entity = builder.createEntity(position)
                 .physicsBody(BodyDef.BodyType.DynamicBody)
-                .bodyLoader(AssetLoader.playerShip.loader,1)
+                .bodyLoader(AssetLoader.playerShip.loader,"playership",0.5f,1)
                 .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .sprite(AssetLoader.playerShip.ship)
                 .sprite(AssetLoader.playerShip.sail)
@@ -52,12 +52,13 @@ public class EntityFactory {
     }
 
     public static Entity createEnemyShip(Vector2 position, int health) {
+        AssetLoader.enemyShip.loadLoader();
         Entity entity = builder.createEntity(position)
                 .physicsBody(BodyDef.BodyType.DynamicBody)
-                .bodyLoader(AssetLoader.enemyShip.loader, 1)
+                .bodyLoader(AssetLoader.enemyShip.loader, "enemyship", 0.65f,1)
                 .damping(DAMPING_ANGULAR, DAMPING_LINEAR)
                 .sprite(AssetLoader.enemyShip.ship)
-                .health(40)
+                .health(health)
                 .type(ENEMY)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
@@ -193,10 +194,10 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder bodyLoader (BodyEditorLoader loader, float density) {
+        public EntityBuilder bodyLoader (BodyEditorLoader loader, String name, float scale, float density) {
             FixtureDef fd = new FixtureDef();
             fd.density = density;
-            loader.attachFixture(Components.PHYSICS.get(entity).getBody(), "playership", fd, 0.5f);
+            loader.attachFixture(Components.PHYSICS.get(entity).getBody(), name, fd, scale);
             return this;
         }
 

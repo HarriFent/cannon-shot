@@ -94,7 +94,7 @@ public class FarRenderSystem extends IteratingSystem implements Disposable {
             shapeRenderer.setColor(Color.GRAY);
             shapeRenderer.rect(pos.x - 25,pos.y + 60,50,6);
             shapeRenderer.setColor(Color.RED);
-            int width = 50 * (Components.HEALTH.get(entity).value / Components.HEALTH.get(entity).max);
+            int width = (int)(50.0 * Components.HEALTH.get(entity).percentage());
             shapeRenderer.rect(pos.x - 25,pos.y + 60,width,6);
         }
     }

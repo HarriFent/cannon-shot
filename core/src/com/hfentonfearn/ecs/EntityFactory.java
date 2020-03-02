@@ -89,7 +89,7 @@ public class EntityFactory {
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .circleCollider(0.05f,3f)
                 .velocity(linearVel)
-                .damping(0f,1)
+                .damping(0f, CANNONBALL_DAMPING)
                 .type(TypeComponent.CANNONBALL)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();

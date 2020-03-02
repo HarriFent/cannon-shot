@@ -178,9 +178,11 @@ public class AssetLoader implements Disposable {
 
     public static class AssetEffects {
         public final Animation<TextureRegion> cannonSplash;
+        public final Animation<TextureRegion> cannonExplosion;
 
         public AssetEffects(TextureAtlas atlas) {
             cannonSplash = new Animation<>(0.06f, atlas.findRegions("waterSplash"));
+            cannonExplosion = new Animation<>(0.06f, atlas.findRegions("explosion"));
         }
     }
 

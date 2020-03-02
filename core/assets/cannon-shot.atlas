@@ -48,27 +48,27 @@ cloud3
   orig: 228, 124
   offset: 0, 0
   index: -1
-explosion1
+explosion
   rotate: false
   xy: 808, 175
   size: 74, 75
   orig: 74, 75
   offset: 0, 0
-  index: -1
-explosion2
+  index: 1
+explosion
   rotate: false
   xy: 54, 51
   size: 60, 59
   orig: 60, 59
   offset: 0, 0
-  index: -1
-explosion3
+  index: 2
+explosion
   rotate: false
   xy: 54, 8
   size: 42, 41
   orig: 42, 41
   offset: 0, 0
-  index: -1
+  index: 3
 hullLarge
   rotate: false
   xy: 2, 2

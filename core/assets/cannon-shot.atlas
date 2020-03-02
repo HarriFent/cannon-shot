@@ -50,9 +50,9 @@ cloud3
   index: -1
 explosion
   rotate: false
-  xy: 808, 175
-  size: 74, 75
-  orig: 74, 75
+  xy: 54, 8
+  size: 42, 41
+  orig: 42, 41
   offset: 0, 0
   index: 1
 explosion
@@ -64,9 +64,9 @@ explosion
   index: 2
 explosion
   rotate: false
-  xy: 54, 8
-  size: 42, 41
-  orig: 42, 41
+  xy: 808, 175
+  size: 74, 75
+  orig: 74, 75
   offset: 0, 0
   index: 3
 hullLarge

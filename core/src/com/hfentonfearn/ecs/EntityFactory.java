@@ -123,6 +123,15 @@ public class EntityFactory {
         return entity;
     }
 
+    public static Entity createExplosion(Vector2 position) {
+        Entity entity = builder.createEntity(position)
+                .animation(AssetLoader.effects.cannonExplosion, true)
+                .physicsBody(BodyDef.BodyType.DynamicBody)
+                .drawDistance(ZOOM_FAR)
+                .addToEngine();
+        return entity;
+    }
+
     /**
      *   Entity Builder Class
      * */

@@ -182,7 +182,7 @@ public class AssetLoader implements Disposable {
 
         public AssetEffects(TextureAtlas atlas) {
             cannonSplash = new Animation<>(0.06f, atlas.findRegions("waterSplash"));
-            cannonExplosion = new Animation<>(0.06f, atlas.findRegions("explosion"));
+            cannonExplosion = new Animation<>(0.08f, atlas.findRegions("explosion"));
         }
     }
 

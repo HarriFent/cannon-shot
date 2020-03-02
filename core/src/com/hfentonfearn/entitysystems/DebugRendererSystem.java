@@ -103,6 +103,7 @@ public class DebugRendererSystem extends EntitySystem {
     private Array<String> updateDebugStrings() {
         Array<String> output = new Array<>();
         output.add("DEBUG MODE");
+        output.add("F5 = Spawns an Enemy Ship at the mouse position");
         for (String str : strings)
             output.add(str);
         strings = new Array<>();

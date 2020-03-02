@@ -86,11 +86,13 @@ public class AssetLoader implements Disposable {
 
     public static class AssetEnemyShip {
         public final AtlasRegion ship;
+        public final AtlasRegion deadShip;
         public BodyEditorLoader loader;
 
         public AssetEnemyShip(TextureAtlas atlas) {
             //ships = atlas.findRegions("ship");
             ship = atlas.findRegion("shipBlack");
+            deadShip = atlas.findRegion("shipBlackDead");
         }
 
         public void loadLoader() {
@@ -178,9 +180,11 @@ public class AssetLoader implements Disposable {
 
     public static class AssetEffects {
         public final Animation<TextureRegion> cannonSplash;
+        public final Animation<TextureRegion> cannonExplosion;
 
         public AssetEffects(TextureAtlas atlas) {
             cannonSplash = new Animation<>(0.06f, atlas.findRegions("waterSplash"));
+            cannonExplosion = new Animation<>(0.08f, atlas.findRegions("explosion"));
         }
     }
 

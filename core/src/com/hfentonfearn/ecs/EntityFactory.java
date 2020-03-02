@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -62,6 +63,7 @@ public class EntityFactory {
                 .type(ENEMY)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
+        Components.PHYSICS.get(entity).getBody().setTransform(position, MathUtils.random(4));
         return entity;
     }
 
@@ -106,6 +108,7 @@ public class EntityFactory {
                 .velocity(linearVel)
                 .damping(0f, CANNONBALL_DAMPING)
                 .type(CANNONBALL)
+                .killable()
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
         return entity;
@@ -113,10 +116,30 @@ public class EntityFactory {
 
     public static Entity createCannonBallSplash(Vector2 position) {
         Entity entity = builder.createEntity(position)
-                .animation(AssetLoader.effects.cannonSplash)
+                .animation(AssetLoader.effects.cannonSplash, true)
+                .physicsBody(BodyDef.BodyType.StaticBody)
+                .drawDistance(ZOOM_FAR)
+                .addToEngine();
+        return entity;
+    }
+
+    public static Entity createExplosion(Vector2 position) {
+        Entity entity = builder.createEntity(position)
+                .animation(AssetLoader.effects.cannonExplosion, true)
+                .physicsBody(BodyDef.BodyType.StaticBody)
+                .drawDistance(ZOOM_FAR)
+                .addToEngine();
+        return entity;
+    }
+
+    public static Entity createDyingShip(Vector2 position) {
+        Entity entity = builder.createEntity(position)
+                .sprite(AssetLoader.enemyShip.deadShip)
+                .killAfterDuration(5)
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
+        Components.KILL.get(entity).fade = true;
         return entity;
     }
 
@@ -241,13 +264,26 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder animation (Animation<TextureRegion> animation) {
+        public EntityBuilder animation(Animation<TextureRegion> animation, boolean killAfterAnimation) {
             entity.add(new AnimationComponent(animation));
+            if (killAfterAnimation)
+                entity.add(new KillComponent(true));
             return this;
         }
 
         public EntityBuilder health(int health) {
             entity.add(new HealthComponent(health));
+            entity.add(new KillComponent());
+            return this;
+        }
+
+        public EntityBuilder killable() {
+            entity.add(new KillComponent());
+            return this;
+        }
+
+        public EntityBuilder killAfterDuration(int seconds) {
+            entity.add(new KillComponent(seconds * 60));
             return this;
         }
 
@@ -255,6 +291,7 @@ public class EntityFactory {
             entity.add(new StaticMovementComponent(movement));
             return this;
         }
+
         public EntityBuilder circleCollider (float radius, float density) {
             CircleShape shape = new CircleShape();
             shape.setRadius(radius);

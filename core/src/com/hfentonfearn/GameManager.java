@@ -1,5 +1,6 @@
 package com.hfentonfearn;
 
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -58,5 +59,9 @@ public class GameManager {
         disposeEngine();
         game.getScreen().dispose();
         Gdx.app.exit();
+    }
+
+    public static PooledEngine getEngine() {
+        return engine;
     }
 }

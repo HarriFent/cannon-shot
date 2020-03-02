@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -88,6 +89,14 @@ public class FarRenderSystem extends IteratingSystem implements Disposable {
             }
         }
         //Render health bar and stuff with the shapeRenderer
+        if (Components.HEALTH.has(entity) && Components.PHYSICS.has(entity)){
+            Vector2 pos = Components.PHYSICS.get(entity).getPosition();
+            shapeRenderer.setColor(Color.GRAY);
+            shapeRenderer.rect(pos.x - 25,pos.y + 60,50,6);
+            shapeRenderer.setColor(Color.RED);
+            int width = (int)(50.0 * Components.HEALTH.get(entity).percentage());
+            shapeRenderer.rect(pos.x - 25,pos.y + 60,width,6);
+        }
     }
 
     @Override

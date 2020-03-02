@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -62,6 +63,7 @@ public class EntityFactory {
                 .type(ENEMY)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
+        Components.PHYSICS.get(entity).getBody().setTransform(position, MathUtils.random(4));
         return entity;
     }
 

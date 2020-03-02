@@ -33,7 +33,6 @@ public class KillSystem extends IteratingSystem {
             if (Components.SPRITE.has(entity))
                 for (Sprite s : Components.SPRITE.get(entity).getSprites()){
                     float alpha = ((float) kill.timer / (float) kill.starttime);
-                    DebugRendererSystem.addDebug("Alpha of dead ship: ", alpha);
                     s.setAlpha(alpha);
                 }
     }

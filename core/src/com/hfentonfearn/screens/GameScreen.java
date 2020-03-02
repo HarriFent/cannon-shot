@@ -10,6 +10,7 @@ import com.hfentonfearn.ecs.EntityManager;
 import com.hfentonfearn.entitysystems.CameraSystem;
 import com.hfentonfearn.entitysystems.GUISystem;
 import com.hfentonfearn.entitysystems.InputSystem;
+import com.hfentonfearn.inputs.DeveloperInputProcessor;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 import com.hfentonfearn.utils.WorldBuilder;
@@ -29,6 +30,7 @@ public class GameScreen extends AbstractScreen {
 
         multiplexer = engine.getSystem(InputSystem.class).getMultiplexer();
         multiplexer.addProcessor(engine.getSystem(GUISystem.class).getStage());
+        multiplexer.addProcessor(new DeveloperInputProcessor());
     }
 
     private void createWorld(int width, int height) {

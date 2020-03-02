@@ -15,6 +15,7 @@ import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.utils.Constants.CANNONBALL_DYING_VELOCITY;
+import static com.hfentonfearn.utils.Constants.CANNONBALL_FIRING_VELOCITY;
 
 public class CannonShootingSystem extends EntitySystem {
 
@@ -44,7 +45,7 @@ public class CannonShootingSystem extends EntitySystem {
                     physics.getPosition(),
                     physics.getBody().getAngle(),
                     dir);
-            ballArray.add(EntityFactory.createCannonBall(cannonBallPos, dir.nor().scl(5)));
+            ballArray.add(EntityFactory.createCannonBall(cannonBallPos, dir.nor().scl(CANNONBALL_FIRING_VELOCITY)));
             timer = 100;
         }
         if (timer > 0) timer--;

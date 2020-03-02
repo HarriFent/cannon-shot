@@ -32,6 +32,7 @@ public class AssetLoader implements Disposable {
     public static AssetMiniMap minimap;
     public static AssetsUI ui;
     public static AssetPlayerShip playerShip;
+    public static AssetEnemyShip enemyShip;
     public static AssetCloud clouds;
     public static AssetProjectiles projectiles;
     public static AssetEffects effects;
@@ -53,10 +54,11 @@ public class AssetLoader implements Disposable {
         map = new AssetMap();
         minimap = new AssetMiniMap();
         playerShip = new AssetPlayerShip(atlas);
+        enemyShip = new AssetEnemyShip(atlas);
         ui = new AssetsUI();
         clouds = new AssetCloud(atlas);
         projectiles = new AssetProjectiles(atlas);
-        effects = new AssetEffects();
+        effects = new AssetEffects(atlas);
     }
 
     @Override
@@ -76,7 +78,25 @@ public class AssetLoader implements Disposable {
         }
 
         public void loadLoader() {
+            if (loader != null)
+                return;
             loader = new BodyEditorLoader(Gdx.files.internal("objects/ships/playerShip.json"));
+        }
+    }
+
+    public static class AssetEnemyShip {
+        public final AtlasRegion ship;
+        public BodyEditorLoader loader;
+
+        public AssetEnemyShip(TextureAtlas atlas) {
+            //ships = atlas.findRegions("ship");
+            ship = atlas.findRegion("shipBlack");
+        }
+
+        public void loadLoader() {
+            if (loader != null)
+                return;
+            loader = new BodyEditorLoader(Gdx.files.internal("objects/ships/enemyShip.json"));
         }
     }
 
@@ -159,8 +179,8 @@ public class AssetLoader implements Disposable {
     public static class AssetEffects {
         public final Animation<TextureRegion> cannonSplash;
 
-        public AssetEffects() {
-            cannonSplash = getAnimationFromSheet(new Texture(Gdx.files.internal("piratepack/waterSplash.png")),0.06f, 4,1);
+        public AssetEffects(TextureAtlas atlas) {
+            cannonSplash = new Animation<>(0.06f, atlas.findRegions("waterSplash"));
         }
     }
 

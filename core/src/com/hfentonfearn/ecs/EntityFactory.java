@@ -16,6 +16,7 @@ import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.BodyEditorLoader;
 import com.hfentonfearn.utils.Components;
 
+import static com.hfentonfearn.components.TypeComponent.*;
 import static com.hfentonfearn.entitysystems.ZoomSystem.ZOOM_FAR;
 import static com.hfentonfearn.entitysystems.ZoomSystem.ZOOM_MAP;
 import static com.hfentonfearn.utils.Constants.*;
@@ -38,16 +39,30 @@ public class EntityFactory {
         AssetLoader.playerShip.loadLoader();
         Entity entity = builder.createEntity(position)
                 .physicsBody(BodyDef.BodyType.DynamicBody)
-                .bodyLoader(AssetLoader.playerShip.loader,1)
+                .bodyLoader(AssetLoader.playerShip.loader,"playership",0.5f,1)
                 .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .sprite(AssetLoader.playerShip.ship)
                 .sprite(AssetLoader.playerShip.sail)
-                .type(TypeComponent.PLAYER)
+                .type(PLAYER)
                 .drawDistance(ZOOM_FAR)
                 .getWithoutAdding();
         entity.add(new PlayerComponent());
         entity.add(new VelocityComponent());
         engine.addEntity(entity);
+    }
+
+    public static Entity createEnemyShip(Vector2 position, int health) {
+        AssetLoader.enemyShip.loadLoader();
+        Entity entity = builder.createEntity(position)
+                .physicsBody(BodyDef.BodyType.DynamicBody)
+                .bodyLoader(AssetLoader.enemyShip.loader, "enemyship", 0.65f,1)
+                .damping(DAMPING_ANGULAR, DAMPING_LINEAR)
+                .sprite(AssetLoader.enemyShip.ship)
+                .health(health)
+                .type(ENEMY)
+                .drawDistance(ZOOM_FAR)
+                .addToEngine();
+        return entity;
     }
 
     public static void createLandMass(Polygon poly) {
@@ -56,7 +71,7 @@ public class EntityFactory {
         Entity entity = builder.createEntity(new Vector2(0,0))
                 .physicsBody(BodyDef.BodyType.StaticBody)
                 .chainPolyCollider(poly.getTransformedVertices(),1f)
-                .type(TypeComponent.LAND)
+                .type(LAND)
                 .addToEngine();
     }
 
@@ -66,7 +81,7 @@ public class EntityFactory {
         Entity entity = builder.createEntity(new Vector2(0,0))
                 .physicsBody(BodyDef.BodyType.StaticBody)
                 .chainPolyCollider(poly.getTransformedVertices(),1f)
-                .type(TypeComponent.SCENERY)
+                .type(SCENERY)
                 .addToEngine();
     }
 
@@ -76,7 +91,7 @@ public class EntityFactory {
         cloudSprite.setScale(3);
         Entity entity = builder.createEntity(position)
                 .sprite(cloudSprite)
-                .type(TypeComponent.CLOUD)
+                .type(CLOUD)
                 .staticMovement(movement)
                 .drawDistance(ZOOM_MAP)
                 .addToEngine();
@@ -89,8 +104,8 @@ public class EntityFactory {
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .circleCollider(0.05f,3f)
                 .velocity(linearVel)
-                .damping(0f,1)
-                .type(TypeComponent.CANNONBALL)
+                .damping(0f, CANNONBALL_DAMPING)
+                .type(CANNONBALL)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
         return entity;
@@ -179,10 +194,10 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder bodyLoader (BodyEditorLoader loader, float density) {
+        public EntityBuilder bodyLoader (BodyEditorLoader loader, String name, float scale, float density) {
             FixtureDef fd = new FixtureDef();
             fd.density = density;
-            loader.attachFixture(Components.PHYSICS.get(entity).getBody(), "playership", fd, 0.5f);
+            loader.attachFixture(Components.PHYSICS.get(entity).getBody(), name, fd, scale);
             return this;
         }
 
@@ -231,11 +246,15 @@ public class EntityFactory {
             return this;
         }
 
+        public EntityBuilder health(int health) {
+            entity.add(new HealthComponent(health));
+            return this;
+        }
+
         public EntityBuilder staticMovement(Vector2 movement) {
             entity.add(new StaticMovementComponent(movement));
             return this;
         }
-
         public EntityBuilder circleCollider (float radius, float density) {
             CircleShape shape = new CircleShape();
             shape.setRadius(radius);
@@ -247,6 +266,7 @@ public class EntityFactory {
             physics.getBody().createFixture(shape, density);
             return this;
         }
+
         /**
          *  Circle Sensor and Range Sensor
          */

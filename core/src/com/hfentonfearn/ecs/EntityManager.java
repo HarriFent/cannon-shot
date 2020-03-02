@@ -26,6 +26,7 @@ public class EntityManager extends PooledEngine {
 
         addSystem(new CannonShootingSystem());
         addSystem(new KillSystem());
+        addSystem(new HealthSystem());
 
         GUISystem guiSystem = new GUISystem();
         InputSystem inputSystem = new InputSystem(guiSystem);

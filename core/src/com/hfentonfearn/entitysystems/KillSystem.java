@@ -3,6 +3,7 @@ package com.hfentonfearn.entitysystems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.hfentonfearn.components.AnimationComponent;
 import com.hfentonfearn.components.KillComponent;
 import com.hfentonfearn.utils.Components;
@@ -15,18 +16,25 @@ public class KillSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        KillComponent killComponent = Components.KILL.get(entity);
-        if (killComponent.timed) {
-            killComponent.timer--;
-            killComponent.kill = killComponent.timer <= 0 || killComponent.kill;
+        KillComponent kill = Components.KILL.get(entity);
+        if (kill.timed) {
+            kill.timer--;
+            kill.kill = kill.timer <= 0 || kill.kill;
         }
-        if (killComponent.fromAnimation) {
+        if (kill.fromAnimation) {
             AnimationComponent ani = Components.ANIMATION.get(entity);
-            killComponent.kill = ani.animation.isAnimationFinished(ani.stateTime) || killComponent.kill;
+            kill.kill = ani.animation.isAnimationFinished(ani.stateTime) || kill.kill;
         }
-        if (killComponent.kill) {
+        if (kill.kill) {
             getEngine().getSystem(PhysicsSystem.class).destroyBody(Components.PHYSICS.get(entity).getBody());
             getEngine().removeEntity(entity);
         }
+        if (kill.fade)
+            if (Components.SPRITE.has(entity))
+                for (Sprite s : Components.SPRITE.get(entity).getSprites()){
+                    float alpha = ((float) kill.timer / (float) kill.starttime);
+                    DebugRendererSystem.addDebug("Alpha of dead ship: ", alpha);
+                    s.setAlpha(alpha);
+                }
     }
 }

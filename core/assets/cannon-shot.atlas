@@ -15,7 +15,7 @@ button
   index: -1
 cannon
   rotate: false
-  xy: 884, 182
+  xy: 952, 182
   size: 29, 20
   orig: 29, 20
   offset: 0, 0
@@ -50,11 +50,11 @@ cloud3
   index: -1
 explosion
   rotate: false
-  xy: 54, 8
-  size: 42, 41
-  orig: 42, 41
+  xy: 876, 175
+  size: 74, 75
+  orig: 74, 75
   offset: 0, 0
-  index: 1
+  index: 3
 explosion
   rotate: false
   xy: 54, 51
@@ -64,11 +64,11 @@ explosion
   index: 2
 explosion
   rotate: false
-  xy: 808, 175
-  size: 74, 75
-  orig: 74, 75
+  xy: 54, 8
+  size: 42, 41
+  orig: 42, 41
   offset: 0, 0
-  index: 3
+  index: 1
 hullLarge
   rotate: false
   xy: 2, 2
@@ -78,7 +78,7 @@ hullLarge
   index: -1
 sailWhite
   rotate: false
-  xy: 884, 204
+  xy: 952, 204
   size: 66, 46
   orig: 66, 46
   offset: 0, 0
@@ -90,30 +90,37 @@ shipBlack
   orig: 66, 113
   offset: 0, 0
   index: -1
+shipBlackDead
+  rotate: false
+  xy: 808, 137
+  size: 66, 113
+  orig: 66, 113
+  offset: 0, 0
+  index: -1
 waterSplash
   rotate: false
-  xy: 808, 141
+  xy: 876, 141
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
 waterSplash
   rotate: false
-  xy: 952, 218
+  xy: 166, 78
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
 waterSplash
   rotate: false
-  xy: 166, 78
+  xy: 910, 141
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 3
 waterSplash
   rotate: false
-  xy: 842, 141
+  xy: 200, 78
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

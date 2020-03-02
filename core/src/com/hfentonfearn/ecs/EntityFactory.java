@@ -117,7 +117,7 @@ public class EntityFactory {
     public static Entity createCannonBallSplash(Vector2 position) {
         Entity entity = builder.createEntity(position)
                 .animation(AssetLoader.effects.cannonSplash, true)
-                .physicsBody(BodyDef.BodyType.DynamicBody)
+                .physicsBody(BodyDef.BodyType.StaticBody)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
         return entity;
@@ -126,9 +126,20 @@ public class EntityFactory {
     public static Entity createExplosion(Vector2 position) {
         Entity entity = builder.createEntity(position)
                 .animation(AssetLoader.effects.cannonExplosion, true)
+                .physicsBody(BodyDef.BodyType.StaticBody)
+                .drawDistance(ZOOM_FAR)
+                .addToEngine();
+        return entity;
+    }
+
+    public static Entity createDyingShip(Vector2 position) {
+        Entity entity = builder.createEntity(position)
+                .sprite(AssetLoader.enemyShip.deadShip)
+                .killAfterDuration(5)
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
+        Components.KILL.get(entity).fade = true;
         return entity;
     }
 
@@ -262,11 +273,17 @@ public class EntityFactory {
 
         public EntityBuilder health(int health) {
             entity.add(new HealthComponent(health));
+            entity.add(new KillComponent());
             return this;
         }
 
         public EntityBuilder killable() {
             entity.add(new KillComponent());
+            return this;
+        }
+
+        public EntityBuilder killAfterDuration(int seconds) {
+            entity.add(new KillComponent(seconds * 60));
             return this;
         }
 

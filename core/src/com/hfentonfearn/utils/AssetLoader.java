@@ -86,11 +86,13 @@ public class AssetLoader implements Disposable {
 
     public static class AssetEnemyShip {
         public final AtlasRegion ship;
+        public final AtlasRegion deadShip;
         public BodyEditorLoader loader;
 
         public AssetEnemyShip(TextureAtlas atlas) {
             //ships = atlas.findRegions("ship");
             ship = atlas.findRegion("shipBlack");
+            deadShip = atlas.findRegion("shipBlackDead");
         }
 
         public void loadLoader() {

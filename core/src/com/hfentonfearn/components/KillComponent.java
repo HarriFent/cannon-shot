@@ -7,7 +7,10 @@ public class KillComponent implements Component {
     public boolean kill = false;
     public boolean fromAnimation = false;
     public boolean timed = false;
+    public boolean fade = false;
+
     public int timer = 0;
+    public int starttime = 0;
 
     public KillComponent() {}
 
@@ -17,6 +20,6 @@ public class KillComponent implements Component {
 
     public KillComponent(int duration) {
         timed = true;
-        timer = duration;
+        timer = starttime = duration;
     }
 }

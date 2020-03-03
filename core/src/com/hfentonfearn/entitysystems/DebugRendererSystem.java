@@ -103,6 +103,9 @@ public class DebugRendererSystem extends EntitySystem {
     private Array<String> updateDebugStrings() {
         Array<String> output = new Array<>();
         output.add("DEBUG MODE");
+        //output.add("F1 = ");
+        output.add("F1 = Increase player speed stat");
+        output.add("F2 = Decrease player speed stat");
         output.add("F5 = Spawns an Enemy Ship at the mouse position");
         for (String str : strings)
             output.add(str);

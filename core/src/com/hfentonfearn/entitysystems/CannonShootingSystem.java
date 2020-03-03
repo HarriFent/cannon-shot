@@ -44,9 +44,9 @@ public class CannonShootingSystem extends EntitySystem {
                     physics.getPosition(),
                     physics.getBody().getAngle(),
                     dir);
-            ballArray.add(EntityFactory.createCannonBall(cannonBallPos.cpy(), dir.nor().scl(stats.firerange)));
+            ballArray.add(EntityFactory.createCannonBall(cannonBallPos.cpy(), dir.nor().scl(stats.getFireRange())));
             EntityFactory.createExplosion(cannonBallPos);
-            timer = stats.firerate;
+            timer = stats.getFireRate();
         }
         if (timer > 0) timer--;
         for (Entity e: ballArray) {

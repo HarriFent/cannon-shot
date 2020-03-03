@@ -85,16 +85,16 @@ public class InputSystem extends EntitySystem implements InputProcessor {
         ShipStatisticComponent stats = Components.STATS.get(player);
         switch (keycode) {
             case Keybinds.FORWARD:
-                acceleration.linear = stats.speed;
+                acceleration.linear = stats.getSpeed();
                 return;
             case Keybinds.BACKWARD:
-                acceleration.linear = -stats.speed;
+                acceleration.linear = -stats.getSpeed();
                 return;
             case Keybinds.TURN_LEFT:
-                acceleration.angular = stats.steering;
+                acceleration.angular = stats.getSteering();
                 return;
             case Keybinds.TURN_RIGHT:
-                acceleration.angular = -stats.steering;
+                acceleration.angular = -stats.getSteering();
         }
 
     }

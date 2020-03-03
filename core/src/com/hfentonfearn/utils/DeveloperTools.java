@@ -22,13 +22,13 @@ public class DeveloperTools {
         PooledEngine engine = GameManager.getEngine();
         Entity player = engine.getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
         if (player != null)
-            Components.STATS.get(player).speed++;
+            Components.STATS.get(player).incSpeed();
     }
 
     public static void decPlayerSpeedState() {
         PooledEngine engine = GameManager.getEngine();
         Entity player = engine.getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
         if (player != null)
-            Components.STATS.get(player).speed--;
+            Components.STATS.get(player).decSpeed();
     }
 }

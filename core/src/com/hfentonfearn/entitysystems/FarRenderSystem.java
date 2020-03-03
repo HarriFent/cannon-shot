@@ -89,7 +89,7 @@ public class FarRenderSystem extends IteratingSystem implements Disposable {
             }
         }
         //Render health bar and stuff with the shapeRenderer
-        if (Components.HEALTH.has(entity) && Components.PHYSICS.has(entity)){
+        if (Components.HEALTH.has(entity) && Components.PHYSICS.has(entity) && !Components.PLAYER.has(entity)){
             Vector2 pos = Components.PHYSICS.get(entity).getPosition();
             shapeRenderer.setColor(Color.GRAY);
             shapeRenderer.rect(pos.x - 25,pos.y + 60,50,6);

@@ -4,15 +4,15 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.hfentonfearn.components.HealthComponent;
 import com.hfentonfearn.components.PlayerComponent;
-import com.hfentonfearn.components.ShipHealthComponent;
 import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.utils.Components;
 
 public class HealthSystem extends IteratingSystem {
 
     public HealthSystem() {
-        super(Family.all(ShipHealthComponent.class).exclude(PlayerComponent.class).get());
+        super(Family.all(HealthComponent.class).exclude(PlayerComponent.class).get());
     }
 
     @Override

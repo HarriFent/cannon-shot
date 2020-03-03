@@ -2,13 +2,13 @@ package com.hfentonfearn.components;
 
 import com.badlogic.ashley.core.Component;
 
-public class HealthComponent implements Component {
+public class ShipHealthComponent implements Component {
 
     public final float max;
     public final float min = 0;
     public float value;
 
-    public HealthComponent(int health) {
+    public ShipHealthComponent(int health) {
         max = health;
         value = health;
     }

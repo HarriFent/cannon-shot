@@ -18,14 +18,9 @@ public class Constants {
     //Drift Constant: 0 = No drift, 1 = Very Slippy
     public static final float VELOCITY_DRIFT = 0.96f;
 
-    //Velocity drive and turn limit
-    //public static final float VELOCITY_MAXDRIVEVEL = 5f;
-    public static final float VELOCITY_MAXDRIVEVEL = DEBUGMODE ? 5f : 3f;
-    public static final float VELOCITY_MAXTURNVEL = 2f;
-
-    //Velocity impulse and angle set with player input
-    public static final float ACCELERATION_TURN = 0.1f;
-    public static final float ACCELERATION_DRIVE = 30f;
+    //Default player speed and turning speed
+    public static final float DEFAULT_DRIVE_SPEED = 30f;
+    public static final float DEFAULT_TURN_SPEED = 0.1f;
 
     //Angular and Linear Damping for player
     public static final float DAMPING_ANGULAR = 2f;

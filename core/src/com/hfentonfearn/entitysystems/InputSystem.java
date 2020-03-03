@@ -11,14 +11,12 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.PlayerComponent;
+import com.hfentonfearn.components.ShipMovementComponent;
 import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.inputs.Keybinds;
 import com.hfentonfearn.ui.PauseDialog;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
-
-import static com.hfentonfearn.utils.Constants.ACCELERATION_DRIVE;
-import static com.hfentonfearn.utils.Constants.ACCELERATION_TURN;
 
 public class InputSystem extends EntitySystem implements InputProcessor {
 
@@ -84,18 +82,19 @@ public class InputSystem extends EntitySystem implements InputProcessor {
 
     public void setPlayerVelocity(int keycode) {
         VelocityComponent velocity = Components.VELOCITY.get(player);
+        ShipMovementComponent shipMovementComponent = Components.SHIP_MOVEMENT.get(player);
         switch (keycode) {
             case Keybinds.FORWARD:
-                velocity.linearVelocity = ACCELERATION_DRIVE;
+                velocity.linearVelocity = shipMovementComponent.impulseVel;
                 return;
             case Keybinds.BACKWARD:
-                velocity.linearVelocity = -ACCELERATION_DRIVE;
+                velocity.linearVelocity = -shipMovementComponent.impulseVel;
                 return;
             case Keybinds.TURN_LEFT:
-                velocity.angularVelocity = ACCELERATION_TURN;
+                velocity.angularVelocity = shipMovementComponent.impulseAngle;
                 return;
             case Keybinds.TURN_RIGHT:
-                velocity.angularVelocity = -ACCELERATION_TURN;
+                velocity.angularVelocity = -shipMovementComponent.impulseAngle;
         }
 
     }

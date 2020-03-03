@@ -42,6 +42,7 @@ public class EntityFactory {
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .bodyLoader(AssetLoader.playerShip.loader,"playership",0.5f,1)
                 .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
+                .shipMovement(DEFAULT_DRIVE_SPEED, DEFAULT_TURN_SPEED)
                 .sprite(AssetLoader.playerShip.ship)
                 .sprite(AssetLoader.playerShip.sail)
                 .type(PLAYER)
@@ -271,8 +272,13 @@ public class EntityFactory {
             return this;
         }
 
+        public EntityBuilder shipMovement(float speed, float turningSpeed ) {
+            entity.add(new ShipMovementComponent(speed, turningSpeed));
+            return  this;
+        }
+
         public EntityBuilder health(int health) {
-            entity.add(new HealthComponent(health));
+            entity.add(new ShipHealthComponent(health));
             entity.add(new KillComponent());
             return this;
         }

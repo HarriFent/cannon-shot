@@ -9,10 +9,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
+import com.hfentonfearn.components.ShipMovementComponent;
 import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.utils.Components;
 
-import static com.hfentonfearn.utils.Constants.*;
+import static com.hfentonfearn.utils.Constants.VELOCITY_DRIFT;
 
 public class PlayerMovementSystem extends IteratingSystem {
 
@@ -28,14 +29,15 @@ public class PlayerMovementSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity player, float deltaTime) {
         VelocityComponent velocity = Components.VELOCITY.get(player);
+        ShipMovementComponent shipMovementComponent = Components.SHIP_MOVEMENT.get(player);
         physics = Components.PHYSICS.get(player);
         Body body = physics.getBody();
 
+        DebugRendererSystem.addDebug("Angle Impulse: ", shipMovementComponent.impulseAngle);
+        DebugRendererSystem.addDebug("Player Angle: ", body.getAngularVelocity());
+
         if (velocity.angularVelocity != 0f) {
             body.applyTorque(velocity.angularVelocity, true);
-            if (Math.abs(body.getAngularVelocity()) > VELOCITY_MAXTURNVEL) {
-                body.setAngularVelocity(velocity.angularVelocity > 0 ? VELOCITY_MAXTURNVEL : -VELOCITY_MAXTURNVEL);
-            }
         }
 
         currentVector = body.getLinearVelocity();
@@ -44,11 +46,6 @@ public class PlayerMovementSystem extends IteratingSystem {
             impulseVector.set(0f, -velocity.linearVelocity * deltaTime).rotate( MathUtils.radiansToDegrees * body.getAngle());
             body.applyForceToCenter(impulseVector, true);
             currentVector = body.getLinearVelocity();
-
-            if(currentVector.len() >= VELOCITY_MAXDRIVEVEL) {
-                currentVector.nor().scl(VELOCITY_MAXDRIVEVEL);
-                body.setLinearVelocity(currentVector);
-            }
         }
         handleDrift();
     }

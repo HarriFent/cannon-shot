@@ -14,4 +14,5 @@ public class Components {
     public static final ComponentMapper<ShipHealthComponent> HEALTH = ComponentMapper.getFor(ShipHealthComponent.class);
     public static final ComponentMapper<KillComponent> KILL = ComponentMapper.getFor(KillComponent.class);
     public static final ComponentMapper<ShipMovementComponent> SHIP_MOVEMENT = ComponentMapper.getFor(ShipMovementComponent.class);
+    public static final ComponentMapper<ShipStatisticComponent> STATS = ComponentMapper.getFor(ShipStatisticComponent.class);
 }

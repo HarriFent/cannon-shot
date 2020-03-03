@@ -10,11 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
+import com.hfentonfearn.components.ShipStatisticComponent;
 import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.utils.Constants.CANNONBALL_DYING_VELOCITY;
-import static com.hfentonfearn.utils.Constants.CANNONBALL_FIRING_VELOCITY;
 
 public class CannonShootingSystem extends EntitySystem {
 
@@ -28,7 +28,7 @@ public class CannonShootingSystem extends EntitySystem {
     @Override
     public void addedToEngine (Engine engine) {
         cam = engine.getSystem(CameraSystem.class);
-        players = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
+        players = engine.getEntitiesFor(Family.all(PlayerComponent.class, PhysicsComponent.class, ShipStatisticComponent.class).get());
     }
 
     @Override
@@ -38,14 +38,15 @@ public class CannonShootingSystem extends EntitySystem {
             //Spawn Cannon ball
             Entity player = players.get(0);
             PhysicsComponent physics = Components.PHYSICS.get(player);
+            ShipStatisticComponent stats = Components.STATS.get(player);
             Vector2 dir = mousePos.cpy().sub(physics.getPosition());
             Vector2 cannonBallPos = getCannonBallPos(Components.SPRITE.get(player).getSprites(),
                     physics.getPosition(),
                     physics.getBody().getAngle(),
                     dir);
-            ballArray.add(EntityFactory.createCannonBall(cannonBallPos.cpy(), dir.nor().scl(CANNONBALL_FIRING_VELOCITY)));
+            ballArray.add(EntityFactory.createCannonBall(cannonBallPos.cpy(), dir.nor().scl(stats.firerange)));
             EntityFactory.createExplosion(cannonBallPos);
-            timer = 100;
+            timer = stats.firerate;
         }
         if (timer > 0) timer--;
         for (Entity e: ballArray) {

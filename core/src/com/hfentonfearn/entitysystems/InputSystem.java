@@ -11,7 +11,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.PlayerComponent;
-import com.hfentonfearn.components.ShipMovementComponent;
+import com.hfentonfearn.components.ShipStatisticComponent;
 import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.inputs.Keybinds;
 import com.hfentonfearn.ui.PauseDialog;
@@ -82,19 +82,19 @@ public class InputSystem extends EntitySystem implements InputProcessor {
 
     public void setPlayerVelocity(int keycode) {
         VelocityComponent velocity = Components.VELOCITY.get(player);
-        ShipMovementComponent shipMovementComponent = Components.SHIP_MOVEMENT.get(player);
+        ShipStatisticComponent stats = Components.STATS.get(player);
         switch (keycode) {
             case Keybinds.FORWARD:
-                velocity.linearVelocity = shipMovementComponent.impulseVel;
+                velocity.linearVelocity = stats.speed;
                 return;
             case Keybinds.BACKWARD:
-                velocity.linearVelocity = -shipMovementComponent.impulseVel;
+                velocity.linearVelocity = -stats.speed;
                 return;
             case Keybinds.TURN_LEFT:
-                velocity.angularVelocity = shipMovementComponent.impulseAngle;
+                velocity.angularVelocity = stats.steering;
                 return;
             case Keybinds.TURN_RIGHT:
-                velocity.angularVelocity = -shipMovementComponent.impulseAngle;
+                velocity.angularVelocity = -stats.steering;
         }
 
     }

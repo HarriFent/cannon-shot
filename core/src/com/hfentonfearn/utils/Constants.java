@@ -18,18 +18,20 @@ public class Constants {
     //Drift Constant: 0 = No drift, 1 = Very Slippy
     public static final float VELOCITY_DRIFT = 0.96f;
 
-    //Default player speed and turning speed
-    public static final float DEFAULT_DRIVE_SPEED = 30f;
-    public static final float DEFAULT_TURN_SPEED = 0.1f;
-
     //Angular and Linear Damping for player
     public static final float DAMPING_ANGULAR = 2f;
     public static final float DAMPING_LINEAR = 0.5f;
 
     //Shooting Constants
     public static final float CANNONBALL_DYING_VELOCITY = 1f;
-    public static final float CANNONBALL_FIRING_VELOCITY = 7f;
     public static final float CANNONBALL_DAMPING = 2f;
 
+    //Default Ship stats
+    public static final float DEFAULT_SPEED = 30f;
+    public static final float DEFAULT_STEERING = 0.1f;
+    public static final float DEFAULT_HULL = 80f;
+    public static final int DEFAULT_FIRERATE = 100;
+    public static final float DEFAULT_FIRERANGE = 7f;
+    public static final float DEFAULT_INVENTORY_SIZE = 5f;
 
 }

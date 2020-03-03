@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
-import com.hfentonfearn.components.ShipMovementComponent;
 import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.utils.Components;
 
@@ -18,7 +17,6 @@ import static com.hfentonfearn.utils.Constants.VELOCITY_DRIFT;
 public class PlayerMovementSystem extends IteratingSystem {
 
     private PhysicsComponent physics;
-    private Vector2 currentVector;
     private Vector2 impulseVector = new Vector2();
 
     public PlayerMovementSystem() {
@@ -29,23 +27,17 @@ public class PlayerMovementSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity player, float deltaTime) {
         VelocityComponent velocity = Components.VELOCITY.get(player);
-        ShipMovementComponent shipMovementComponent = Components.SHIP_MOVEMENT.get(player);
         physics = Components.PHYSICS.get(player);
         Body body = physics.getBody();
-
-        DebugRendererSystem.addDebug("Angle Impulse: ", shipMovementComponent.impulseAngle);
-        DebugRendererSystem.addDebug("Player Angle: ", body.getAngularVelocity());
 
         if (velocity.angularVelocity != 0f) {
             body.applyTorque(velocity.angularVelocity, true);
         }
 
-        currentVector = body.getLinearVelocity();
         if(velocity.linearVelocity != 0f) {
             // accelerate
             impulseVector.set(0f, -velocity.linearVelocity * deltaTime).rotate( MathUtils.radiansToDegrees * body.getAngle());
             body.applyForceToCenter(impulseVector, true);
-            currentVector = body.getLinearVelocity();
         }
         handleDrift();
     }

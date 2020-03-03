@@ -2,9 +2,8 @@ package com.hfentonfearn.entitysystems;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -18,24 +17,30 @@ import com.hfentonfearn.ui.PauseDialog;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 
-public class InputSystem extends EntitySystem implements InputProcessor {
+public class InputSystem extends IteratingSystem implements InputProcessor {
 
     private InputMultiplexer multiplexer;
     private GUISystem guiSystem;
-    private CannonShootingSystem cannonShootingSystem;
-    private ImmutableArray<Entity> players;
+    private CannonFiringSystem cannonShootingSystem;
     private Entity player;
 
     public InputSystem (GUISystem guiSystem) {
+        super(Family.all(PlayerComponent.class).get());
         this.guiSystem = guiSystem;
     }
     
     @Override
     public void addedToEngine (Engine engine) {
         super.addedToEngine(engine);
-        cannonShootingSystem = engine.getSystem(CannonShootingSystem.class);
-        players = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
+        cannonShootingSystem = engine.getSystem(CannonFiringSystem.class);
         initalizeInput();
+    }
+
+    @Override
+    protected void processEntity(Entity entity, float deltaTime) {
+        if (player == null)
+            if (Components.PLAYER.has(entity))
+                player = entity;
     }
 
     public InputMultiplexer getMultiplexer () {
@@ -51,7 +56,6 @@ public class InputSystem extends EntitySystem implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        player = players.get(0);
         switch (keycode) {
             case Keybinds.FORWARD:
             case Keybinds.BACKWARD:
@@ -141,25 +145,23 @@ public class InputSystem extends EntitySystem implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        cannonShootingSystem.setMouseDown(true);
+        Components.CANNON_FIRE.get(player).firing = true;
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        cannonShootingSystem.setMouseDown(false);
+        Components.CANNON_FIRE.get(player).firing = false;
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        cannonShootingSystem.setMousePos(screenX,screenY);
         return false;
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        cannonShootingSystem.setMousePos(screenX,screenY);
         return false;
     }
 

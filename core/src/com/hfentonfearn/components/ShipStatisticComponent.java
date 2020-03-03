@@ -11,8 +11,9 @@ public class ShipStatisticComponent implements Component {
     private float hull;
     private int firerate;
     private float firerange;
-    private float inventorySize;
-    public boolean changed;
+    private int inventorySize;
+
+    public boolean changed = false;
 
     public ShipStatisticComponent() {
         speed = DEFAULT_SPEED;
@@ -39,6 +40,13 @@ public class ShipStatisticComponent implements Component {
         return firerange;
     }
 
+    public float getHull() {
+        return hull;
+    }
+
+    public int getInventorySize() {
+        return inventorySize;
+    }
 
     /**
      *  DEVELOPER TOOLS

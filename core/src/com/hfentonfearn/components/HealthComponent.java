@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Component;
 
 public class HealthComponent implements Component {
 
-    public final float max;
+    public float max;
     public final float min = 0;
     public float value;
 

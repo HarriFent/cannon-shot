@@ -32,6 +32,6 @@ public class Constants {
     public static final float DEFAULT_HULL = 80f;
     public static final int DEFAULT_FIRERATE = 100;
     public static final float DEFAULT_FIRERANGE = 7f;
-    public static final float DEFAULT_INVENTORY_SIZE = 5f;
+    public static final int DEFAULT_INVENTORY_SIZE = 5;
 
 }

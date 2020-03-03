@@ -8,7 +8,7 @@ public class HealthComponent implements Component {
     public final float min = 0;
     public float value;
 
-    public HealthComponent(int health) {
+    public HealthComponent(float health) {
         max = health;
         value = health;
     }

@@ -13,7 +13,7 @@ public class ShipStatisticComponent implements Component {
     private float firerange;
     private int inventorySize;
 
-    public boolean changed = false;
+    public boolean changed;
 
     public ShipStatisticComponent() {
         speed = DEFAULT_SPEED;
@@ -22,6 +22,8 @@ public class ShipStatisticComponent implements Component {
         firerate = DEFAULT_FIRERATE;
         firerange = DEFAULT_FIRERANGE;
         inventorySize = DEFAULT_INVENTORY_SIZE;
+
+        changed = false;
     }
 
     public float getSpeed() {

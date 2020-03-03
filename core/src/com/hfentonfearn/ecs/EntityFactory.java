@@ -278,20 +278,16 @@ public class EntityFactory {
         }
 
         public EntityBuilder shipStats() {
-            entity.add(new ShipStatisticComponent());
             entity.add(new InventoryComponent());
-            this.health();
+            entity.add(new CannonFiringComponent());
+            entity.add(new HealthComponent(DEFAULT_HULL));
+            entity.add(new KillComponent());
+            entity.add(new ShipStatisticComponent());
             return  this;
         }
 
         public EntityBuilder health(int health) {
             entity.add(new HealthComponent(health));
-            entity.add(new KillComponent());
-            return this;
-        }
-
-        public EntityBuilder health() {
-            entity.add(new HealthComponent((int) DEFAULT_HULL));
             entity.add(new KillComponent());
             return this;
         }

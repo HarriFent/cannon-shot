@@ -25,6 +25,7 @@ public class CannonFiringSystem extends IteratingSystem {
 
     @Override
     public void addedToEngine (Engine engine) {
+        super.addedToEngine(engine);
         cam = engine.getSystem(CameraSystem.class);
     }
 

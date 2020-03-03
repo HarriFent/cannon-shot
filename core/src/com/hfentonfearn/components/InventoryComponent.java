@@ -1,0 +1,8 @@
+package com.hfentonfearn.components;
+
+import com.badlogic.ashley.core.Component;
+
+public class InventoryComponent implements Component {
+
+    public float currency;
+}

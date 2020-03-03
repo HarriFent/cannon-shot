@@ -7,9 +7,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.hfentonfearn.GameManager;
+import com.hfentonfearn.components.AccelerationComponent;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
-import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.utils.Constants.VELOCITY_DRIFT;
@@ -20,23 +20,23 @@ public class PlayerMovementSystem extends IteratingSystem {
     private Vector2 impulseVector = new Vector2();
 
     public PlayerMovementSystem() {
-        super(Family.all(PlayerComponent.class,VelocityComponent.class,PhysicsComponent.class).get());
+        super(Family.all(PlayerComponent.class, AccelerationComponent.class,PhysicsComponent.class).get());
     }
 
 
     @Override
     protected void processEntity(Entity player, float deltaTime) {
-        VelocityComponent velocity = Components.VELOCITY.get(player);
+        AccelerationComponent acceleration = Components.ACCELERATION.get(player);
         physics = Components.PHYSICS.get(player);
         Body body = physics.getBody();
 
-        if (velocity.angularVelocity != 0f) {
-            body.applyTorque(velocity.angularVelocity, true);
+        if (acceleration.angular != 0f) {
+            body.applyTorque(acceleration.angular, true);
         }
 
-        if(velocity.linearVelocity != 0f) {
+        if(acceleration.linear != 0f) {
             // accelerate
-            impulseVector.set(0f, -velocity.linearVelocity * deltaTime).rotate( MathUtils.radiansToDegrees * body.getAngle());
+            impulseVector.set(0f, -acceleration.linear * deltaTime).rotate( MathUtils.radiansToDegrees * body.getAngle());
             body.applyForceToCenter(impulseVector, true);
         }
         handleDrift();

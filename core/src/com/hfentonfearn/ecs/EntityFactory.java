@@ -44,12 +44,12 @@ public class EntityFactory {
                 .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .sprite(AssetLoader.playerShip.ship)
                 .sprite(AssetLoader.playerShip.sail)
+                .acceleration()
                 .shipStats()
                 .type(PLAYER)
                 .drawDistance(ZOOM_FAR)
                 .getWithoutAdding();
         entity.add(new PlayerComponent());
-        entity.add(new VelocityComponent());
         engine.addEntity(entity);
     }
 
@@ -106,7 +106,7 @@ public class EntityFactory {
                 .sprite(AssetLoader.projectiles.cannonBall)
                 .physicsBody(BodyDef.BodyType.DynamicBody)
                 .circleCollider(0.05f,3f)
-                .velocity(linearVel)
+                .setInitVelocity(linearVel)
                 .damping(0f, CANNONBALL_DAMPING)
                 .type(CANNONBALL)
                 .killable()
@@ -186,7 +186,7 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder velocity (Vector2 linear) {
+        public EntityBuilder setInitVelocity(Vector2 linear) {
             if (Components.PHYSICS.has(entity)) {
                 PhysicsComponent physics = Components.PHYSICS.get(entity);
                 physics.getBody().setLinearVelocity(linear);
@@ -272,8 +272,14 @@ public class EntityFactory {
             return this;
         }
 
+        public EntityBuilder acceleration() {
+            entity.add(new AccelerationComponent());
+            return this;
+        }
+
         public EntityBuilder shipStats() {
             entity.add(new ShipStatisticComponent());
+            entity.add(new InventoryComponent());
             this.health();
             return  this;
         }

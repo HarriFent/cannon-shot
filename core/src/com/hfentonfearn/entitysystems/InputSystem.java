@@ -10,9 +10,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.hfentonfearn.GameManager;
+import com.hfentonfearn.components.AccelerationComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.ShipStatisticComponent;
-import com.hfentonfearn.components.VelocityComponent;
 import com.hfentonfearn.inputs.Keybinds;
 import com.hfentonfearn.ui.PauseDialog;
 import com.hfentonfearn.utils.AssetLoader;
@@ -81,20 +81,20 @@ public class InputSystem extends EntitySystem implements InputProcessor {
     }
 
     public void setPlayerVelocity(int keycode) {
-        VelocityComponent velocity = Components.VELOCITY.get(player);
+        AccelerationComponent acceleration = Components.ACCELERATION.get(player);
         ShipStatisticComponent stats = Components.STATS.get(player);
         switch (keycode) {
             case Keybinds.FORWARD:
-                velocity.linearVelocity = stats.speed;
+                acceleration.linear = stats.speed;
                 return;
             case Keybinds.BACKWARD:
-                velocity.linearVelocity = -stats.speed;
+                acceleration.linear = -stats.speed;
                 return;
             case Keybinds.TURN_LEFT:
-                velocity.angularVelocity = stats.steering;
+                acceleration.angular = stats.steering;
                 return;
             case Keybinds.TURN_RIGHT:
-                velocity.angularVelocity = -stats.steering;
+                acceleration.angular = -stats.steering;
         }
 
     }
@@ -114,23 +114,23 @@ public class InputSystem extends EntitySystem implements InputProcessor {
     }
 
     private void resetPlayerVelocity(int keycode) {
-        VelocityComponent velocity = Components.VELOCITY.get(player);
+        AccelerationComponent acceleration = Components.ACCELERATION.get(player);
         switch (keycode) {
             case Keybinds.FORWARD:
-                if (velocity.linearVelocity > 0)
-                    velocity.linearVelocity = 0;
+                if (acceleration.linear > 0)
+                    acceleration.linear = 0;
                 return;
             case Keybinds.BACKWARD:
-                if (velocity.linearVelocity < 0)
-                    velocity.linearVelocity = 0;
+                if (acceleration.linear < 0)
+                    acceleration.linear = 0;
                 return;
             case Keybinds.TURN_LEFT:
-                if (velocity.angularVelocity > 0)
-                    velocity.angularVelocity = 0;
+                if (acceleration.angular > 0)
+                    acceleration.angular = 0;
                 return;
             case Keybinds.TURN_RIGHT:
-                if (velocity.angularVelocity < 0)
-                    velocity.angularVelocity = 0;
+                if (acceleration.angular < 0)
+                    acceleration.angular = 0;
         }
     }
 

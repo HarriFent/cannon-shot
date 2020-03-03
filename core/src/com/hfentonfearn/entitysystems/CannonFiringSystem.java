@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -34,7 +33,7 @@ public class CannonFiringSystem extends IteratingSystem {
         CannonFiringComponent fireComp = Components.CANNON_FIRE.get(entity);
         if (Components.PLAYER.has(entity)){
             //Player Firing
-            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && fireComp.timer == 0) {
+            if (fireComp.firing && fireComp.timer == 0) {
                 //Spawn Cannon ball
                 PhysicsComponent physics = Components.PHYSICS.get(entity);
                 Vector2 dir = getFireDirection(physics.getPosition());
@@ -53,7 +52,7 @@ public class CannonFiringSystem extends IteratingSystem {
     }
 
     private Vector2 getFireDirection(Vector2 pos) {
-        return new Vector2(Gdx.input.getX(), Gdx.input.getY()).sub(pos);
+        return cam.screenToWorldCords(Gdx.input.getX(),Gdx.input.getY()).sub(pos);
     }
 
     private Vector2 getCannonBallPos(Array<Sprite> sprites, Vector2 playerPos, float playerAngle, Vector2 dir) {

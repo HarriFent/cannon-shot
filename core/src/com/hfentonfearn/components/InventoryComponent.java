@@ -9,6 +9,10 @@ public class InventoryComponent implements Component {
     public float currency;
     public Array<BootyItem> items;
 
+    public InventoryComponent() {
+        items = new Array<>();
+    }
+
     public void setSize(int inventorySize) {
         items.setSize(inventorySize);
     }

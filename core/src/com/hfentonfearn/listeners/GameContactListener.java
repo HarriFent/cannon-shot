@@ -28,8 +28,15 @@ public class GameContactListener implements ContactListener {
                     //Remove player ship health
                 return true;
             case PLAYER:
-                if (Components.TYPE.get(entityB).type == TypeComponent.ENEMY)
-                    Components.HEALTH.get(entityB).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
+                if (Components.TYPE.get(entityB).type == TypeComponent.ENEMY) {
+                    float damage = Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len() + Components.PHYSICS.get(entityB).getBody().getLinearVelocity().len();
+                    Components.HEALTH.get(entityB).damage(damage);
+                    Components.HEALTH.get(entityA).damage(damage);
+                }
+                if (Components.TYPE.get(entityB).type == TypeComponent.LAND)
+                    Components.HEALTH.get(entityA).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
+                if (Components.TYPE.get(entityB).type == TypeComponent.SCENERY)
+                    Components.HEALTH.get(entityA).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
                 return true;
         }
         return false;

@@ -60,7 +60,7 @@ public class EntityFactory {
                 .bodyLoader(AssetLoader.enemyShip.loader, "enemyship", 0.65f,1)
                 .damping(DAMPING_ANGULAR, DAMPING_LINEAR)
                 .sprite(AssetLoader.enemyShip.ship)
-                .shipStats(health)
+                .shipStats(DEFAULT_SPEED, DEFAULT_STEERING, 40, 200, 6f, 1)
                 .type(ENEMY)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
@@ -278,16 +278,16 @@ public class EntityFactory {
         }
 
         public EntityBuilder shipStats() {
-            shipStats(DEFAULT_HULL);
+            shipStats(DEFAULT_SPEED, DEFAULT_STEERING, DEFAULT_HULL, DEFAULT_FIRERATE, DEFAULT_FIRERANGE, DEFAULT_INVENTORY_SIZE);
             return  this;
         }
 
-        public EntityBuilder shipStats(float health) {
+        public EntityBuilder shipStats(float speed, float steering, float hull, int firerate, float firerange, int inventorySize) {
             entity.add(new InventoryComponent());
             entity.add(new CannonFiringComponent());
-            entity.add(new HealthComponent(health));
+            entity.add(new HealthComponent(hull));
             entity.add(new KillComponent());
-            entity.add(new ShipStatisticComponent(health));
+            entity.add(new ShipStatisticComponent(speed, steering, hull, firerate, firerange, inventorySize));
             return  this;
         }
 

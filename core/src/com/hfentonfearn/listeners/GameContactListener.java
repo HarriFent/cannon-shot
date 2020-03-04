@@ -18,25 +18,22 @@ public class GameContactListener implements ContactListener {
     }
 
     public boolean runContact(Entity entityA, Entity entityB) {
-        switch (Components.TYPE.get(entityA).type) {
-            case CANNONBALL:
-                if (Components.TYPE.get(entityB).type == ENEMY)
-                    Components.HEALTH.get(entityB).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
-                if (Components.TYPE.get(entityB).type == PLAYER)
-                    Components.HEALTH.get(entityB).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
-                return true;
+        String typeA = Components.TYPE.get(entityA).type;
+        String typeB = Components.TYPE.get(entityB).type;
+        float damage = Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len() + Components.PHYSICS.get(entityB).getBody().getLinearVelocity().len();
+
+        //if (damage < 1) damage = 1;
+        switch (typeA) {
             case PLAYER:
-                if (Components.TYPE.get(entityB).type == ENEMY) {
-                    float damage = Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len() + Components.PHYSICS.get(entityB).getBody().getLinearVelocity().len();
-                    Components.HEALTH.get(entityB).damage(damage);
-                    Components.HEALTH.get(entityA).damage(damage);
+            case ENEMY:
+                switch (typeB) {
+                    case LAND:
+                    case SCENERY:
+                    case CANNONBALL:
+                    case ENEMY:
+                    case PLAYER:
+                        Components.HEALTH.get(entityA).damage(damage);
                 }
-                if (Components.TYPE.get(entityB).type == LAND)
-                    Components.HEALTH.get(entityA).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
-                if (Components.TYPE.get(entityB).type == SCENERY)
-                    Components.HEALTH.get(entityA).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
-                if (Components.TYPE.get(entityB).type == CANNONBALL)
-                    Components.HEALTH.get(entityA).damage(Components.PHYSICS.get(entityB).getBody().getLinearVelocity().len());
                 return true;
         }
         return false;

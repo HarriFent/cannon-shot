@@ -12,6 +12,7 @@ import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.utils.Constants.WINDOW_HEIGHT;
+import static com.hfentonfearn.utils.Constants.WINDOW_WIDTH;
 
 public class HUDSystem extends IteratingSystem {
 
@@ -40,8 +41,17 @@ public class HUDSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+        //Default health = 80
         HealthComponent health = Components.HEALTH.get(entity);
-        shapeRenderer.setColor(new Color(0f,0f,0f,1));
-        shapeRenderer.rect(10,WINDOW_HEIGHT - 10, 300, 20 );
+        float barWidth = 7;
+        float width = health.max * barWidth + 4;
+        shapeRenderer.setColor(new Color(0.5f,0.5f,0.5f,1));
+        shapeRenderer.rect(WINDOW_WIDTH - width - 10,WINDOW_HEIGHT - 30, width, 20 );
+        shapeRenderer.setColor(Color.RED);
+        float x = 1;
+        while (x <= health.value) {
+            shapeRenderer.rect(WINDOW_WIDTH - (x * barWidth) - 10,WINDOW_HEIGHT - 28, barWidth - 2, 16 );
+            x++;
+        }
     }
 }

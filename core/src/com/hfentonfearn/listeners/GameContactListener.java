@@ -25,6 +25,7 @@ public class GameContactListener implements ContactListener {
                 if (Components.TYPE.get(entityB).type == TypeComponent.ENEMY)
                     Components.HEALTH.get(entityB).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
                 if (Components.TYPE.get(entityB).type == TypeComponent.PLAYER)
+                    Components.HEALTH.get(entityB).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
                     //Remove player ship health
                 return true;
             case PLAYER:

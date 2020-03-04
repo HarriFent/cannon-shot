@@ -16,12 +16,20 @@ public class ShipStatisticComponent implements Component {
     public boolean changed;
 
     public ShipStatisticComponent() {
-        speed = DEFAULT_SPEED;
-        steering = DEFAULT_STEERING;
-        hull = DEFAULT_HULL;
-        firerate = DEFAULT_FIRERATE;
-        firerange = DEFAULT_FIRERANGE;
-        inventorySize = DEFAULT_INVENTORY_SIZE;
+        this(DEFAULT_SPEED, DEFAULT_STEERING, DEFAULT_HULL, DEFAULT_FIRERATE, DEFAULT_FIRERANGE, DEFAULT_INVENTORY_SIZE);
+    }
+
+    public ShipStatisticComponent(float hull) {
+        this(DEFAULT_SPEED, DEFAULT_STEERING, hull, DEFAULT_FIRERATE, DEFAULT_FIRERANGE, DEFAULT_INVENTORY_SIZE);
+    }
+
+    public ShipStatisticComponent(float speed, float steering, float hull, int firerate, float firerange, int inventorySize) {
+        this.speed = speed;
+        this.steering = steering;
+        this.hull = hull;
+        this.firerate = firerate;
+        this.firerange = firerange;
+        this.inventorySize = inventorySize;
 
         changed = true;
     }

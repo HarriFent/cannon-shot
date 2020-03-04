@@ -60,7 +60,7 @@ public class EntityFactory {
                 .bodyLoader(AssetLoader.enemyShip.loader, "enemyship", 0.65f,1)
                 .damping(DAMPING_ANGULAR, DAMPING_LINEAR)
                 .sprite(AssetLoader.enemyShip.ship)
-                .health(health)
+                .shipStats(40)
                 .type(ENEMY)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
@@ -278,18 +278,17 @@ public class EntityFactory {
         }
 
         public EntityBuilder shipStats() {
-            entity.add(new InventoryComponent());
-            entity.add(new CannonFiringComponent());
-            entity.add(new HealthComponent(DEFAULT_HULL));
-            entity.add(new KillComponent());
-            entity.add(new ShipStatisticComponent());
+            shipStats(DEFAULT_HULL);
             return  this;
         }
 
-        public EntityBuilder health(int health) {
+        public EntityBuilder shipStats(float health) {
+            entity.add(new InventoryComponent());
+            entity.add(new CannonFiringComponent());
             entity.add(new HealthComponent(health));
             entity.add(new KillComponent());
-            return this;
+            entity.add(new ShipStatisticComponent(health));
+            return  this;
         }
 
         public EntityBuilder killable() {

@@ -60,7 +60,7 @@ public class EntityFactory {
                 .bodyLoader(AssetLoader.enemyShip.loader, "enemyship", 0.65f,1)
                 .damping(DAMPING_ANGULAR, DAMPING_LINEAR)
                 .sprite(AssetLoader.enemyShip.ship)
-                .shipStats(40)
+                .shipStats(health)
                 .type(ENEMY)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();

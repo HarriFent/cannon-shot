@@ -16,4 +16,5 @@ public class Components {
     public static final ComponentMapper<InventoryComponent> INVENTORY = ComponentMapper.getFor(InventoryComponent.class);
     public static final ComponentMapper<PlayerComponent> PLAYER = ComponentMapper.getFor(PlayerComponent.class);
     public static final ComponentMapper<CannonFiringComponent> CANNON_FIRE = ComponentMapper.getFor(CannonFiringComponent.class);
+    public static final ComponentMapper<ParticleComponent> PARTICLE = ComponentMapper.getFor(ParticleComponent.class);
 }

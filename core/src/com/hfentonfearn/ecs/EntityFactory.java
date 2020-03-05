@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.hfentonfearn.components.*;
+import com.hfentonfearn.entitysystems.ParticleSystem;
 import com.hfentonfearn.entitysystems.PhysicsSystem;
 import com.hfentonfearn.entitysystems.ZoomSystem;
 import com.hfentonfearn.utils.AssetLoader;
@@ -21,6 +23,7 @@ import com.hfentonfearn.utils.Components;
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.StaticBody;
 import static com.hfentonfearn.ecs.EntityFactory.PhysicsBuilder.FixtureBuilder;
+import static com.hfentonfearn.entitysystems.ParticleSystem.ParticleType;
 import static com.hfentonfearn.entitysystems.ZoomSystem.ZOOM_FAR;
 import static com.hfentonfearn.entitysystems.ZoomSystem.ZOOM_MAP;
 import static com.hfentonfearn.utils.Constants.*;
@@ -131,6 +134,11 @@ public class EntityFactory {
         return entity;
     }
 
+    public static Entity createParticle (Vector2 position, ParticleType type) {
+        Entity entity = builder.createEntity(EntityCategory.EFFECT, position).particle(type).addToEngine();
+        return entity;
+    }
+
     public static Entity createDyingShip(Vector2 position) {
         Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
                 .sprite(AssetLoader.enemyShip.deadShip)
@@ -219,6 +227,12 @@ public class EntityFactory {
             entity.add(engine.createComponent(AnimationComponent.class).init(animation));
             if (killAfterAnimation)
                 entity.add(engine.createComponent(KillComponent.class).init(true));
+            return this;
+        }
+
+        public EntityBuilder particle(ParticleType type) {
+            PooledEffect effect = engine.getSystem(ParticleSystem.class).createEffect(position, type);
+            entity.add(engine.createComponent(ParticleComponent.class).init(effect));
             return this;
         }
 

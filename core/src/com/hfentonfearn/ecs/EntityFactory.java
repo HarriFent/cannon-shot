@@ -188,8 +188,7 @@ public class EntityFactory {
         }
 
         public EntityBuilder type (String typeString) {
-            TypeComponent type = new TypeComponent(typeString);
-            entity.add(type);
+            entity.add(engine.createComponent(TypeComponent.class).init(typeString));
             return this;
         }
 
@@ -228,14 +227,14 @@ public class EntityFactory {
         }
 
         public EntityBuilder animation(Animation<TextureRegion> animation, boolean killAfterAnimation) {
-            entity.add(new AnimationComponent(animation));
+            entity.add(engine.createComponent(AnimationComponent.class).init(animation));
             if (killAfterAnimation)
-                entity.add(new KillComponent(true));
+                entity.add(engine.createComponent(KillComponent.class).init(true));
             return this;
         }
 
         public EntityBuilder acceleration() {
-            entity.add(new AccelerationComponent());
+            entity.add(engine.createComponent(AccelerationComponent.class).init());
             return this;
         }
 
@@ -245,26 +244,26 @@ public class EntityFactory {
         }
 
         public EntityBuilder shipStats(float speed, float steering, float hull, int firerate, float firerange, int inventorySize) {
-            entity.add(new InventoryComponent());
-            entity.add(new CannonFiringComponent());
-            entity.add(new HealthComponent(hull));
-            entity.add(new KillComponent());
-            entity.add(new ShipStatisticComponent(speed, steering, hull, firerate, firerange, inventorySize));
+            entity.add(engine.createComponent(InventoryComponent.class).init());
+            entity.add(engine.createComponent(CannonFiringComponent.class));
+            entity.add(engine.createComponent(HealthComponent.class).init(hull));
+            entity.add(engine.createComponent(KillComponent.class));
+            entity.add(engine.createComponent(ShipStatisticComponent.class).init(speed, steering, hull, firerate, firerange, inventorySize));
             return  this;
         }
 
         public EntityBuilder killable() {
-            entity.add(new KillComponent());
+            entity.add(engine.createComponent(KillComponent.class));
             return this;
         }
 
         public EntityBuilder killAfterDuration(int seconds) {
-            entity.add(new KillComponent(seconds * 60));
+            entity.add(engine.createComponent(KillComponent.class).init(seconds * 60));
             return this;
         }
 
         public EntityBuilder staticMovement(Vector2 movement) {
-            entity.add(new StaticMovementComponent(movement));
+            entity.add(engine.createComponent(StaticMovementComponent.class).init(movement));
             return this;
         }
 

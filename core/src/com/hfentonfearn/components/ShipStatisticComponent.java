@@ -1,10 +1,11 @@
 package com.hfentonfearn.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.utils.Pool.Poolable;
 
 import static com.hfentonfearn.utils.Constants.*;
 
-public class ShipStatisticComponent implements Component {
+public class ShipStatisticComponent implements Component , Poolable {
 
     private float speed;
     private float steering;
@@ -15,21 +16,32 @@ public class ShipStatisticComponent implements Component {
 
     public boolean changed;
 
-    public ShipStatisticComponent() {
-        this(DEFAULT_SPEED, DEFAULT_STEERING, DEFAULT_HULL, DEFAULT_FIRERATE, DEFAULT_FIRERANGE, DEFAULT_INVENTORY_SIZE);
+    private ShipStatisticComponent() {}
+
+    public ShipStatisticComponent init () {
+        return init(DEFAULT_SPEED, DEFAULT_STEERING, DEFAULT_HULL, DEFAULT_FIRERATE, DEFAULT_FIRERANGE, DEFAULT_INVENTORY_SIZE);
     }
 
-    public ShipStatisticComponent(float hull) {
-        this(DEFAULT_SPEED, DEFAULT_STEERING, hull, DEFAULT_FIRERATE, DEFAULT_FIRERANGE, DEFAULT_INVENTORY_SIZE);
-    }
-
-    public ShipStatisticComponent(float speed, float steering, float hull, int firerate, float firerange, int inventorySize) {
+    public ShipStatisticComponent init (float speed, float steering, float hull, int firerate, float firerange, int inventorySize) {
         this.speed = speed;
         this.steering = steering;
         this.hull = hull;
         this.firerate = firerate;
         this.firerange = firerange;
         this.inventorySize = inventorySize;
+
+        changed = true;
+        return this;
+    }
+
+    @Override
+    public void reset() {
+        speed = 0f;
+        steering = 0f;
+        hull = 0f;
+        firerate = 0;
+        firerange = 0f;
+        inventorySize = 0;
 
         changed = true;
     }

@@ -1,7 +1,6 @@
 package com.hfentonfearn;
 
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -71,9 +70,6 @@ public class GameManager {
             DEV, RELEASE;
         }
 
-        public static String[] SUPPORTED_RESOLUTIONS = {"1280x720", "1920x1080",};
-
         public static final BUILD build = BUILD.DEV;
-        private static final int LOG_LEVEL = Application.LOG_DEBUG;
     }
 }

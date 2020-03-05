@@ -118,15 +118,18 @@ public class DebugRendererSystem extends EntitySystem {
     }
 
     public static void addDebug(String string) {
-        strings.add(string);
+        if (build == BUILD.DEV)
+            strings.add(string);
     }
 
     public static void addDebug(String string, Object obj) {
-        strings.add(string + obj.toString());
+        if (build == BUILD.DEV)
+            strings.add(string + obj.toString());
     }
 
     public static void addShape(Shape2D shape, Color color, float angle) {
-        shapes.add(new DebugShape(shape, color, angle));
+        if (build == BUILD.DEV)
+            shapes.add(new DebugShape(shape, color, angle));
     }
 
     public static class DebugShape {

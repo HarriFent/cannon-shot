@@ -40,7 +40,6 @@ public class KillSystem extends IteratingSystem {
             kill.kill = ani.animation.isAnimationFinished(ani.stateTime) || kill.kill;
         }
         if (kill.kill) {
-            getEngine().getSystem(PhysicsSystem.class).destroyBody(Components.PHYSICS.get(entity).getBody());
             getEngine().removeEntity(entity);
         }
         if (kill.fade)

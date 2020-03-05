@@ -5,11 +5,9 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.hfentonfearn.components.TypeComponent;
 import com.hfentonfearn.utils.Components;
 
-import static com.hfentonfearn.components.TypeComponent.CANNONBALL;
-import static com.hfentonfearn.components.TypeComponent.PLAYER;
+import static com.hfentonfearn.components.TypeComponent.*;
 
 public class GameContactListener implements ContactListener {
     @Override
@@ -20,16 +18,22 @@ public class GameContactListener implements ContactListener {
     }
 
     public boolean runContact(Entity entityA, Entity entityB) {
-        switch (Components.TYPE.get(entityA).type) {
-            case CANNONBALL:
-                if (Components.TYPE.get(entityB).type == TypeComponent.ENEMY)
-                    Components.HEALTH.get(entityB).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
-                if (Components.TYPE.get(entityB).type == TypeComponent.PLAYER)
-                    //Remove player ship health
-                return true;
+        String typeA = Components.TYPE.get(entityA).type;
+        String typeB = Components.TYPE.get(entityB).type;
+        float damage = Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len() + Components.PHYSICS.get(entityB).getBody().getLinearVelocity().len();
+
+        //if (damage < 1) damage = 1;
+        switch (typeA) {
             case PLAYER:
-                if (Components.TYPE.get(entityB).type == TypeComponent.ENEMY)
-                    Components.HEALTH.get(entityB).damage(Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len());
+            case ENEMY:
+                switch (typeB) {
+                    case LAND:
+                    case SCENERY:
+                    case CANNONBALL:
+                    case ENEMY:
+                    case PLAYER:
+                        Components.HEALTH.get(entityA).damage(damage);
+                }
                 return true;
         }
         return false;

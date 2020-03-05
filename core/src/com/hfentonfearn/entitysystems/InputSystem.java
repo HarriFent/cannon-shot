@@ -2,42 +2,45 @@ package com.hfentonfearn.entitysystems;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.hfentonfearn.GameManager;
+import com.hfentonfearn.components.AccelerationComponent;
 import com.hfentonfearn.components.PlayerComponent;
-import com.hfentonfearn.components.VelocityComponent;
+import com.hfentonfearn.components.ShipStatisticComponent;
 import com.hfentonfearn.inputs.Keybinds;
 import com.hfentonfearn.ui.PauseDialog;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 
-import static com.hfentonfearn.utils.Constants.ACCELERATION_DRIVE;
-import static com.hfentonfearn.utils.Constants.ACCELERATION_TURN;
-
-public class InputSystem extends EntitySystem implements InputProcessor {
+public class InputSystem extends IteratingSystem implements InputProcessor {
 
     private InputMultiplexer multiplexer;
     private GUISystem guiSystem;
-    private CannonShootingSystem cannonShootingSystem;
-    private ImmutableArray<Entity> players;
+    private CannonFiringSystem cannonShootingSystem;
     private Entity player;
 
     public InputSystem (GUISystem guiSystem) {
+        super(Family.all(PlayerComponent.class).get());
         this.guiSystem = guiSystem;
     }
     
     @Override
     public void addedToEngine (Engine engine) {
         super.addedToEngine(engine);
-        cannonShootingSystem = engine.getSystem(CannonShootingSystem.class);
-        players = engine.getEntitiesFor(Family.all(PlayerComponent.class).get());
+        cannonShootingSystem = engine.getSystem(CannonFiringSystem.class);
         initalizeInput();
+    }
+
+    @Override
+    protected void processEntity(Entity entity, float deltaTime) {
+        if (player == null)
+            if (Components.PLAYER.has(entity))
+                player = entity;
     }
 
     public InputMultiplexer getMultiplexer () {
@@ -53,7 +56,6 @@ public class InputSystem extends EntitySystem implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        player = players.get(0);
         switch (keycode) {
             case Keybinds.FORWARD:
             case Keybinds.BACKWARD:
@@ -83,19 +85,20 @@ public class InputSystem extends EntitySystem implements InputProcessor {
     }
 
     public void setPlayerVelocity(int keycode) {
-        VelocityComponent velocity = Components.VELOCITY.get(player);
+        AccelerationComponent acceleration = Components.ACCELERATION.get(player);
+        ShipStatisticComponent stats = Components.STATS.get(player);
         switch (keycode) {
             case Keybinds.FORWARD:
-                velocity.linearVelocity = ACCELERATION_DRIVE;
+                acceleration.linear = stats.getSpeed();
                 return;
             case Keybinds.BACKWARD:
-                velocity.linearVelocity = -ACCELERATION_DRIVE;
+                acceleration.linear = -stats.getSpeed();
                 return;
             case Keybinds.TURN_LEFT:
-                velocity.angularVelocity = ACCELERATION_TURN;
+                acceleration.angular = stats.getSteering();
                 return;
             case Keybinds.TURN_RIGHT:
-                velocity.angularVelocity = -ACCELERATION_TURN;
+                acceleration.angular = -stats.getSteering();
         }
 
     }
@@ -115,23 +118,23 @@ public class InputSystem extends EntitySystem implements InputProcessor {
     }
 
     private void resetPlayerVelocity(int keycode) {
-        VelocityComponent velocity = Components.VELOCITY.get(player);
+        AccelerationComponent acceleration = Components.ACCELERATION.get(player);
         switch (keycode) {
             case Keybinds.FORWARD:
-                if (velocity.linearVelocity > 0)
-                    velocity.linearVelocity = 0;
+                if (acceleration.linear > 0)
+                    acceleration.linear = 0;
                 return;
             case Keybinds.BACKWARD:
-                if (velocity.linearVelocity < 0)
-                    velocity.linearVelocity = 0;
+                if (acceleration.linear < 0)
+                    acceleration.linear = 0;
                 return;
             case Keybinds.TURN_LEFT:
-                if (velocity.angularVelocity > 0)
-                    velocity.angularVelocity = 0;
+                if (acceleration.angular > 0)
+                    acceleration.angular = 0;
                 return;
             case Keybinds.TURN_RIGHT:
-                if (velocity.angularVelocity < 0)
-                    velocity.angularVelocity = 0;
+                if (acceleration.angular < 0)
+                    acceleration.angular = 0;
         }
     }
 
@@ -142,25 +145,23 @@ public class InputSystem extends EntitySystem implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        cannonShootingSystem.setMouseDown(true);
+        Components.CANNON_FIRE.get(player).firing = true;
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        cannonShootingSystem.setMouseDown(false);
+        Components.CANNON_FIRE.get(player).firing = false;
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        cannonShootingSystem.setMousePos(screenX,screenY);
         return false;
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        cannonShootingSystem.setMousePos(screenX,screenY);
         return false;
     }
 

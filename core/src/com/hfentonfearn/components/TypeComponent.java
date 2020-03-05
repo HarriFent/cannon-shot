@@ -1,8 +1,9 @@
 package com.hfentonfearn.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.utils.Pool.Poolable;
 
-public class TypeComponent implements Component {
+public class TypeComponent implements Component, Poolable {
     public static final String LAND = "LAND";
     public static final String SCENERY = "SCENERY";
     public static final String CLOUD = "CLOUD";
@@ -12,7 +13,15 @@ public class TypeComponent implements Component {
 
     public String type;
 
-    public TypeComponent(String type) {
+    private TypeComponent() {}
+
+    public TypeComponent init (String type) {
         this.type = type;
+        return this;
+    }
+
+    @Override
+    public void reset() {
+        type = null;
     }
 }

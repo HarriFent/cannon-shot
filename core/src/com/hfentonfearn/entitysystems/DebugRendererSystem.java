@@ -10,13 +10,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.PhysicsComponent;
-import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.utils.Components;
 
@@ -35,12 +33,14 @@ public class DebugRendererSystem extends EntitySystem {
     private ImmutableArray<Entity> renderEntities;
 
     private static Array<String> strings;
+    private static Array<DebugShape> shapes;
 
     public DebugRendererSystem() {
         debugRenderer = new ShapeRenderer();
         font = new BitmapFont();
         debugBatch = new SpriteBatch();
         strings = new Array<>();
+        shapes = new Array<>();
     }
 
     public void addedToEngine (Engine engine) {
@@ -59,32 +59,34 @@ public class DebugRendererSystem extends EntitySystem {
             physicsSystem.drawDebug();
             camera = cameraSystem.getCamera();
 
-            debugRenderer.setProjectionMatrix(camera.combined);
-            debugRenderer.begin(ShapeRenderer.ShapeType.Line);
             //Render Render Queue
             for (Entity e : renderEntities) {
-                debugRenderer.setColor(Color.RED);
-                Gdx.gl.glLineWidth(3);
-
-                PhysicsComponent physics = Components.PHYSICS.get(e);
-                debugRenderer.circle(physics.getPosition().x, physics.getPosition().y, 5);
+                Vector2 pos = Components.PHYSICS.get(e).getPosition();
+                shapes.add(new DebugShape(new Circle(pos.x, pos.y, 5), Color.RED, 0f));
             }
 
-            ImmutableArray<Entity> players = getEngine().getEntitiesFor(Family.all(PlayerComponent.class).get());
-            Array<Sprite> sprites = Components.SPRITE.get(players.get(0)).getSprites();
-            float width = 0;
-            float height = 0;
-            for (Sprite sprite: sprites){
-                if (sprite.getWidth() > width)
-                    width = sprite.getWidth();
-                if (sprite.getHeight() > height)
-                    height = sprite.getHeight();
-            }
-            Vector2 pos = Components.PHYSICS.get(players.get(0)).getPosition();
-            float angle = (float) Math.toDegrees(Components.PHYSICS.get(players.get(0)).getBody().getAngle());
-            debugRenderer.ellipse(pos.x - width/2,pos.y - height/2,width,height,angle);
-
+            debugRenderer.setProjectionMatrix(camera.combined);
+            debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+            Gdx.gl.glLineWidth(3);
+            shapes.forEach((d) -> {
+                debugRenderer.setColor(d.color);
+                if (d.shape instanceof Circle) {
+                    debugRenderer.circle(((Circle) d.shape).x, ((Circle) d.shape).y, ((Circle) d.shape).radius);
+                } else if (d.shape instanceof Ellipse) {
+                    debugRenderer.ellipse(((Ellipse) d.shape).x,((Ellipse) d.shape).y,((Ellipse) d.shape).width, ((Ellipse) d.shape).height, (float) Math.toDegrees(d.angle));
+                } else if (d.shape instanceof Rectangle) {
+                    debugRenderer.rect(((Rectangle) d.shape).x, ((Rectangle) d.shape).y,
+                            ((Rectangle) d.shape).width/2, ((Rectangle) d.shape).height/2,
+                            ((Rectangle) d.shape).width, ((Rectangle) d.shape).height,
+                            1, 1, d.angle);
+                } else if (d.shape instanceof Polygon) {
+                    debugRenderer.polygon(((Polygon) d.shape).getTransformedVertices());
+                } else if (d.shape instanceof Polyline) {
+                    debugRenderer.polyline(((Polyline) d.shape).getTransformedVertices());
+                }
+            });
             debugRenderer.end();
+            shapes = new Array<>();
 
             //Debug Overlay HUD
             Array<String> debugs = updateDebugStrings();
@@ -103,6 +105,9 @@ public class DebugRendererSystem extends EntitySystem {
     private Array<String> updateDebugStrings() {
         Array<String> output = new Array<>();
         output.add("DEBUG MODE");
+        //output.add("F1 = ");
+        output.add("F1 = Increase player speed stat");
+        output.add("F2 = Decrease player speed stat");
         output.add("F5 = Spawns an Enemy Ship at the mouse position");
         for (String str : strings)
             output.add(str);
@@ -116,5 +121,22 @@ public class DebugRendererSystem extends EntitySystem {
 
     public static void addDebug(String string, Object obj) {
         strings.add(string + obj.toString());
+    }
+
+    public static void addShape(Shape2D shape, Color color, float angle) {
+        shapes.add(new DebugShape(shape, color, angle));
+    }
+
+    public static class DebugShape {
+
+        public final Shape2D shape;
+        public final Color color;
+        public final float angle;
+
+        public DebugShape(Shape2D shape, Color color, float Angle) {
+            this.shape = shape;
+            this.color = color;
+            angle = Angle;
+        }
     }
 }

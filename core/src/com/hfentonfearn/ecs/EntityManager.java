@@ -1,9 +1,12 @@
 package com.hfentonfearn.ecs;
 
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Disposable;
+import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.entitysystems.*;
+import com.hfentonfearn.listeners.PhysicsEntityListener;
 import com.hfentonfearn.utils.Constants;
 
 public class EntityManager extends PooledEngine {
@@ -11,6 +14,7 @@ public class EntityManager extends PooledEngine {
     public EntityManager() {
         initSystems();
         // Add the Entity Listeners
+        addEntityListener(Family.all(PhysicsComponent.class).get(), new PhysicsEntityListener(getSystem(PhysicsSystem.class)));
     }
 
     private EntityManager initSystems() {
@@ -24,9 +28,10 @@ public class EntityManager extends PooledEngine {
         //Player movement system
         addSystem(new PlayerMovementSystem());
 
-        addSystem(new CannonShootingSystem());
+        addSystem(new CannonFiringSystem());
         addSystem(new KillSystem());
         addSystem(new HealthSystem());
+        addSystem(new StatisticSystem());
 
         GUISystem guiSystem = new GUISystem();
         InputSystem inputSystem = new InputSystem(guiSystem);
@@ -36,6 +41,7 @@ public class EntityManager extends PooledEngine {
         //Entity Render System
         addSystem(new FarRenderSystem());
         addSystem(new MapRenderSystem());
+        addSystem(new HUDSystem());
         //Debug Render System
         addSystem(new DebugRendererSystem());
         //Particle System

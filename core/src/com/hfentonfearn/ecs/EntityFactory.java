@@ -68,7 +68,7 @@ public class EntityFactory {
                 .buildPhysics(DynamicBody).addFixture(MATERIAL_WOOD).bodyLoader(AssetLoader.enemyShip.loader, "enemyship", 0.65f).create().getBody()
                 .damping(DAMPING_ANGULAR, DAMPING_LINEAR)
                 .sprite(AssetLoader.enemyShip.ship)
-                .shipStats(DEFAULT_SPEED, DEFAULT_STEERING, 40, 200, 6f, 1)
+                .shipStats(DEFAULT_SPEED, DEFAULT_STEERING, health, 200, 6f, 1)
                 .type(ENEMY)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();

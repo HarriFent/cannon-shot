@@ -41,7 +41,7 @@ public class CannonFiringSystem extends IteratingSystem {
             //Non Player firing
             if (playerPos != null) {
                 DebugRendererSystem.addDebug("Distance between ships", playerPos.cpy().sub(physics.getPosition()).len());
-                fireComp.firing = playerPos.cpy().sub(physics.getPosition()).len() < 350;
+                fireComp.firing = playerPos.cpy().sub(physics.getPosition()).len() < fireComp.range * 60;
                 fireComp.direction = playerPos.cpy().sub(physics.getPosition());
             }
         }

@@ -18,6 +18,8 @@ import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.utils.Components;
 
+import static com.hfentonfearn.GameManager.GameConfig.BUILD;
+import static com.hfentonfearn.GameManager.GameConfig.build;
 import static com.hfentonfearn.utils.Constants.DEBUGMODE;
 import static com.hfentonfearn.utils.Constants.WINDOW_HEIGHT;
 
@@ -51,7 +53,7 @@ public class DebugRendererSystem extends EntitySystem {
 
     public void update(float deltaTime) {
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.B))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.B) && build == BUILD.DEV)
             DEBUGMODE = !DEBUGMODE;
 
         if (DEBUGMODE) {

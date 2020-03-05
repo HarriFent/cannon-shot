@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.hfentonfearn.utils.Components;
 
-import static com.hfentonfearn.components.TypeComponent.*;
+import static com.hfentonfearn.ecs.EntityCategory.*;
 
 public class GameContactListener implements ContactListener {
     @Override
@@ -18,15 +18,13 @@ public class GameContactListener implements ContactListener {
     }
 
     public boolean runContact(Entity entityA, Entity entityB) {
-        String typeA = Components.TYPE.get(entityA).type;
-        String typeB = Components.TYPE.get(entityB).type;
         float damage = Components.PHYSICS.get(entityA).getBody().getLinearVelocity().len() + Components.PHYSICS.get(entityB).getBody().getLinearVelocity().len();
 
         //if (damage < 1) damage = 1;
-        switch (typeA) {
+        switch (entityA.flags) {
             case PLAYER:
             case ENEMY:
-                switch (typeB) {
+                switch (entityB.flags) {
                     case LAND:
                     case SCENERY:
                     case CANNONBALL:

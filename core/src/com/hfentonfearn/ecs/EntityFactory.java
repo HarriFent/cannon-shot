@@ -20,7 +20,6 @@ import com.hfentonfearn.utils.Components;
 
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.StaticBody;
-import static com.hfentonfearn.components.TypeComponent.*;
 import static com.hfentonfearn.ecs.EntityFactory.PhysicsBuilder.FixtureBuilder;
 import static com.hfentonfearn.entitysystems.ZoomSystem.ZOOM_FAR;
 import static com.hfentonfearn.entitysystems.ZoomSystem.ZOOM_MAP;
@@ -48,14 +47,13 @@ public class EntityFactory {
 
     public static void createPlayer(Vector2 position) {
         AssetLoader.playerShip.loadLoader();
-        Entity entity = builder.createEntity(position)
+        Entity entity = builder.createEntity(EntityCategory.PLAYER, position)
                 .buildPhysics(DynamicBody).addFixture(MATERIAL_WOOD).bodyLoader(AssetLoader.playerShip.loader, "playership", 0.5f).create().getBody()
                 .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .sprite(AssetLoader.playerShip.ship)
                 .sprite(AssetLoader.playerShip.sail)
                 .acceleration()
                 .shipStats()
-                .type(PLAYER)
                 .drawDistance(ZOOM_FAR)
                 .getWithoutAdding();
         entity.add(new PlayerComponent());
@@ -64,12 +62,11 @@ public class EntityFactory {
 
     public static Entity createEnemyShip(Vector2 position, int health) {
         AssetLoader.enemyShip.loadLoader();
-        Entity entity = builder.createEntity(position)
+        Entity entity = builder.createEntity(EntityCategory.ENEMY,position)
                 .buildPhysics(DynamicBody).addFixture(MATERIAL_WOOD).bodyLoader(AssetLoader.enemyShip.loader, "enemyship", 0.65f).create().getBody()
                 .damping(DAMPING_ANGULAR, DAMPING_LINEAR)
                 .sprite(AssetLoader.enemyShip.ship)
                 .shipStats(DEFAULT_SPEED, DEFAULT_STEERING, health, 200, 6f, 1)
-                .type(ENEMY)
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
         Components.PHYSICS.get(entity).getBody().setTransform(position.cpy(), MathUtils.random(4));
@@ -79,18 +76,16 @@ public class EntityFactory {
     public static void createLandMass(Polygon poly) {
         poly.setPosition(poly.getX()*MPP,poly.getY()*MPP);
         poly.setScale(MPP,MPP);
-        Entity entity = builder.createEntity(new Vector2(0,0))
+        Entity entity = builder.createEntity(EntityCategory.LAND,new Vector2(0,0))
                 .buildPhysics(StaticBody).addFixture(MATERIAL_STONE).polyChain(poly.getTransformedVertices()).create().getBody()
-                .type(LAND)
                 .addToEngine();
     }
 
     public static void createRocks(Polygon poly) {
         poly.setPosition(poly.getX()*MPP,poly.getY()*MPP);
         poly.setScale(MPP,MPP);
-        Entity entity = builder.createEntity(new Vector2(0,0))
+        Entity entity = builder.createEntity(EntityCategory.SCENERY,new Vector2(0,0))
                 .buildPhysics(StaticBody).addFixture(MATERIAL_STONE).polyChain(poly.getTransformedVertices()).create().getBody()
-                .type(SCENERY)
                 .addToEngine();
     }
 
@@ -98,9 +93,8 @@ public class EntityFactory {
         Sprite cloudSprite = new Sprite(AssetLoader.clouds.getRandomCloud());
         cloudSprite.setCenter(position.x,position.y);
         cloudSprite.setScale(3);
-        Entity entity = builder.createEntity(position)
+        Entity entity = builder.createEntity(EntityCategory.CLOUD,position)
                 .sprite(cloudSprite)
-                .type(CLOUD)
                 .staticMovement(movement)
                 .drawDistance(ZOOM_MAP)
                 .addToEngine();
@@ -108,12 +102,11 @@ public class EntityFactory {
     }
 
     public static Entity createCannonBall(Vector2 position, Vector2 linearVel) {
-        Entity entity = builder.createEntity(position)
+        Entity entity = builder.createEntity(EntityCategory.CANNONBALL,position)
                 .sprite(AssetLoader.projectiles.cannonBall)
                 .buildPhysics(DynamicBody).addFixture(MATERIAL_STEEL).circle(0.05f).create().getBody()
                 .setInitVelocity(linearVel)
                 .damping(0f, CANNONBALL_DAMPING)
-                .type(CANNONBALL)
                 .killable()
                 .drawDistance(ZOOM_FAR)
                 .addToEngine();
@@ -121,7 +114,7 @@ public class EntityFactory {
     }
 
     public static Entity createCannonBallSplash(Vector2 position) {
-        Entity entity = builder.createEntity(position)
+        Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
                 .animation(AssetLoader.effects.cannonSplash, true)
                 .buildPhysics(StaticBody).getBody()
                 .drawDistance(ZOOM_FAR)
@@ -130,7 +123,7 @@ public class EntityFactory {
     }
 
     public static Entity createExplosion(Vector2 position) {
-        Entity entity = builder.createEntity(position)
+        Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
                 .animation(AssetLoader.effects.cannonExplosion, true)
                 .buildPhysics(StaticBody).getBody()
                 .drawDistance(ZOOM_FAR)
@@ -139,7 +132,7 @@ public class EntityFactory {
     }
 
     public static Entity createDyingShip(Vector2 position) {
-        Entity entity = builder.createEntity(position)
+        Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
                 .sprite(AssetLoader.enemyShip.deadShip)
                 .killAfterDuration(5)
                 .buildPhysics(DynamicBody).getBody()
@@ -158,8 +151,9 @@ public class EntityFactory {
         public Vector2 position;
         public Entity entity;
 
-        public EntityBuilder createEntity (Vector2 position) {
+        public EntityBuilder createEntity (int catergoryBit, Vector2 position) {
             entity = engine.createEntity();
+            entity.flags = catergoryBit;
             this.position = position;
             return this;
         }
@@ -184,11 +178,6 @@ public class EntityFactory {
                 PhysicsComponent physics = Components.PHYSICS.get(entity);
                 physics.getBody().setLinearVelocity(linear);
             }
-            return this;
-        }
-
-        public EntityBuilder type (String typeString) {
-            entity.add(engine.createComponent(TypeComponent.class).init(typeString));
             return this;
         }
 

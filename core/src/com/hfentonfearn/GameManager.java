@@ -64,4 +64,12 @@ public class GameManager {
     public static PooledEngine getEngine() {
         return engine;
     }
+
+    public static class GameConfig {
+        public static enum BUILD {
+            DEV, RELEASE;
+        }
+
+        public static final BUILD build = BUILD.RELEASE;
+    }
 }

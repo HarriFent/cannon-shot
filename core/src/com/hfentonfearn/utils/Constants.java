@@ -1,7 +1,7 @@
 package com.hfentonfearn.utils;
 
 public class Constants {
-    public static boolean DEBUGMODE = true;
+    public static boolean DEBUGMODE = false;
 
     public static final float TIME_STEP = 1/60f;
     public static final int VELOCITY_ITERATIONS = 2;

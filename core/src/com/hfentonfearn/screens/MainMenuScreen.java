@@ -98,7 +98,7 @@ public class MainMenuScreen extends AbstractScreen {
     private void addBackground() {
         Texture texture = AssetLoader.ui.mainMenu;
         Image itemImage = new Image();
-        itemImage.setPosition(10, 10);
+        itemImage.setPosition(0, 0);
         itemImage.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
         itemImage.setSize(texture.getWidth(), texture.getHeight());
         stage.addActor(itemImage);

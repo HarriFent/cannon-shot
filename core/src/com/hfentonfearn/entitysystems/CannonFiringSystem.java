@@ -5,8 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Vector2;
 import com.hfentonfearn.components.CannonFiringComponent;
 import com.hfentonfearn.components.PhysicsComponent;
@@ -40,16 +38,16 @@ public class CannonFiringSystem extends IteratingSystem {
         } else {
             //Non Player firing
             if (playerPos != null) {
-                DebugRendererSystem.addDebug("Distance between ships", playerPos.cpy().sub(physics.getPosition()).len());
+                //DebugRendererSystem.addDebug("Distance between ships", playerPos.cpy().sub(physics.getPosition()).len());
                 fireComp.firing = playerPos.cpy().sub(physics.getPosition()).len() < fireComp.range * 60;
                 fireComp.direction = playerPos.cpy().sub(physics.getPosition());
             }
         }
 
         //Debug Radius around ship
-        Vector2 size = Components.SPRITE.get(entity).getSize().scl(2).scl(0.6f);
+        /*Vector2 size = Components.SPRITE.get(entity).getSize().scl(2).scl(0.6f);
         Ellipse firingEllipse = new Ellipse(physics.getPosition().cpy().sub(size.cpy().scl(0.5f)),size.cpy());
-        DebugRendererSystem.addShape(firingEllipse, Color.RED, physics.getBody().getAngle());
+        DebugRendererSystem.addShape(firingEllipse, Color.RED, physics.getBody().getAngle());*/
 
         if (fireComp.firing && fireComp.timer == 0) {
             Vector2 cannonBallPos = getCannonBallPos(Components.SPRITE.get(entity).getSize().cpy().scl(0.6f),
@@ -57,7 +55,9 @@ public class CannonFiringSystem extends IteratingSystem {
                     physics.getBody().getAngle(),
                     fireComp.direction);
             EntityFactory.createCannonBall(cannonBallPos.cpy(), fireComp.direction.nor().scl(fireComp.range));
-            EntityFactory.createExplosion(cannonBallPos);
+            EntityFactory.createExplosion(cannonBallPos.cpy());
+            EntityFactory.createParticle(cannonBallPos.cpy(), ParticleSystem.ParticleType.SMOKE, 0);
+            EntityFactory.createParticle(cannonBallPos.cpy(), ParticleSystem.ParticleType.SPARK, 0);
             fireComp.timer = fireComp.firerate;
         }
         if (fireComp.timer > 0) fireComp.timer--;

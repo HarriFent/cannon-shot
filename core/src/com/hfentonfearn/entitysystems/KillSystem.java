@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.hfentonfearn.components.AnimationComponent;
 import com.hfentonfearn.components.KillComponent;
 import com.hfentonfearn.components.PhysicsComponent;
-import com.hfentonfearn.components.TypeComponent;
 import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.utils.Components;
 
+import static com.hfentonfearn.ecs.EntityCategory.CANNONBALL;
 import static com.hfentonfearn.utils.Constants.CANNONBALL_DYING_VELOCITY;
 
 public class KillSystem extends IteratingSystem {
@@ -22,14 +22,13 @@ public class KillSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         KillComponent kill = Components.KILL.get(entity);
-        if (Components.TYPE.has(entity))
-            if (Components.TYPE.get(entity).type == TypeComponent.CANNONBALL){
-                PhysicsComponent physics = Components.PHYSICS.get(entity);
-                if (physics.getBody().getLinearVelocity().len() < CANNONBALL_DYING_VELOCITY) {
-                    EntityFactory.createCannonBallSplash(physics.getPosition());
-                    kill.kill = true;
-                }
+        if (entity.flags == CANNONBALL){
+            PhysicsComponent physics = Components.PHYSICS.get(entity);
+            if (physics.getBody().getLinearVelocity().len() < CANNONBALL_DYING_VELOCITY) {
+                EntityFactory.createCannonBallSplash(physics.getPosition());
+                kill.kill = true;
             }
+        }
 
         if (kill.timed) {
             kill.timer--;

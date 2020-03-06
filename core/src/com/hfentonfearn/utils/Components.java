@@ -9,7 +9,6 @@ public class Components {
     public static final ComponentMapper<PhysicsComponent> PHYSICS = ComponentMapper.getFor(PhysicsComponent.class);
     public static final ComponentMapper<AccelerationComponent> ACCELERATION = ComponentMapper.getFor(AccelerationComponent.class);
     public static final ComponentMapper<StaticMovementComponent> STATIC_MOVEMENT = ComponentMapper.getFor(StaticMovementComponent.class);
-    public static final ComponentMapper<TypeComponent> TYPE = ComponentMapper.getFor(TypeComponent.class);
     public static final ComponentMapper<AnimationComponent> ANIMATION = ComponentMapper.getFor(AnimationComponent.class);
     public static final ComponentMapper<HealthComponent> HEALTH = ComponentMapper.getFor(HealthComponent.class);
     public static final ComponentMapper<KillComponent> KILL = ComponentMapper.getFor(KillComponent.class);
@@ -17,4 +16,5 @@ public class Components {
     public static final ComponentMapper<InventoryComponent> INVENTORY = ComponentMapper.getFor(InventoryComponent.class);
     public static final ComponentMapper<PlayerComponent> PLAYER = ComponentMapper.getFor(PlayerComponent.class);
     public static final ComponentMapper<CannonFiringComponent> CANNON_FIRE = ComponentMapper.getFor(CannonFiringComponent.class);
+    public static final ComponentMapper<ParticleComponent> PARTICLE = ComponentMapper.getFor(ParticleComponent.class);
 }

@@ -15,6 +15,10 @@ import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 import com.hfentonfearn.utils.WorldBuilder;
 
+import static com.hfentonfearn.GameManager.GameConfig.BUILD;
+import static com.hfentonfearn.GameManager.GameConfig.build;
+import static com.hfentonfearn.utils.Constants.DEBUGMODE;
+
 public class GameScreen extends AbstractScreen {
 
     private EntityManager engine;
@@ -30,7 +34,10 @@ public class GameScreen extends AbstractScreen {
 
         multiplexer = engine.getSystem(InputSystem.class).getMultiplexer();
         multiplexer.addProcessor(engine.getSystem(GUISystem.class).getStage());
-        multiplexer.addProcessor(new DeveloperInputProcessor());
+        if (build == BUILD.DEV) {
+            DEBUGMODE = true;
+            multiplexer.addProcessor(new DeveloperInputProcessor());
+        }
     }
 
     private void createWorld(int width, int height) {

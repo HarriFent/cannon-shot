@@ -36,6 +36,6 @@ public class DeveloperTools {
     public static void spawnWaterParticle() {
         PooledEngine engine = GameManager.getEngine();
         Vector2 pos = engine.getSystem(CameraSystem.class).screenToWorldCords(Gdx.input.getX(), Gdx.input.getY());
-        EntityFactory.createParticle(pos, ParticleSystem.ParticleType.WATER);
+        EntityFactory.createParticle(pos, ParticleSystem.ParticleType.WATER, 0);
     }
 }

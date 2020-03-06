@@ -112,7 +112,7 @@ public class EntityFactory {
                 .damping(0f, CANNONBALL_DAMPING)
                 .killable()
                 .drawDistance(ZOOM_FAR)
-                .particle(ParticleType.CANNON_TRAIL,true)
+                .particle(ParticleType.CANNON_TRAIL,true, 0)
                 .addToEngine();
         return entity;
     }
@@ -135,8 +135,8 @@ public class EntityFactory {
         return entity;
     }
 
-    public static Entity createParticle (Vector2 position, ParticleType type) {
-        Entity entity = builder.createEntity(EntityCategory.EFFECT, position).particle(type, false).addToEngine();
+    public static Entity createParticle(Vector2 position, ParticleType type, float angle) {
+        Entity entity = builder.createEntity(EntityCategory.EFFECT, position).particle(type, false, angle).addToEngine();
         return entity;
     }
 
@@ -231,9 +231,9 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder particle(ParticleType type, boolean follow) {
+        public EntityBuilder particle(ParticleType type, boolean follow, float angle) {
             PooledEffect effect = engine.getSystem(ParticleSystem.class).createEffect(position, type);
-            entity.add(engine.createComponent(ParticleComponent.class).init(effect, follow));
+            entity.add(engine.createComponent(ParticleComponent.class).init(effect, follow, angle));
             return this;
         }
 

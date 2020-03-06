@@ -56,8 +56,8 @@ public class CannonFiringSystem extends IteratingSystem {
                     fireComp.direction);
             EntityFactory.createCannonBall(cannonBallPos.cpy(), fireComp.direction.nor().scl(fireComp.range));
             EntityFactory.createExplosion(cannonBallPos.cpy());
-            EntityFactory.createParticle(cannonBallPos.cpy(), ParticleSystem.ParticleType.SMOKE);
-            EntityFactory.createParticle(cannonBallPos.cpy(), ParticleSystem.ParticleType.SPARK);
+            EntityFactory.createParticle(cannonBallPos.cpy(), ParticleSystem.ParticleType.SMOKE, 0);
+            EntityFactory.createParticle(cannonBallPos.cpy(), ParticleSystem.ParticleType.SPARK, 0);
             fireComp.timer = fireComp.firerate;
         }
         if (fireComp.timer > 0) fireComp.timer--;

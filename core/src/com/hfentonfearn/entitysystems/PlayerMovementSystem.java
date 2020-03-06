@@ -10,6 +10,7 @@ import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.AccelerationComponent;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.PlayerComponent;
+import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.utils.Constants.VELOCITY_DRIFT;
@@ -17,7 +18,6 @@ import static com.hfentonfearn.utils.Constants.VELOCITY_DRIFT;
 public class PlayerMovementSystem extends IteratingSystem {
 
     private PhysicsComponent physics;
-    private Vector2 impulseVector = new Vector2();
 
     public PlayerMovementSystem() {
         super(Family.all(PlayerComponent.class, AccelerationComponent.class,PhysicsComponent.class).get());
@@ -34,9 +34,11 @@ public class PlayerMovementSystem extends IteratingSystem {
             body.applyTorque(acceleration.angular, true);
         }
 
+        Vector2 impulseVector = new Vector2();
         if(acceleration.linear != 0f) {
             // accelerate
             impulseVector.set(0f, -acceleration.linear * deltaTime).rotate( MathUtils.radiansToDegrees * body.getAngle());
+            EntityFactory.createParticle(physics.getPosition().cpy().sub(impulseVector.cpy().scl(100)), ParticleSystem.ParticleType.WATER, (float) Math.toDegrees(body.getAngle())+90);
             body.applyForceToCenter(impulseVector, true);
         }
         handleDrift();

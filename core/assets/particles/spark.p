@@ -1,19 +1,17 @@
-smoke
+sparks
 - Delay -
-active: true
-lowMin: 200.0
-lowMax: 200.0
+active: false
 - Duration - 
-lowMin: 1000.0
-lowMax: 1000.0
+lowMin: 900.0
+lowMax: 900.0
 - Count - 
 min: 0
-max: 10
+max: 4
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 20.0
-highMax: 20.0
+highMin: 500.0
+highMax: 500.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -22,8 +20,8 @@ timeline0: 0.0
 - Life - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 1300.0
-highMax: 1300.0
+highMin: 1100.0
+highMax: 1100.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -62,8 +60,8 @@ timeline0: 0.0
 - X Scale - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 20.0
-highMax: 40.0
+highMin: 10.0
+highMax: 10.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -75,8 +73,8 @@ active: false
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: 50.0
-highMax: 20.0
+highMin: 500.0
+highMax: 500.0
 relative: false
 scalingCount: 2
 scaling0: 1.0
@@ -103,9 +101,9 @@ active: false
 active: false
 - Tint - 
 colorsCount: 3
-colors0: 0.50980395
-colors1: 0.50980395
-colors2: 0.50980395
+colors0: 1.0
+colors1: 0.94509804
+colors2: 0.047058824
 timelineCount: 1
 timeline0: 0.0
 - Transparency - 
@@ -114,10 +112,12 @@ lowMax: 0.0
 highMin: 1.0
 highMax: 1.0
 relative: false
-scalingCount: 1
-scaling0: 0.3859649
-timelineCount: 1
+scalingCount: 2
+scaling0: 1.0
+scaling1: 0.0
+timelineCount: 2
 timeline0: 0.0
+timeline1: 1.0
 - Options - 
 attached: false
 continuous: false
@@ -127,5 +127,5 @@ behind: false
 premultipliedAlpha: false
 spriteMode: single
 - Image Paths -
-smoke.png
+spark.png
 

@@ -38,7 +38,7 @@ public class CannonFiringSystem extends IteratingSystem {
         } else {
             //Non Player firing
             if (playerPos != null) {
-                DebugRendererSystem.addDebug("Distance between ships", playerPos.cpy().sub(physics.getPosition()).len());
+                //DebugRendererSystem.addDebug("Distance between ships", playerPos.cpy().sub(physics.getPosition()).len());
                 fireComp.firing = playerPos.cpy().sub(physics.getPosition()).len() < fireComp.range * 60;
                 fireComp.direction = playerPos.cpy().sub(physics.getPosition());
             }
@@ -56,7 +56,8 @@ public class CannonFiringSystem extends IteratingSystem {
                     fireComp.direction);
             EntityFactory.createCannonBall(cannonBallPos.cpy(), fireComp.direction.nor().scl(fireComp.range));
             EntityFactory.createExplosion(cannonBallPos.cpy());
-            EntityFactory.createParticle(cannonBallPos.cpy(), ParticleSystem.ParticleType.CANNON_FIRE);
+            EntityFactory.createParticle(cannonBallPos.cpy(), ParticleSystem.ParticleType.SMOKE);
+            EntityFactory.createParticle(cannonBallPos.cpy(), ParticleSystem.ParticleType.SPARK);
             fireComp.timer = fireComp.firerate;
         }
         if (fireComp.timer > 0) fireComp.timer--;

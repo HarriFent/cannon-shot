@@ -25,7 +25,6 @@ public class EntityManager extends PooledEngine {
         addSystem(new ZoomSystem());
         //Physics System
         addSystem(new PhysicsSystem());
-        addSystem(new ParticleSystem());
         //Player movement system
         addSystem(new PlayerMovementSystem());
 
@@ -42,11 +41,11 @@ public class EntityManager extends PooledEngine {
         //Entity Render System
         addSystem(new FarRenderSystem());
         addSystem(new MapRenderSystem());
+        //Particle System
+        addSystem(new ParticleSystem());
         addSystem(new HUDSystem());
         //Debug Render System
         addSystem(new DebugRendererSystem());
-        //Particle System
-
         //GUI System
         addSystem(guiSystem);
 

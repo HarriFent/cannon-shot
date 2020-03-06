@@ -48,7 +48,7 @@ public class ParticleSystem extends IteratingSystem {
         for (int i = 0; i < ParticleType.values().length; i++) {
             ParticleEffect template = new ParticleEffect();
             template.load(Gdx.files.internal(ROOT_DIR + ParticleType.values()[i].file), Gdx.files.internal(ROOT_DIR));
-            template.scaleEffect(0.02f);
+            //template.scaleEffect(0.02f);
             effectTemplates.add(template);
 
             ParticleEffectPool pool = new ParticleEffectPool(template, 4, 20);

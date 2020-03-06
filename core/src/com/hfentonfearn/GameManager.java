@@ -70,6 +70,6 @@ public class GameManager {
             DEV, RELEASE;
         }
 
-        public static final BUILD build = BUILD.DEV;
+        public static final BUILD build = BUILD.RELEASE;
     }
 }

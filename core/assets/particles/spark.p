@@ -2,16 +2,16 @@ sparks
 - Delay -
 active: false
 - Duration - 
-lowMin: 900.0
-lowMax: 900.0
+lowMin: 20.0
+lowMax: 20.0
 - Count - 
 min: 0
 max: 4
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 500.0
-highMax: 500.0
+highMin: 400.0
+highMax: 400.0
 relative: false
 scalingCount: 1
 scaling0: 1.0

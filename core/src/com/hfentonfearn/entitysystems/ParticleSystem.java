@@ -83,13 +83,13 @@ public class ParticleSystem extends IteratingSystem {
                 Vector2 pos = Components.PHYSICS.get(entity).getPosition();
                 particle.effect.setPosition(pos.x, pos.y);
             }
+        particle.effect.update(deltaTime);
+        particle.effect.draw(batch);
 
         if (particle.effect.isComplete()) {
             particle.effect.free();
             engine.removeEntity(entity);
         }
-        particle.effect.update(deltaTime);
-        particle.effect.draw(batch);
     }
 
     @Override

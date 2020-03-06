@@ -20,7 +20,8 @@ public class ParticleComponent implements Component, Poolable {
 
     @Override
     public void reset () {
-        effect.free();
+        follow = false;
+        effect = null;
     }
 
 }

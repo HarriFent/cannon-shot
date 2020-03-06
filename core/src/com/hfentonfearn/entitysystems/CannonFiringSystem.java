@@ -5,8 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Vector2;
 import com.hfentonfearn.components.CannonFiringComponent;
 import com.hfentonfearn.components.PhysicsComponent;
@@ -47,9 +45,9 @@ public class CannonFiringSystem extends IteratingSystem {
         }
 
         //Debug Radius around ship
-        Vector2 size = Components.SPRITE.get(entity).getSize().scl(2).scl(0.6f);
+        /*Vector2 size = Components.SPRITE.get(entity).getSize().scl(2).scl(0.6f);
         Ellipse firingEllipse = new Ellipse(physics.getPosition().cpy().sub(size.cpy().scl(0.5f)),size.cpy());
-        DebugRendererSystem.addShape(firingEllipse, Color.RED, physics.getBody().getAngle());
+        DebugRendererSystem.addShape(firingEllipse, Color.RED, physics.getBody().getAngle());*/
 
         if (fireComp.firing && fireComp.timer == 0) {
             Vector2 cannonBallPos = getCannonBallPos(Components.SPRITE.get(entity).getSize().cpy().scl(0.6f),

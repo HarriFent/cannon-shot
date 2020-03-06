@@ -21,7 +21,7 @@ public class ParticleSystem extends IteratingSystem {
     private static final String ROOT_DIR = "particles/";
 
     public enum ParticleType {
-        WATER("water.p"), SMOKE("smoke.p"), CANNON_FIRE("cannon_fire.p");
+        WATER("water.p"), SMOKE("smoke.p"), CANNON_FIRE("cannon_fire.p"), CANNON_TRAIL("cannon_trail.p");
 
         public String file;
 
@@ -73,6 +73,11 @@ public class ParticleSystem extends IteratingSystem {
     @Override
     protected void processEntity (Entity entity, float deltaTime) {
         ParticleComponent particle = Components.PARTICLE.get(entity);
+        if (particle.follow)
+            if (Components.PHYSICS.has(entity)) {
+                Vector2 pos = Components.PHYSICS.get(entity).getPosition();
+                particle.effect.setPosition(pos.x, pos.y);
+            }
         particle.effect.update(deltaTime);
         particle.effect.draw(batch);
 

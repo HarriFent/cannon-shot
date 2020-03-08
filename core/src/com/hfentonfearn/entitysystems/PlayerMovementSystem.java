@@ -45,11 +45,15 @@ public class PlayerMovementSystem extends IteratingSystem {
         }
 
         if (getForwardVelocity().len() > 0) {
-            Vector2 particlePos = new Vector2(0,55).rotateRad(physics.getBody().getAngle()).add(physics.getPosition());
-            Entity wake = EntityFactory.createParticle(particlePos, ParticleSystem.ParticleType.WATER, (float) Math.toDegrees(body.getAngle()+90));
+            Vector2 particlePos = new Vector2(15,55).rotateRad(physics.getBody().getAngle()).add(physics.getPosition());
+            Entity wake = EntityFactory.createParticle(particlePos, ParticleSystem.ParticleType.WATER, (float) Math.toDegrees(body.getAngle()+70));
+            Vector2 particlePos2 = new Vector2(-15,55).rotateRad(physics.getBody().getAngle()).add(physics.getPosition());
+            Entity wake2 = EntityFactory.createParticle(particlePos2, ParticleSystem.ParticleType.WATER, (float) Math.toDegrees(body.getAngle()+110));
             Components.PARTICLE.get(wake).setVelocity(getForwardVelocity().cpy().scl(100).len());
+            Components.PARTICLE.get(wake2).setVelocity(getForwardVelocity().cpy().scl(100).len());
             float alpha = getForwardVelocity().len()/10 > 1 ? 1 : getForwardVelocity().len()/10;
             Components.PARTICLE.get(wake).setAlpha(alpha);
+            Components.PARTICLE.get(wake2).setAlpha(alpha);
         }
         handleDrift();
     }

@@ -3,6 +3,8 @@ package com.hfentonfearn.entitysystems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -34,12 +36,24 @@ public class PlayerMovementSystem extends IteratingSystem {
             body.applyTorque(acceleration.angular, true);
         }
 
+
         Vector2 impulseVector = new Vector2();
         if(acceleration.linear != 0f) {
             // accelerate
             impulseVector.set(0f, -acceleration.linear * deltaTime).rotate( MathUtils.radiansToDegrees * body.getAngle());
-            EntityFactory.createParticle(physics.getPosition().cpy().sub(impulseVector.cpy().scl(100)), ParticleSystem.ParticleType.WATER, (float) Math.toDegrees(body.getAngle())+90);
             body.applyForceToCenter(impulseVector, true);
+        }
+
+        if (getForwardVelocity().len() > 0) {
+            Vector2 particlePos = new Vector2(15,55).rotateRad(physics.getBody().getAngle()).add(physics.getPosition());
+            Entity wake = EntityFactory.createParticle(particlePos, ParticleSystem.ParticleType.WATER, (float) Math.toDegrees(body.getAngle()+70));
+            Vector2 particlePos2 = new Vector2(-15,55).rotateRad(physics.getBody().getAngle()).add(physics.getPosition());
+            Entity wake2 = EntityFactory.createParticle(particlePos2, ParticleSystem.ParticleType.WATER, (float) Math.toDegrees(body.getAngle()+110));
+            Components.PARTICLE.get(wake).setVelocity(getForwardVelocity().cpy().scl(100).len());
+            Components.PARTICLE.get(wake2).setVelocity(getForwardVelocity().cpy().scl(100).len());
+            float alpha = getForwardVelocity().len()/10 > 1 ? 1 : getForwardVelocity().len()/10;
+            Components.PARTICLE.get(wake).setAlpha(alpha);
+            Components.PARTICLE.get(wake2).setAlpha(alpha);
         }
         handleDrift();
     }

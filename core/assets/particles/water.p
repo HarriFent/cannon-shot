@@ -2,16 +2,16 @@ water
 - Delay -
 active: false
 - Duration - 
-lowMin: 500.0
-lowMax: 500.0
+lowMin: 5.0
+lowMax: 5.0
 - Count - 
 min: 0
 max: 1
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 10.0
-highMax: 10.0
+highMin: 300.0
+highMax: 300.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -40,13 +40,15 @@ shape: point
 - Spawn Width - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 0.0
-highMax: 0.0
+highMin: -50.0
+highMax: 50.0
 relative: false
-scalingCount: 1
+scalingCount: 2
 scaling0: 1.0
-timelineCount: 1
+scaling1: 1.0
+timelineCount: 2
 timeline0: 0.0
+timeline1: 1.0
 - Spawn Height - 
 lowMin: 0.0
 lowMax: 0.0
@@ -96,8 +98,8 @@ timeline2: 1.0
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: 250.0
-highMax: 290.0
+highMin: 80.0
+highMax: 100.0
 relative: false
 scalingCount: 2
 scaling0: 1.0

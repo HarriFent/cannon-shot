@@ -30,12 +30,28 @@ public class ParticleComponent implements Component, Poolable {
     public void rotateBy(float amountInDegrees) {
         Array<ParticleEmitter> emitters = effect.getEmitters();
         for (int i = 0; i < emitters.size; i++) {
-            ParticleEmitter.ScaledNumericValue val = emitters.get(i).getAngle();
+            ParticleEmitter emitter = emitters.get(i);
+            ParticleEmitter.ScaledNumericValue val = emitter.getAngle();
             float amplitude = (val.getHighMax() - val.getHighMin()) / 2f;
             float h1 = amountInDegrees + amplitude;
             float h2 = amountInDegrees - amplitude;
             val.setHigh(h1, h2);
             val.setLow(amountInDegrees);
+        }
+    }
+
+    public void setVelocity(float velocity) {
+        Array<ParticleEmitter> emitters = effect.getEmitters();
+        for (int i = 0; i < emitters.size; i++) {
+            emitters.get(i).getVelocity().setHighMax(velocity);
+        }
+    }
+
+    public void setAlpha(float alpha) {
+        Array<ParticleEmitter> emitters = effect.getEmitters();
+        for (int i = 0; i < emitters.size; i++) {
+            emitters.get(i).getTransparency().setHighMin(alpha);
+            emitters.get(i).getTransparency().setHighMax(alpha);
         }
     }
 }

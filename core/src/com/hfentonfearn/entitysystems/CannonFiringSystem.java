@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.hfentonfearn.components.CannonFiringComponent;
 import com.hfentonfearn.components.PhysicsComponent;
@@ -40,7 +41,7 @@ public class CannonFiringSystem extends IteratingSystem {
             if (playerPos != null) {
                 //DebugRendererSystem.addDebug("Distance between ships", playerPos.cpy().sub(physics.getPosition()).len());
                 fireComp.firing = playerPos.cpy().sub(physics.getPosition()).len() < fireComp.range * 60;
-                fireComp.direction = playerPos.cpy().sub(physics.getPosition());
+                fireComp.direction = playerPos.cpy().sub(physics.getPosition()).rotate(MathUtils.random(-5,5));
             }
         }
 

@@ -8,12 +8,14 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 public class AnimationComponent implements Component, Poolable {
     public Animation<TextureRegion> animation;
     public float stateTime;
+    public float scale;
 
     private AnimationComponent () {}
 
-    public AnimationComponent init (Animation<TextureRegion> animation) {
+    public AnimationComponent init (Animation<TextureRegion> animation, float scale) {
         this.animation = animation;
         stateTime = 0f;
+        this.scale = scale;
         return this;
     }
 

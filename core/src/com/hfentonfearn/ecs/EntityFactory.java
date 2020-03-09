@@ -108,9 +108,9 @@ public class EntityFactory {
         return entity;
     }
 
-    public static Entity createExplosion(Vector2 position) {
+    public static Entity createExplosion(Vector2 position, float scale) {
         Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
-                .animation(AssetLoader.effects.cannonExplosion, true)
+                .animation(AssetLoader.effects.cannonExplosion, true, scale)
                 .buildPhysics(StaticBody).getBody()
                 .addToEngine();
         return entity;
@@ -125,6 +125,7 @@ public class EntityFactory {
         Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
                 .sprite(AssetLoader.enemyShip.deadShip)
                 .killAfterDuration(5)
+                .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .buildPhysics(DynamicBody).getBody()
                 .addToEngine();
         Components.KILL.get(entity).fade = true;
@@ -194,11 +195,15 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder animation(Animation<TextureRegion> animation, boolean killAfterAnimation) {
-            entity.add(engine.createComponent(AnimationComponent.class).init(animation));
+        public EntityBuilder animation(Animation<TextureRegion> animation, boolean killAfterAnimation, float scale) {
+            entity.add(engine.createComponent(AnimationComponent.class).init(animation, scale));
             if (killAfterAnimation)
                 entity.add(engine.createComponent(KillComponent.class).init(true));
             return this;
+        }
+
+        public EntityBuilder animation(Animation<TextureRegion> animation, boolean killAfterAnimation) {
+            return animation(animation,killAfterAnimation,1f);
         }
 
         public EntityBuilder particle(ParticleType type, boolean follow, float angle) {

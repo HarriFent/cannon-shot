@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -83,8 +82,10 @@ public class EntityRenderSystem extends IteratingSystem implements Disposable {
             if (Components.PHYSICS.has(entity)) {
                 PhysicsComponent physics = Components.PHYSICS.get(entity);
                 Vector2 pos = physics.getPosition();
-                TextureRegion currentFrame = ani.animation.getKeyFrame(ani.stateTime, false);
-                batch.draw(currentFrame, pos.x - currentFrame.getRegionWidth()/2, pos.y - currentFrame.getRegionHeight()/2);
+                Sprite frame = new Sprite(ani.animation.getKeyFrame(ani.stateTime, false));
+                frame.setCenter(pos.x,pos.y);
+                frame.setScale(ani.scale);
+                frame.draw(batch);
             }
         }
         //Render health bar and stuff with the shapeRenderer

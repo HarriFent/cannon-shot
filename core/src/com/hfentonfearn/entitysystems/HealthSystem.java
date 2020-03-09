@@ -21,6 +21,7 @@ public class HealthSystem extends IteratingSystem {
             Entity dyingship = EntityFactory.createDyingShip(Components.PHYSICS.get(entity).getPosition());
             Body shipBody = Components.PHYSICS.get(entity).getBody();
             Body dyingBody = Components.PHYSICS.get(dyingship).getBody();
+            dyingBody.setAngularVelocity(shipBody.getAngularVelocity());
             dyingBody.setTransform(shipBody.getPosition(),shipBody.getAngle());
             dyingBody.setLinearVelocity(shipBody.getLinearVelocity());
             Components.KILL.get(entity).kill = true;

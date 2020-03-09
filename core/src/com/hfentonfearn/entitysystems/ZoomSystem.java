@@ -1,17 +1,13 @@
 package com.hfentonfearn.entitysystems;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.hfentonfearn.GameManager;
-import com.hfentonfearn.components.SpriteComponent;
-import com.hfentonfearn.components.StaticMovementComponent;
-import com.hfentonfearn.ecs.EntityFactory;
+import com.hfentonfearn.objects.Cloud;
+import com.hfentonfearn.utils.AssetLoader;
 
 public class ZoomSystem extends EntitySystem {
 
@@ -24,7 +20,7 @@ public class ZoomSystem extends EntitySystem {
     private float zoom;
 
     float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
-    private ImmutableArray<Entity> clouds;
+    private Cloud[] clouds;
 
     public ZoomSystem() {
         zoom = ZOOM_FAR;
@@ -35,17 +31,13 @@ public class ZoomSystem extends EntitySystem {
         super.addedToEngine(engine);
         camera = engine.getSystem(CameraSystem.class).getCamera();
         zoomTo(zoom,0);
-        clouds = engine.getEntitiesFor(Family.all(StaticMovementComponent.class,SpriteComponent.class).get());
     }
 
     @Override
     public void update(float deltaTime) {
+        DebugRendererSystem.addDebug("Cloud num: ", clouds != null ? clouds.length : 0);
         timeToCameraZoomTarget -= deltaTime;
         camera.zoom = Interpolation.fade.apply(cameraZoomOrigin, cameraZoomTarget, getProgress());
-        if (!isZooming() && clouds.size() > 0){
-            for (Entity e: clouds)
-                getEngine().removeEntity(e);
-        }
     }
 
     private void zoomTo (float newZoom, float duration){
@@ -81,6 +73,7 @@ public class ZoomSystem extends EntitySystem {
     }
 
     private void createClouds(Vector2 movement, Vector2 position) {
+        clouds = new Cloud[4];
         for (int i = 0; i < 4; i++) {
             Vector2 newMovement = movement.cpy();
             Vector2 newPosition = position.cpy();
@@ -97,7 +90,10 @@ public class ZoomSystem extends EntitySystem {
                     newPosition.set(camera.viewportWidth - newPosition.x,newPosition.y * 3);
                 default:
             }
-            Entity cloud = EntityFactory.createCloud(newPosition, newMovement);
+            Cloud cloudSprite = new Cloud(AssetLoader.clouds.getRandomCloud(),newMovement);
+            cloudSprite.setCenter(newPosition.x,newPosition.y);
+            cloudSprite.setScale(3);
+            clouds[i] = cloudSprite;
         }
     }
 
@@ -120,4 +116,6 @@ public class ZoomSystem extends EntitySystem {
     public float getZoom() {
         return zoom;
     }
+
+    public Cloud[] getClouds() { return clouds; }
 }

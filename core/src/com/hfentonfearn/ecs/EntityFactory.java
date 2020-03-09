@@ -15,7 +15,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.hfentonfearn.components.*;
 import com.hfentonfearn.entitysystems.ParticleSystem;
 import com.hfentonfearn.entitysystems.PhysicsSystem;
-import com.hfentonfearn.entitysystems.ZoomSystem;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.BodyEditorLoader;
 import com.hfentonfearn.utils.Components;
@@ -24,8 +23,6 @@ import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.StaticBody;
 import static com.hfentonfearn.ecs.EntityFactory.PhysicsBuilder.FixtureBuilder;
 import static com.hfentonfearn.entitysystems.ParticleSystem.ParticleType;
-import static com.hfentonfearn.entitysystems.ZoomSystem.ZOOM_FAR;
-import static com.hfentonfearn.entitysystems.ZoomSystem.ZOOM_MAP;
 import static com.hfentonfearn.utils.Constants.*;
 
 public class EntityFactory {
@@ -57,9 +54,9 @@ public class EntityFactory {
                 .sprite(AssetLoader.playerShip.sail)
                 .acceleration()
                 .shipStats()
-                .drawDistance(ZOOM_FAR)
                 .getWithoutAdding();
         entity.add(new PlayerComponent());
+        PlayerComponent.player = entity;
         engine.addEntity(entity);
     }
 
@@ -70,7 +67,6 @@ public class EntityFactory {
                 .damping(DAMPING_ANGULAR, DAMPING_LINEAR)
                 .sprite(AssetLoader.enemyShip.ship)
                 .shipStats(DEFAULT_SPEED, DEFAULT_STEERING, health, 200, 6f, 1)
-                .drawDistance(ZOOM_FAR)
                 .addToEngine();
         Components.PHYSICS.get(entity).getBody().setTransform(position.cpy(), MathUtils.random(4));
         return entity;
@@ -92,18 +88,6 @@ public class EntityFactory {
                 .addToEngine();
     }
 
-    public static Entity createCloud(Vector2 position, Vector2 movement) {
-        Sprite cloudSprite = new Sprite(AssetLoader.clouds.getRandomCloud());
-        cloudSprite.setCenter(position.x,position.y);
-        cloudSprite.setScale(3);
-        Entity entity = builder.createEntity(EntityCategory.CLOUD,position)
-                .sprite(cloudSprite)
-                .staticMovement(movement)
-                .drawDistance(ZOOM_MAP)
-                .addToEngine();
-        return entity;
-    }
-
     public static Entity createCannonBall(Vector2 position, Vector2 linearVel) {
         Entity entity = builder.createEntity(EntityCategory.CANNONBALL,position)
                 .sprite(AssetLoader.projectiles.cannonBall)
@@ -111,7 +95,6 @@ public class EntityFactory {
                 .setInitVelocity(linearVel)
                 .damping(0f, CANNONBALL_DAMPING)
                 .killable()
-                .drawDistance(ZOOM_FAR)
                 .particle(ParticleType.CANNON_TRAIL,true, 0)
                 .addToEngine();
         return entity;
@@ -121,7 +104,6 @@ public class EntityFactory {
         Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
                 .animation(AssetLoader.effects.cannonSplash, true)
                 .buildPhysics(StaticBody).getBody()
-                .drawDistance(ZOOM_FAR)
                 .addToEngine();
         return entity;
     }
@@ -130,7 +112,6 @@ public class EntityFactory {
         Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
                 .animation(AssetLoader.effects.cannonExplosion, true)
                 .buildPhysics(StaticBody).getBody()
-                .drawDistance(ZOOM_FAR)
                 .addToEngine();
         return entity;
     }
@@ -145,7 +126,6 @@ public class EntityFactory {
                 .sprite(AssetLoader.enemyShip.deadShip)
                 .killAfterDuration(5)
                 .buildPhysics(DynamicBody).getBody()
-                .drawDistance(ZOOM_FAR)
                 .addToEngine();
         Components.KILL.get(entity).fade = true;
         return entity;
@@ -186,16 +166,6 @@ public class EntityFactory {
             if (Components.PHYSICS.has(entity)) {
                 PhysicsComponent physics = Components.PHYSICS.get(entity);
                 physics.getBody().setLinearVelocity(linear);
-            }
-            return this;
-        }
-
-        public EntityBuilder drawDistance (float Zoom) {
-            if (Zoom == ZoomSystem.ZOOM_MAP){
-                entity.add(new MapDrawComponent());
-            }
-            if (Zoom == ZOOM_FAR){
-                entity.add(new FarDrawComponent());
             }
             return this;
         }

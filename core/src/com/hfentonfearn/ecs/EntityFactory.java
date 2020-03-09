@@ -39,6 +39,7 @@ public class EntityFactory {
 
     private static PhysicsBuilder physicsBuilder = new PhysicsBuilder();
     private static FixtureBuilder fixtureBuilder = new FixtureBuilder();
+    private static KillingBuilder killingBuilder = new KillingBuilder();
 
     public static void setEngine (PooledEngine engine) {
         EntityFactory.engine = engine;
@@ -94,7 +95,7 @@ public class EntityFactory {
                 .buildPhysics(DynamicBody).addFixture(MATERIAL_STEEL).circle(0.05f).create().getBody()
                 .setInitVelocity(linearVel)
                 .damping(0f, CANNONBALL_DAMPING)
-                .killable()
+                .killable().create()
                 .particle(ParticleType.CANNON_TRAIL,true, 0)
                 .addToEngine();
         return entity;
@@ -110,8 +111,8 @@ public class EntityFactory {
 
     public static Entity createExplosion(Vector2 position, float scale) {
         Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
-                .animation(AssetLoader.effects.cannonExplosion, true, scale)
                 .buildPhysics(StaticBody).getBody()
+                .animation(AssetLoader.effects.cannonExplosion, true, scale)
                 .addToEngine();
         return entity;
     }
@@ -123,10 +124,10 @@ public class EntityFactory {
 
     public static Entity createDyingShip(Vector2 position) {
         Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
-                .sprite(AssetLoader.enemyShip.deadShip)
-                .killAfterDuration(5)
-                .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .buildPhysics(DynamicBody).getBody()
+                .sprite(AssetLoader.enemyShip.deadShip)
+                .killable().killAfterDuration(5).explode(20).create()
+                .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .addToEngine();
         Components.KILL.get(entity).fade = true;
         return entity;
@@ -198,7 +199,7 @@ public class EntityFactory {
         public EntityBuilder animation(Animation<TextureRegion> animation, boolean killAfterAnimation, float scale) {
             entity.add(engine.createComponent(AnimationComponent.class).init(animation, scale));
             if (killAfterAnimation)
-                entity.add(engine.createComponent(KillComponent.class).init(true));
+                killable().killAfterAnimation().create();
             return this;
         }
 
@@ -231,14 +232,8 @@ public class EntityFactory {
             return  this;
         }
 
-        public EntityBuilder killable() {
-            entity.add(engine.createComponent(KillComponent.class));
-            return this;
-        }
-
-        public EntityBuilder killAfterDuration(int seconds) {
-            entity.add(engine.createComponent(KillComponent.class).init(seconds * 60));
-            return this;
+        public KillingBuilder killable() {
+            return killingBuilder.reset(entity);
         }
 
         public EntityBuilder staticMovement(Vector2 movement) {
@@ -306,8 +301,8 @@ public class EntityFactory {
         public Entity getWithoutAdding () {
             return entity;
         }
-    }
 
+    }
 
     /**
      * Physics Builder and Fixture Builder
@@ -402,5 +397,43 @@ public class EntityFactory {
 
         }
 
+    }
+
+    private static class KillingBuilder {
+        Entity entity;
+        KillComponent component;
+
+        public KillingBuilder reset (Entity entity) {
+            component = engine.createComponent(KillComponent.class);
+            this.entity = entity;
+            return this;
+        }
+
+        public KillingBuilder killAfterAnimation() {
+            component.afterAnimation = true;
+            return this;
+        }
+
+        public KillingBuilder killAfterDuration(int duration) {
+            component.timed = true;
+            component.timer = component.starttime = duration * 60;
+            return this;
+        }
+
+        public KillingBuilder fade() {
+            component.fade = true;
+            return this;
+        }
+
+        public KillingBuilder explode (float radius) {
+            component.exploding = true;
+            component.explodingRadius = radius;
+            return this;
+        }
+
+        public EntityBuilder create() {
+            entity.add(component);
+            return builder;
+        }
     }
 }

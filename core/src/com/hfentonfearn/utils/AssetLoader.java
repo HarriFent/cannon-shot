@@ -23,6 +23,7 @@ public class AssetLoader implements Disposable {
     }
 
     public static final String TEXTURE_ATLAS_OBJECTS = "cannon-shot.atlas";
+    public static final String TEXTURE_ATLAS_PARTICLES = "particles.atlas";
     public static final String SKIN = "skin/level-plane-ui.json";
     public static final String MAP = "tiledMap/world1.tmx";
 
@@ -36,12 +37,14 @@ public class AssetLoader implements Disposable {
     public static AssetCloud clouds;
     public static AssetProjectiles projectiles;
     public static AssetEffects effects;
+    public static AssetParticles particles;
 
     public static Skin skin;
 
     public static void load () {
         getManager(); // Insure the manager exists
         manager.load(TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
+        manager.load(TEXTURE_ATLAS_PARTICLES, TextureAtlas.class);
         manager.load(SKIN, Skin.class);
     }
 
@@ -59,6 +62,8 @@ public class AssetLoader implements Disposable {
         clouds = new AssetCloud(atlas);
         projectiles = new AssetProjectiles(atlas);
         effects = new AssetEffects(atlas);
+
+        particles = new AssetParticles(manager.get(TEXTURE_ATLAS_PARTICLES));
     }
 
     @Override
@@ -185,6 +190,14 @@ public class AssetLoader implements Disposable {
         public AssetEffects(TextureAtlas atlas) {
             cannonSplash = new Animation<TextureRegion>(0.06f, atlas.findRegions("waterSplash"));
             cannonExplosion = new Animation<TextureRegion>(0.08f, atlas.findRegions("explosion"));
+        }
+    }
+
+    public static class AssetParticles {
+        public final TextureAtlas atlas;
+
+        public AssetParticles(TextureAtlas atlas) {
+            this.atlas = atlas;
         }
     }
 

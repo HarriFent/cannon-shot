@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.ParticleComponent;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
@@ -101,4 +102,8 @@ public class ParticleSystem extends IteratingSystem {
         batch.end();
     }
 
+    @Override
+    public boolean checkProcessing () {
+        return !GameManager.isPaused();
+    }
 }

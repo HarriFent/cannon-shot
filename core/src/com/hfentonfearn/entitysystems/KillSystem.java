@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.AnimationComponent;
 import com.hfentonfearn.components.KillComponent;
 import com.hfentonfearn.components.PhysicsComponent;
@@ -57,5 +58,10 @@ public class KillSystem extends IteratingSystem {
                 EntityFactory.createExplosion(new Vector2(kill.explodingRadius, 0).rotate(MathUtils.random(0, 360)).add(pos), MathUtils.random(0.3f, 1f));
             }
         }
+    }
+
+    @Override
+    public boolean checkProcessing () {
+        return !GameManager.isPaused();
     }
 }

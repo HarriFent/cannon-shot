@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.HealthComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.ecs.EntityFactory;
@@ -26,5 +27,10 @@ public class HealthSystem extends IteratingSystem {
             dyingBody.setLinearVelocity(shipBody.getLinearVelocity());
             Components.KILL.get(entity).kill = true;
         }
+    }
+
+    @Override
+    public boolean checkProcessing () {
+        return !GameManager.isPaused();
     }
 }

@@ -1,24 +1,30 @@
 package com.hfentonfearn.entitysystems;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
-import com.hfentonfearn.components.PlayerComponent;
+import com.hfentonfearn.components.ShipStatisticComponent;
+import com.hfentonfearn.ecs.EntityCategory;
 import com.hfentonfearn.objects.Cloud;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 
-public class MapRenderSystem extends EntitySystem implements Disposable {
+public class MapRenderSystem extends IteratingSystem implements Disposable {
 
     private SpriteBatch batch;
     private CameraSystem cameraSystem;
     private ZoomSystem zoomSystem;
+    private float alpha;
+    private Sprite map;
 
     public MapRenderSystem() {
+        super(Family.all(ShipStatisticComponent.class).get());
         batch = new SpriteBatch();
     }
 
@@ -40,39 +46,44 @@ public class MapRenderSystem extends EntitySystem implements Disposable {
             Sprite mapbg = new Sprite(AssetLoader.minimap.mapBackground);
             mapbg.setSize(viewWidth,viewHeight);
 
-            float mapHeight = viewHeight * 0.9f;
+            float mapSize = viewHeight * 0.9f;
 
-            Sprite map = new Sprite(AssetLoader.minimap.mapOverview);
-            map.setSize(mapHeight, mapHeight);
+            map = new Sprite(AssetLoader.minimap.mapOverview);
+            map.setSize(mapSize, mapSize);
             map.setCenter(viewWidth/2,viewHeight/2);
 
-            Sprite cross = new Sprite(AssetLoader.minimap.cross);
-            cross.setScale(0.5f);
-            if (PlayerComponent.player != null) {
-                Vector2 pos = Components.PHYSICS.get(PlayerComponent.player).getPosition();
-                pos = positionToMiniMap(pos.cpy(), map.getX(), map.getY(), mapHeight, mapHeight);
-                cross.setCenter(pos.x, pos.y);
-            }
-
             //Set Map Alpha
-            float alpha = getAlpha();
+            alpha = getAlpha();
 
             map.setAlpha(alpha);
             mapbg.setAlpha(alpha);
-            cross.setAlpha(alpha);
 
             //Draw sprites
             batch.begin();
             mapbg.draw(batch);
             map.draw(batch);
-            cross.draw(batch);
-
+            super.update(deltaTime);
             //Draw the clouds
             if (zoomSystem.isZooming())
                 for ( Cloud cloud : zoomSystem.getClouds())
                     drawCloud(cloud);
             batch.end();
         }
+    }
+
+    @Override
+    protected void processEntity(Entity entity, float deltaTime) {
+        Sprite cross;
+        if (entity.flags == EntityCategory.PLAYER) {
+            cross = new Sprite(AssetLoader.minimap.crossGreen);
+        } else {
+            cross = new Sprite(AssetLoader.minimap.crossRed);
+        }
+        cross.setScale(0.5f);
+        Vector2 pos = positionToMiniMap(Components.PHYSICS.get(entity).getPosition());
+        cross.setCenter(pos.x, pos.y);
+        cross.setAlpha(alpha);
+        cross.draw(batch);
     }
 
     private float getAlpha() {
@@ -93,12 +104,12 @@ public class MapRenderSystem extends EntitySystem implements Disposable {
         return alpha;
     }
 
-    public Vector2 positionToMiniMap(Vector2 pos, float x, float y, float width, float height) {
+    public Vector2 positionToMiniMap(Vector2 pos) {
         int border = 60;
-        width -= border*2;
-        height -= border*2;
-        float newx = ((width * pos.x) / AssetLoader.map.width) + x + border;
-        float newy = ((height * pos.y) / AssetLoader.map.height) + y + border;
+        float width = map.getWidth() - border*2;
+        float height = map.getHeight() - border*2;
+        float newx = ((width * pos.x) / AssetLoader.map.width) + map.getX() + border;
+        float newy = ((height * pos.y) / AssetLoader.map.height) + map.getY() + border;
         pos.set(newx, newy);
         return pos;
     }

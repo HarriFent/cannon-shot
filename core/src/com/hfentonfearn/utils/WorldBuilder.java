@@ -18,7 +18,7 @@ public class WorldBuilder {
 
     public void createWorld() {
         //EntityFactory.createPlayer(new Vector2(500,5800));
-        EntityFactory.createPlayer(new Vector2(1000,1000));
+        EntityFactory.createPlayer(new Vector2(500,500));
 
         MapLayer layer = AssetLoader.map.tiledMap.getLayers().get("collision");
         for (MapObject object : layer.getObjects()) {

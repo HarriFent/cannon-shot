@@ -131,12 +131,14 @@ public class AssetLoader implements Disposable {
     public static class AssetMiniMap {
         public final Texture mapOverview;
         public final Texture mapBackground;
-        public final Texture cross;
+        public final Texture crossRed;
+        public final Texture crossGreen;
 
         public AssetMiniMap() {
             mapOverview = new Texture(Gdx.files.internal("tiledMap/mapView.png"));
             mapBackground = new Texture(Gdx.files.internal("tiledMap/mapBackground.png"));
-            cross = new Texture(Gdx.files.internal("tiledMap/cross.png"));
+            crossRed = new Texture(Gdx.files.internal("tiledMap/cross_red.png"));
+            crossGreen = new Texture(Gdx.files.internal("tiledMap/cross_green.png"));
         }
     }
 

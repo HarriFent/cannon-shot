@@ -8,12 +8,16 @@ public class Cloud extends Sprite {
 
     private Vector2 movement;
 
-    public Cloud(TextureAtlas.AtlasRegion region,Vector2 movement) {
+    public Cloud(TextureAtlas.AtlasRegion region) {
         super(region);
-        this.movement = movement;
     }
 
     public Vector2 getMovement() {
         return movement;
+    }
+
+    public void reset(Vector2 movement, Vector2 position) {
+        this.movement = movement;
+        this.setCenter(position.x,position.y);
     }
 }

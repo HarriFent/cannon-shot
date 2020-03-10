@@ -16,7 +16,7 @@ public class ZoomSystem extends EntitySystem {
     public static final float ZOOM_FAR = 1.5f;
     public static final float ZOOM_MAP= 5f;
 
-    OrthographicCamera camera;
+    private OrthographicCamera camera;
     private float zoom;
 
     float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
@@ -31,6 +31,7 @@ public class ZoomSystem extends EntitySystem {
         super.addedToEngine(engine);
         camera = engine.getSystem(CameraSystem.class).getCamera();
         zoomTo(zoom,0);
+        createClouds();
     }
 
     @Override
@@ -55,7 +56,7 @@ public class ZoomSystem extends EntitySystem {
             if (zoom == ZOOM_CLOSE)
                 zoom = ZOOM_FAR;
             zoomTo(zoom, 2f);
-            createClouds(new Vector2(3, 0),
+            resetClouds(new Vector2(3, 0),
                     new Vector2(0,camera.viewportHeight * 1 / 4));
         }
     }
@@ -68,12 +69,11 @@ public class ZoomSystem extends EntitySystem {
             GameManager.resume();
         }
         zoomTo(zoom, 2f);
-        createClouds(new Vector2(-3, 0),
+        resetClouds(new Vector2(-3, 0),
                 new Vector2(camera.viewportWidth * 1 / 4,camera.viewportHeight * 1 / 4));
     }
 
-    private void createClouds(Vector2 movement, Vector2 position) {
-        clouds = new Cloud[4];
+    public void resetClouds(Vector2 movement, Vector2 position) {
         for (int i = 0; i < 4; i++) {
             Vector2 newMovement = movement.cpy();
             Vector2 newPosition = position.cpy();
@@ -90,8 +90,14 @@ public class ZoomSystem extends EntitySystem {
                     newPosition.set(camera.viewportWidth - newPosition.x,newPosition.y * 3);
                 default:
             }
-            Cloud cloudSprite = new Cloud(AssetLoader.clouds.getRandomCloud(),newMovement);
-            cloudSprite.setCenter(newPosition.x,newPosition.y);
+            clouds[i].reset(newMovement, newPosition);
+        }
+    }
+
+    private void createClouds() {
+        clouds = new Cloud[4];
+        for (int i = 0; i < 4; i++) {
+            Cloud cloudSprite = new Cloud(AssetLoader.clouds.getRandomCloud());
             cloudSprite.setScale(3);
             clouds[i] = cloudSprite;
         }

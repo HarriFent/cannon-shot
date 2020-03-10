@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.MathUtils;
@@ -144,11 +145,13 @@ public class AssetLoader implements Disposable {
         public final TiledMap tiledMap;
         public final int width;
         public final int height;
+        public final MapObjects spawnzones;
 
         public AssetMap () {
             tiledMap = new TmxMapLoader().load(MAP);
             width = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
             height = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
+            spawnzones = tiledMap.getLayers().get("spawnzones").getObjects();
         }
     }
 

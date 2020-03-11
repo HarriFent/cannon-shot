@@ -55,6 +55,7 @@ public class EntityFactory {
                 .sprite(AssetLoader.playerShip.sail)
                 .acceleration()
                 .shipStats()
+                .currency(0)
                 .getWithoutAdding();
         entity.add(new PlayerComponent());
         PlayerComponent.player = entity;
@@ -68,6 +69,7 @@ public class EntityFactory {
                 .damping(DAMPING_ANGULAR, DAMPING_LINEAR)
                 .sprite(AssetLoader.enemyShip.ship)
                 .shipStats(DEFAULT_SPEED, DEFAULT_STEERING, health, 200, 6f, 1)
+                .currency(0)
                 .addToEngine();
         Components.PHYSICS.get(entity).getBody().setTransform(position.cpy(), MathUtils.random(4));
         return entity;
@@ -264,6 +266,7 @@ public class EntityFactory {
             body = physicsSystem.createBody(def);
             body.setUserData(entity);
             entity.add(engine.createComponent(PhysicsComponent.class).init(body));
+            entity.add(engine.createComponent(CollisionComponent.class).init());
             return this;
         }
 

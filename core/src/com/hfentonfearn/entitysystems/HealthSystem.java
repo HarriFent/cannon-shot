@@ -19,7 +19,7 @@ public class HealthSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         if (Components.HEALTH.get(entity).value <= 0) {
-            Entity dyingship = EntityFactory.createDyingShip(Components.PHYSICS.get(entity).getPosition());
+            Entity dyingship = EntityFactory.createDyingShip(Components.PHYSICS.get(entity).getPosition(), Components.CURRENCY.get(entity).currency);
             Body shipBody = Components.PHYSICS.get(entity).getBody();
             Body dyingBody = Components.PHYSICS.get(dyingship).getBody();
             dyingBody.setAngularVelocity(shipBody.getAngularVelocity());

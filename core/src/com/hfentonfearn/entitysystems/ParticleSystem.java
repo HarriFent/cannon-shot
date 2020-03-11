@@ -23,7 +23,7 @@ public class ParticleSystem extends IteratingSystem {
     private static final String ROOT_DIR = "particles/";
 
     public enum ParticleType {
-        WATER("water.p"), SMOKE("smoke.p"), SPARK("spark.p"), CANNON_TRAIL("cannon_trail.p");
+        WATER("water.p"), SMOKE("smoke.p"), SPARK("spark.p"), CANNON_TRAIL("cannon_trail.p"), MONEY("money.p");
 
         public String file;
 

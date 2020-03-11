@@ -10,9 +10,11 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.hfentonfearn.GameManager;
+import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.ShipStatisticComponent;
 import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.utils.AssetLoader;
+import com.hfentonfearn.utils.Components;
 
 public class EnemySpawningSystem extends EntitySystem {
 
@@ -20,14 +22,15 @@ public class EnemySpawningSystem extends EntitySystem {
 
     @Override
     public void addedToEngine(Engine engine) {
-        enemies = engine.getEntitiesFor(Family.all(ShipStatisticComponent.class).get());
+        enemies = engine.getEntitiesFor(Family.all(ShipStatisticComponent.class).exclude(PlayerComponent.class).get());
     }
 
     @Override
     public void update(float deltaTime) {
         int numOfEnemies = enemies.size();
         if (numOfEnemies < 30) {
-            EntityFactory.createEnemyShip(getValidSpawnPoint(), MathUtils.random(30,50));
+            Entity newShip = EntityFactory.createEnemyShip(getValidSpawnPoint(), MathUtils.random(30,50));
+            Components.CURRENCY.get(newShip).currency = MathUtils.random(200,600);
         }
     }
 

@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.hfentonfearn.components.CurrencyComponent;
 import com.hfentonfearn.components.HealthComponent;
-import com.hfentonfearn.components.InventoryComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.utils.Components;
 
@@ -45,8 +45,8 @@ public class HUDSystem extends EntitySystem {
 
     private void drawCurrency() {
         font.setColor(Color.BLACK);
-        InventoryComponent inv = Components.INVENTORY.get(PlayerComponent.player);
-        font.draw(batch, "GOLD: " + inv.currency, WINDOW_WIDTH - 100, WINDOW_HEIGHT - 50);
+        CurrencyComponent cur = Components.CURRENCY.get(PlayerComponent.player);
+        font.draw(batch, "GOLD: " + cur.currency, WINDOW_WIDTH - 100, WINDOW_HEIGHT - 50);
     }
 
     private void drawHealthBar() {

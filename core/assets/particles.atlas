@@ -6,28 +6,35 @@ filter: Nearest,Nearest
 repeat: none
 fire
   rotate: false
-  xy: 104, 2
+  xy: 138, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-particle
+money
   rotate: false
   xy: 2, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+particle
+  rotate: false
+  xy: 36, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 smoke
   rotate: false
-  xy: 70, 2
+  xy: 104, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 spark
   rotate: false
-  xy: 36, 2
+  xy: 70, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

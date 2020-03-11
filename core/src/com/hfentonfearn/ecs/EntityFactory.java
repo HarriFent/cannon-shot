@@ -122,14 +122,14 @@ public class EntityFactory {
         return entity;
     }
 
-    public static Entity createDyingShip(Vector2 position) {
-        Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
-                .buildPhysics(DynamicBody).getBody()
+    public static Entity createDyingShip(Vector2 position, int currency) {
+        Entity entity = builder.createEntity(EntityCategory.DYINGSHIP,position)
+                .buildPhysics(DynamicBody).addFixture(-1).circle(0.5f).isSensor().create().getBody()
                 .sprite(AssetLoader.enemyShip.deadShip)
-                .killable().killAfterDuration(5).explode(20).create()
+                .killable().killAfterDuration(10).explode(20).fade().create()
+                .currency(currency)
                 .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .addToEngine();
-        Components.KILL.get(entity).fade = true;
         return entity;
     }
 
@@ -236,62 +236,10 @@ public class EntityFactory {
             return killingBuilder.reset(entity);
         }
 
-        public EntityBuilder staticMovement(Vector2 movement) {
-            entity.add(engine.createComponent(StaticMovementComponent.class).init(movement));
+        public EntityBuilder currency(int currency) {
+            entity.add(engine.createComponent(CurrencyComponent.class).init(currency));
             return this;
         }
-
-        /**
-         *  Circle Sensor and Range Sensor
-         */
-        /*
-        public EntityBuilder circleSensor (float radius) {
-            CircleShape shape = new CircleShape();
-            shape.setRadius(radius);
-
-            PhysicsComponent physics = Components.PHYSICS.get(entity);
-            if (physics == null) {
-                physicsBody(DEFAULT_BODY);
-            }
-
-            FixtureDef fixtureDef = new FixtureDef();
-            fixtureDef.isSensor = true;
-            fixtureDef.shape = shape;
-
-            physics.getBody().createFixture(fixtureDef);
-            return this;
-        }
-
-        public EntityBuilder rangeSensor (float range, float arc) {
-            Body body;
-            if (Components.PHYSICS.has(entity)) {
-                body = Components.PHYSICS.get(entity).getBody();
-            } else {
-                Gdx.app.error("Entity Factory", "can not add range sensor : entity does not have a physics component!");
-                return this;
-            }
-
-            Vector2 vertices[] = new Vector2[8];
-
-            for (int i = 0; i <= 7; i++) {
-                vertices[i] = new Vector2(0, 0);
-            }
-
-            for (int i = 0; i < 7; i++) {
-                float angle = (i / 6.0f * arc * MathUtils.degRad) - (90 * MathUtils.degRad);
-                vertices[i + 1].set(range * MathUtils.cos(angle), range * MathUtils.sin(angle));
-            }
-
-            PolygonShape poly = new PolygonShape();
-            poly.set(vertices);
-
-            FixtureDef sensorDef = new FixtureDef();
-            sensorDef.shape = poly;
-            sensorDef.isSensor = true;
-            body.createFixture(sensorDef);
-            poly.dispose();
-            return this;
-        }*/
 
         public Entity addToEngine () {
             engine.addEntity(entity);
@@ -301,7 +249,6 @@ public class EntityFactory {
         public Entity getWithoutAdding () {
             return entity;
         }
-
     }
 
     /**
@@ -382,6 +329,11 @@ public class EntityFactory {
                 ChainShape poly = new ChainShape();
                 poly.createLoop(polygon);
                 def.shape = poly;
+                return this;
+            }
+
+            public FixtureBuilder isSensor() {
+                def.isSensor = true;
                 return this;
             }
 

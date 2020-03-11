@@ -8,4 +8,5 @@ public class EntityCategory {
     public static final short ENEMY = 0x0008;
     public static final short CANNONBALL = 0x0010;
     public static final short EFFECT = 0x0020;
+    public static final short DYINGSHIP = 0x0040;
 }

@@ -94,7 +94,7 @@ public class DebugRendererSystem extends EntitySystem {
             Array<String> debugs = updateDebugStrings();
 
             debugBatch.begin();
-            font.setColor(Color.RED);
+            font.setColor(Color.FIREBRICK);
             float y = WINDOW_HEIGHT - 4;
             for (String str : debugs) {
                 font.draw(debugBatch, str, 10, y);
@@ -108,8 +108,10 @@ public class DebugRendererSystem extends EntitySystem {
         Array<String> output = new Array<>();
         output.add("DEBUG MODE");
         //output.add("F1 = ");
+        output.add("CONTROLS    B = Toggle Debug mode, Q = Zoom in, E = Zoom out, Esc = Pause (Breaks Game atm)");
         output.add("F1 = Increase player speed stat");
         output.add("F2 = Decrease player speed stat");
+        output.add("F4 = Spawns an Dead Enemy Ship at the mouse position");
         output.add("F5 = Spawns an Enemy Ship at the mouse position");
         for (String str : strings)
             output.add(str);

@@ -17,6 +17,13 @@ public class DeveloperTools {
     public static void spawnEnemyAtCursor() {
         PooledEngine engine = GameManager.getEngine();
         Vector2 pos = engine.getSystem(CameraSystem.class).screenToWorldCords(Gdx.input.getX(), Gdx.input.getY());
+        Entity newShip = EntityFactory.createEnemyShip(pos, 30);
+        Components.CURRENCY.get(newShip).currency = MathUtils.random(200,600);
+    }
+
+    public static void spawnDeadEnemyAtCursor() {
+        PooledEngine engine = GameManager.getEngine();
+        Vector2 pos = engine.getSystem(CameraSystem.class).screenToWorldCords(Gdx.input.getX(), Gdx.input.getY());
         Entity newShip = EntityFactory.createEnemyShip(pos, 0);
         Components.CURRENCY.get(newShip).currency = MathUtils.random(200,600);
     }

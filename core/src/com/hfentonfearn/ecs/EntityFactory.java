@@ -40,6 +40,7 @@ public class EntityFactory {
     private static PhysicsBuilder physicsBuilder = new PhysicsBuilder();
     private static FixtureBuilder fixtureBuilder = new FixtureBuilder();
     private static KillingBuilder killingBuilder = new KillingBuilder();
+    private static ShipStatisticBuilder shipStatisticBuilder = new ShipStatisticBuilder();
 
     public static void setEngine (PooledEngine engine) {
         EntityFactory.engine = engine;
@@ -54,22 +55,20 @@ public class EntityFactory {
                 .sprite(AssetLoader.playerShip.ship)
                 .sprite(AssetLoader.playerShip.sail)
                 .acceleration()
-                .shipStats()
-                .currency(0)
+                .shipStats().currency(500).create()
                 .getWithoutAdding();
         entity.add(new PlayerComponent());
         PlayerComponent.player = entity;
         engine.addEntity(entity);
     }
 
-    public static Entity createEnemyShip(Vector2 position, int health) {
+    public static Entity createEnemyShip(Vector2 position, int hull) {
         AssetLoader.enemyShip.loadLoader();
         Entity entity = builder.createEntity(EntityCategory.ENEMY,position)
                 .buildPhysics(DynamicBody).addFixture(MATERIAL_WOOD).bodyLoader(AssetLoader.enemyShip.loader, "enemyship", 0.65f).create().getBody()
                 .damping(DAMPING_ANGULAR, DAMPING_LINEAR)
                 .sprite(AssetLoader.enemyShip.ship)
-                .shipStats(DEFAULT_SPEED, DEFAULT_STEERING, health, 200, 6f, 1)
-                .currency(0)
+                .shipStats().currency(0).hull(hull).cannonFire(200,6f).create()
                 .addToEngine();
         Components.PHYSICS.get(entity).getBody().setTransform(position.cpy(), MathUtils.random(4));
         return entity;
@@ -220,18 +219,8 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder shipStats() {
-            shipStats(DEFAULT_SPEED, DEFAULT_STEERING, DEFAULT_HULL, DEFAULT_FIRERATE, DEFAULT_FIRERANGE, DEFAULT_INVENTORY_SIZE);
-            return  this;
-        }
-
-        public EntityBuilder shipStats(float speed, float steering, float hull, int firerate, float firerange, int inventorySize) {
-            entity.add(engine.createComponent(InventoryComponent.class).init());
-            entity.add(engine.createComponent(CannonFiringComponent.class));
-            entity.add(engine.createComponent(HealthComponent.class).init(hull));
-            entity.add(engine.createComponent(KillComponent.class));
-            entity.add(engine.createComponent(ShipStatisticComponent.class).init(speed, steering, hull, firerate, firerange, inventorySize));
-            return  this;
+        public ShipStatisticBuilder shipStats() {
+            return shipStatisticBuilder.reset(entity);
         }
 
         public KillingBuilder killable() {
@@ -251,6 +240,7 @@ public class EntityFactory {
         public Entity getWithoutAdding () {
             return entity;
         }
+
     }
 
     /**
@@ -388,6 +378,60 @@ public class EntityFactory {
 
         public EntityBuilder create() {
             entity.add(component);
+            return builder;
+        }
+    }
+
+    private static class ShipStatisticBuilder {
+        private Entity entity;
+
+        ShipStatisticComponent shipStats;
+
+        public ShipStatisticBuilder reset (Entity entity) {
+            this.entity = entity;
+            entity.add(engine.createComponent(CannonFiringComponent.class));
+            entity.add(engine.createComponent(InventoryComponent.class).init());
+            entity.add(engine.createComponent(HealthComponent.class).init(DEFAULT_HULL));
+            entity.add(engine.createComponent(KillComponent.class));
+            shipStats = engine.createComponent(ShipStatisticComponent.class).init(DEFAULT_SPEED, DEFAULT_STEERING, DEFAULT_HULL, DEFAULT_FIRERATE, DEFAULT_FIRERANGE, DEFAULT_INVENTORY_SIZE);
+            return this;
+        }
+
+        public ShipStatisticBuilder inventory(int inventorySize) {
+            shipStats.setInventorySize(inventorySize);
+            Components.INVENTORY.get(entity).setSize(inventorySize);
+            return this;
+        }
+
+        public ShipStatisticBuilder currency(int currency) {
+            entity.add(engine.createComponent(CurrencyComponent.class).init(currency));
+            return this;
+        }
+
+        public ShipStatisticBuilder cannonFire(int firerate, float range) {
+            shipStats.setFirerange(range);
+            shipStats.setFirerate(firerate);
+            return this;
+        }
+
+        public ShipStatisticBuilder hull(float hull) {
+            Components.HEALTH.get(entity).value = hull;
+            shipStats.setMaxHull(hull);
+            return this;
+        }
+
+        public ShipStatisticBuilder speed(float speed) {
+            shipStats.setSpeed(speed);
+            return this;
+        }
+
+        public ShipStatisticBuilder steeringSpeed(float speed) {
+            shipStats.setSteering(speed);
+            return this;
+        }
+
+        public EntityBuilder create() {
+            entity.add(shipStats);
             return builder;
         }
     }

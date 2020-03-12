@@ -7,13 +7,11 @@ import com.hfentonfearn.objects.BootyItem;
 
 public class InventoryComponent implements Component, Poolable {
 
-    public float currency;
     public Array<BootyItem> items;
 
     private InventoryComponent() {}
 
     public InventoryComponent init () {
-        currency = 0;
         items = new Array<>();
         return this;
     }
@@ -25,6 +23,5 @@ public class InventoryComponent implements Component, Poolable {
     @Override
     public void reset() {
         items = null;
-        currency = 0;
     }
 }

@@ -16,8 +16,8 @@ public class DeveloperInputProcessor extends InputAdapter {
             case Keys.F2:
                 DeveloperTools.decPlayerSpeedState();
                 return true;
-            case Keys.F3:
-                DeveloperTools.spawnWaterParticle();
+            case Keys.F4:
+                DeveloperTools.spawnDeadEnemyAtCursor();
                 return true;
             case Keys.F5:
                 DeveloperTools.spawnEnemyAtCursor();

@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.MathUtils;
@@ -23,6 +24,7 @@ public class AssetLoader implements Disposable {
     }
 
     public static final String TEXTURE_ATLAS_OBJECTS = "cannon-shot.atlas";
+    public static final String TEXTURE_ATLAS_PARTICLES = "particles.atlas";
     public static final String SKIN = "skin/level-plane-ui.json";
     public static final String MAP = "tiledMap/world1.tmx";
 
@@ -36,12 +38,14 @@ public class AssetLoader implements Disposable {
     public static AssetCloud clouds;
     public static AssetProjectiles projectiles;
     public static AssetEffects effects;
+    public static AssetParticles particles;
 
     public static Skin skin;
 
     public static void load () {
         getManager(); // Insure the manager exists
         manager.load(TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
+        manager.load(TEXTURE_ATLAS_PARTICLES, TextureAtlas.class);
         manager.load(SKIN, Skin.class);
     }
 
@@ -59,6 +63,8 @@ public class AssetLoader implements Disposable {
         clouds = new AssetCloud(atlas);
         projectiles = new AssetProjectiles(atlas);
         effects = new AssetEffects(atlas);
+
+        particles = new AssetParticles(manager.get(TEXTURE_ATLAS_PARTICLES));
     }
 
     @Override
@@ -125,12 +131,14 @@ public class AssetLoader implements Disposable {
     public static class AssetMiniMap {
         public final Texture mapOverview;
         public final Texture mapBackground;
-        public final Texture cross;
+        public final Texture crossRed;
+        public final Texture crossGreen;
 
         public AssetMiniMap() {
             mapOverview = new Texture(Gdx.files.internal("tiledMap/mapView.png"));
             mapBackground = new Texture(Gdx.files.internal("tiledMap/mapBackground.png"));
-            cross = new Texture(Gdx.files.internal("tiledMap/cross.png"));
+            crossRed = new Texture(Gdx.files.internal("tiledMap/cross_red.png"));
+            crossGreen = new Texture(Gdx.files.internal("tiledMap/cross_green.png"));
         }
     }
 
@@ -139,11 +147,13 @@ public class AssetLoader implements Disposable {
         public final TiledMap tiledMap;
         public final int width;
         public final int height;
+        public final MapObjects spawnzones;
 
         public AssetMap () {
             tiledMap = new TmxMapLoader().load(MAP);
             width = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
             height = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
+            spawnzones = tiledMap.getLayers().get("spawnzones").getObjects();
         }
     }
 
@@ -185,6 +195,14 @@ public class AssetLoader implements Disposable {
         public AssetEffects(TextureAtlas atlas) {
             cannonSplash = new Animation<TextureRegion>(0.06f, atlas.findRegions("waterSplash"));
             cannonExplosion = new Animation<TextureRegion>(0.08f, atlas.findRegions("explosion"));
+        }
+    }
+
+    public static class AssetParticles {
+        public final TextureAtlas atlas;
+
+        public AssetParticles(TextureAtlas atlas) {
+            this.atlas = atlas;
         }
     }
 

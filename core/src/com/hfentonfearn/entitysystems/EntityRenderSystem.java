@@ -8,21 +8,19 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.hfentonfearn.components.AnimationComponent;
-import com.hfentonfearn.components.FarDrawComponent;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.SpriteComponent;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 import com.hfentonfearn.utils.CustomTiledMapRenderer;
 
-public class FarRenderSystem extends IteratingSystem implements Disposable {
+public class EntityRenderSystem extends IteratingSystem implements Disposable {
 
     private static final int spriteRotationOffset = -0;
     private final CustomTiledMapRenderer mapRenderer;
@@ -32,8 +30,8 @@ public class FarRenderSystem extends IteratingSystem implements Disposable {
     private CameraSystem cameraSystem;
     private ZoomSystem zoomSystem;
 
-    public FarRenderSystem() {
-        super(Family.all(FarDrawComponent.class).one(SpriteComponent.class, AnimationComponent.class).get());
+    public EntityRenderSystem() {
+        super(Family.one(SpriteComponent.class, AnimationComponent.class).get());
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         mapRenderer = new CustomTiledMapRenderer(AssetLoader.map.tiledMap,this.batch);
@@ -84,8 +82,10 @@ public class FarRenderSystem extends IteratingSystem implements Disposable {
             if (Components.PHYSICS.has(entity)) {
                 PhysicsComponent physics = Components.PHYSICS.get(entity);
                 Vector2 pos = physics.getPosition();
-                TextureRegion currentFrame = ani.animation.getKeyFrame(ani.stateTime, false);
-                batch.draw(currentFrame, pos.x - currentFrame.getRegionWidth()/2, pos.y - currentFrame.getRegionHeight()/2);
+                Sprite frame = new Sprite(ani.animation.getKeyFrame(ani.stateTime, false));
+                frame.setCenter(pos.x,pos.y);
+                frame.setScale(ani.scale);
+                frame.draw(batch);
             }
         }
         //Render health bar and stuff with the shapeRenderer

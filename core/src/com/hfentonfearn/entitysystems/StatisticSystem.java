@@ -17,11 +17,11 @@ public class StatisticSystem extends IteratingSystem {
         ShipStatisticComponent stats = Components.STATS.get(entity);
         if (stats.changed) {
             if (Components.HEALTH.has(entity))
-                Components.HEALTH.get(entity).max = stats.getHull();
+                Components.HEALTH.get(entity).max = stats.getMaxHull();
             if (Components.INVENTORY.has(entity))
                 Components.INVENTORY.get(entity).setSize(stats.getInventorySize());
             if (Components.CANNON_FIRE.has(entity))
-                Components.CANNON_FIRE.get(entity).update(stats.getFireRate(), stats.getFireRange());
+                Components.CANNON_FIRE.get(entity).update(stats.getFirerate(), stats.getFirerange());
             stats.changed = false;
         }
     }

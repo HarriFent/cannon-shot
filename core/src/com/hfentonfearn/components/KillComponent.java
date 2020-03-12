@@ -6,34 +6,29 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 public class KillComponent implements Component, Poolable {
 
     public boolean kill = false;
-    public boolean fromAnimation = false;
+    public boolean afterAnimation = false;
     public boolean timed = false;
     public boolean fade = false;
+    public boolean exploding = false;
 
     public int timer = 0;
     public int starttime = 0;
+    public float explodingRadius;
 
     private KillComponent() {}
-
-    public KillComponent init (boolean fromAnimation) {
-        this.fromAnimation = fromAnimation;
-        return this;
-    }
-
-    public KillComponent init (int duration) {
-        timed = true;
-        timer = starttime = duration;
-        return this;
-    }
 
     @Override
     public void reset() {
         kill = false;
-        fromAnimation = false;
+        afterAnimation = false;
         timed = false;
         fade = false;
 
         timer = 0;
         starttime = 0;
+    }
+
+    public float getProgress() {
+        return (float) timer / (float) starttime;
     }
 }

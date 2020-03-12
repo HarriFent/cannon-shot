@@ -9,7 +9,7 @@ public class ShipStatisticComponent implements Component , Poolable {
 
     private float speed;
     private float steering;
-    private float hull;
+    private float maxHull;
     private int firerate;
     private float firerange;
     private int inventorySize;
@@ -25,7 +25,7 @@ public class ShipStatisticComponent implements Component , Poolable {
     public ShipStatisticComponent init (float speed, float steering, float hull, int firerate, float firerange, int inventorySize) {
         this.speed = speed;
         this.steering = steering;
-        this.hull = hull;
+        this.maxHull = hull;
         this.firerate = firerate;
         this.firerange = firerange;
         this.inventorySize = inventorySize;
@@ -38,12 +38,29 @@ public class ShipStatisticComponent implements Component , Poolable {
     public void reset() {
         speed = 0f;
         steering = 0f;
-        hull = 0f;
+        maxHull = 0f;
         firerate = 0;
         firerange = 0f;
         inventorySize = 0;
 
         changed = true;
+    }
+
+    //Getters
+    public int getInventorySize() {
+        return inventorySize;
+    }
+
+    public float getFirerange() {
+        return firerange;
+    }
+
+    public int getFirerate() {
+        return firerate;
+    }
+
+    public float getMaxHull() {
+        return maxHull;
     }
 
     public float getSpeed() {
@@ -54,20 +71,29 @@ public class ShipStatisticComponent implements Component , Poolable {
         return steering;
     }
 
-    public int getFireRate() {
-        return firerate;
+    //Setters
+    public void setInventorySize(int inventorySize) {
+        this.inventorySize = inventorySize;
     }
 
-    public float getFireRange() {
-        return firerange;
+    public void setFirerange(float firerange) {
+        this.firerange = firerange;
     }
 
-    public float getHull() {
-        return hull;
+    public void setFirerate(int firerate) {
+        this.firerate = firerate;
     }
 
-    public int getInventorySize() {
-        return inventorySize;
+    public void setMaxHull(float maxHull) {
+        this.maxHull = maxHull;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public void setSteering(float steering) {
+        this.steering = steering;
     }
 
     /**

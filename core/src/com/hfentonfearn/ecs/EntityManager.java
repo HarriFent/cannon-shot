@@ -29,9 +29,13 @@ public class EntityManager extends PooledEngine {
         addSystem(new PlayerMovementSystem());
 
         addSystem(new CannonFiringSystem());
+        addSystem(new CollisionSystem());
         addSystem(new KillSystem());
         addSystem(new HealthSystem());
         addSystem(new StatisticSystem());
+        addSystem(new EnemySpawningSystem());
+        addSystem(new InventorySystem());
+        addSystem(new CurrencySystem());
 
         GUISystem guiSystem = new GUISystem();
         InputSystem inputSystem = new InputSystem(guiSystem);
@@ -39,10 +43,10 @@ public class EntityManager extends PooledEngine {
         //Input System
         addSystem(inputSystem);
         //Entity Render System
-        addSystem(new FarRenderSystem());
-        addSystem(new MapRenderSystem());
+        addSystem(new EntityRenderSystem());
         //Particle System
         addSystem(new ParticleSystem());
+        addSystem(new MapRenderSystem());
         addSystem(new HUDSystem());
         //Debug Render System
         addSystem(new DebugRendererSystem());

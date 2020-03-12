@@ -2,8 +2,7 @@ package com.hfentonfearn.entitysystems;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -17,7 +16,7 @@ import com.hfentonfearn.ui.PauseDialog;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 
-public class InputSystem extends IteratingSystem implements InputProcessor {
+public class InputSystem extends EntitySystem implements InputProcessor {
 
     private InputMultiplexer multiplexer;
     private GUISystem guiSystem;
@@ -25,7 +24,6 @@ public class InputSystem extends IteratingSystem implements InputProcessor {
     private Entity player;
 
     public InputSystem (GUISystem guiSystem) {
-        super(Family.all(PlayerComponent.class).get());
         this.guiSystem = guiSystem;
     }
     
@@ -37,10 +35,9 @@ public class InputSystem extends IteratingSystem implements InputProcessor {
     }
 
     @Override
-    protected void processEntity(Entity entity, float deltaTime) {
-        if (player == null)
-            if (Components.PLAYER.has(entity))
-                player = entity;
+    public void update(float deltaTime) {
+        if (player == null && PlayerComponent.player != null)
+            player = PlayerComponent.player;
     }
 
     public InputMultiplexer getMultiplexer () {

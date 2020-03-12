@@ -1,12 +1,12 @@
 package com.hfentonfearn.entitysystems;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.hfentonfearn.components.CurrencyComponent;
 import com.hfentonfearn.components.HealthComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.utils.Components;
@@ -14,15 +14,16 @@ import com.hfentonfearn.utils.Components;
 import static com.hfentonfearn.utils.Constants.WINDOW_HEIGHT;
 import static com.hfentonfearn.utils.Constants.WINDOW_WIDTH;
 
-public class HUDSystem extends IteratingSystem {
+public class HUDSystem extends EntitySystem {
 
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
+    private BitmapFont font;
 
     public HUDSystem() {
-        super(Family.all(PlayerComponent.class).get());
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
+        font = new BitmapFont();
     }
 
     @Override
@@ -34,15 +35,22 @@ public class HUDSystem extends IteratingSystem {
     public void update (float deltaTime) {
         batch.begin();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        super.update(deltaTime);
+
+        drawHealthBar();
+        drawCurrency();
+
         batch.end();
         shapeRenderer.end();
     }
 
-    @Override
-    protected void processEntity(Entity entity, float deltaTime) {
-        //Default health = 80
-        HealthComponent health = Components.HEALTH.get(entity);
+    private void drawCurrency() {
+        font.setColor(Color.BLACK);
+        CurrencyComponent cur = Components.CURRENCY.get(PlayerComponent.player);
+        font.draw(batch, "GOLD: " + cur.currency, WINDOW_WIDTH - 100, WINDOW_HEIGHT - 50);
+    }
+
+    private void drawHealthBar() {
+        HealthComponent health = Components.HEALTH.get(PlayerComponent.player);
         float barWidth = 7;
         float width = health.max * barWidth + 4;
         shapeRenderer.setColor(new Color(0.5f,0.5f,0.5f,1));

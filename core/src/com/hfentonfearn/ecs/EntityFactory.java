@@ -15,7 +15,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.hfentonfearn.components.*;
 import com.hfentonfearn.entitysystems.ParticleSystem;
 import com.hfentonfearn.entitysystems.PhysicsSystem;
-import com.hfentonfearn.entitysystems.ZoomSystem;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.BodyEditorLoader;
 import com.hfentonfearn.utils.Components;
@@ -24,8 +23,6 @@ import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody;
 import static com.badlogic.gdx.physics.box2d.BodyDef.BodyType.StaticBody;
 import static com.hfentonfearn.ecs.EntityFactory.PhysicsBuilder.FixtureBuilder;
 import static com.hfentonfearn.entitysystems.ParticleSystem.ParticleType;
-import static com.hfentonfearn.entitysystems.ZoomSystem.ZOOM_FAR;
-import static com.hfentonfearn.entitysystems.ZoomSystem.ZOOM_MAP;
 import static com.hfentonfearn.utils.Constants.*;
 
 public class EntityFactory {
@@ -42,6 +39,8 @@ public class EntityFactory {
 
     private static PhysicsBuilder physicsBuilder = new PhysicsBuilder();
     private static FixtureBuilder fixtureBuilder = new FixtureBuilder();
+    private static KillingBuilder killingBuilder = new KillingBuilder();
+    private static ShipStatisticBuilder shipStatisticBuilder = new ShipStatisticBuilder();
 
     public static void setEngine (PooledEngine engine) {
         EntityFactory.engine = engine;
@@ -56,21 +55,20 @@ public class EntityFactory {
                 .sprite(AssetLoader.playerShip.ship)
                 .sprite(AssetLoader.playerShip.sail)
                 .acceleration()
-                .shipStats()
-                .drawDistance(ZOOM_FAR)
+                .shipStats().currency(500).create()
                 .getWithoutAdding();
         entity.add(new PlayerComponent());
+        PlayerComponent.player = entity;
         engine.addEntity(entity);
     }
 
-    public static Entity createEnemyShip(Vector2 position, int health) {
+    public static Entity createEnemyShip(Vector2 position, int hull) {
         AssetLoader.enemyShip.loadLoader();
         Entity entity = builder.createEntity(EntityCategory.ENEMY,position)
                 .buildPhysics(DynamicBody).addFixture(MATERIAL_WOOD).bodyLoader(AssetLoader.enemyShip.loader, "enemyship", 0.65f).create().getBody()
                 .damping(DAMPING_ANGULAR, DAMPING_LINEAR)
                 .sprite(AssetLoader.enemyShip.ship)
-                .shipStats(DEFAULT_SPEED, DEFAULT_STEERING, health, 200, 6f, 1)
-                .drawDistance(ZOOM_FAR)
+                .shipStats().currency(0).hull(hull).cannonFire(200,6f).create()
                 .addToEngine();
         Components.PHYSICS.get(entity).getBody().setTransform(position.cpy(), MathUtils.random(4));
         return entity;
@@ -92,26 +90,13 @@ public class EntityFactory {
                 .addToEngine();
     }
 
-    public static Entity createCloud(Vector2 position, Vector2 movement) {
-        Sprite cloudSprite = new Sprite(AssetLoader.clouds.getRandomCloud());
-        cloudSprite.setCenter(position.x,position.y);
-        cloudSprite.setScale(3);
-        Entity entity = builder.createEntity(EntityCategory.CLOUD,position)
-                .sprite(cloudSprite)
-                .staticMovement(movement)
-                .drawDistance(ZOOM_MAP)
-                .addToEngine();
-        return entity;
-    }
-
     public static Entity createCannonBall(Vector2 position, Vector2 linearVel) {
         Entity entity = builder.createEntity(EntityCategory.CANNONBALL,position)
                 .sprite(AssetLoader.projectiles.cannonBall)
                 .buildPhysics(DynamicBody).addFixture(MATERIAL_STEEL).circle(0.05f).create().getBody()
                 .setInitVelocity(linearVel)
                 .damping(0f, CANNONBALL_DAMPING)
-                .killable()
-                .drawDistance(ZOOM_FAR)
+                .killable().create()
                 .particle(ParticleType.CANNON_TRAIL,true, 0)
                 .addToEngine();
         return entity;
@@ -121,16 +106,14 @@ public class EntityFactory {
         Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
                 .animation(AssetLoader.effects.cannonSplash, true)
                 .buildPhysics(StaticBody).getBody()
-                .drawDistance(ZOOM_FAR)
                 .addToEngine();
         return entity;
     }
 
-    public static Entity createExplosion(Vector2 position) {
+    public static Entity createExplosion(Vector2 position, float scale) {
         Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
-                .animation(AssetLoader.effects.cannonExplosion, true)
                 .buildPhysics(StaticBody).getBody()
-                .drawDistance(ZOOM_FAR)
+                .animation(AssetLoader.effects.cannonExplosion, true, scale)
                 .addToEngine();
         return entity;
     }
@@ -140,14 +123,14 @@ public class EntityFactory {
         return entity;
     }
 
-    public static Entity createDyingShip(Vector2 position) {
-        Entity entity = builder.createEntity(EntityCategory.EFFECT,position)
+    public static Entity createDyingShip(Vector2 position, int currency) {
+        Entity entity = builder.createEntity(EntityCategory.DYINGSHIP,position)
+                .buildPhysics(DynamicBody).addFixture(-1).circle(0.5f).isSensor().create().getBody()
                 .sprite(AssetLoader.enemyShip.deadShip)
-                .killAfterDuration(5)
-                .buildPhysics(DynamicBody).getBody()
-                .drawDistance(ZOOM_FAR)
+                .killable().killAfterDuration(10).explode(20).fade().create()
+                .currency(currency)
+                .damping(DAMPING_ANGULAR,DAMPING_LINEAR)
                 .addToEngine();
-        Components.KILL.get(entity).fade = true;
         return entity;
     }
 
@@ -190,16 +173,6 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder drawDistance (float Zoom) {
-            if (Zoom == ZoomSystem.ZOOM_MAP){
-                entity.add(new MapDrawComponent());
-            }
-            if (Zoom == ZOOM_FAR){
-                entity.add(new FarDrawComponent());
-            }
-            return this;
-        }
-
         public EntityBuilder sprite (TextureRegion region) {
             SpriteComponent spriteComp = Components.SPRITE.get(entity);
             if (spriteComp == null) {
@@ -224,11 +197,15 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder animation(Animation<TextureRegion> animation, boolean killAfterAnimation) {
-            entity.add(engine.createComponent(AnimationComponent.class).init(animation));
+        public EntityBuilder animation(Animation<TextureRegion> animation, boolean killAfterAnimation, float scale) {
+            entity.add(engine.createComponent(AnimationComponent.class).init(animation, scale));
             if (killAfterAnimation)
-                entity.add(engine.createComponent(KillComponent.class).init(true));
+                killable().killAfterAnimation().create();
             return this;
+        }
+
+        public EntityBuilder animation(Animation<TextureRegion> animation, boolean killAfterAnimation) {
+            return animation(animation,killAfterAnimation,1f);
         }
 
         public EntityBuilder particle(ParticleType type, boolean follow, float angle) {
@@ -242,86 +219,18 @@ public class EntityFactory {
             return this;
         }
 
-        public EntityBuilder shipStats() {
-            shipStats(DEFAULT_SPEED, DEFAULT_STEERING, DEFAULT_HULL, DEFAULT_FIRERATE, DEFAULT_FIRERANGE, DEFAULT_INVENTORY_SIZE);
-            return  this;
+        public ShipStatisticBuilder shipStats() {
+            return shipStatisticBuilder.reset(entity);
         }
 
-        public EntityBuilder shipStats(float speed, float steering, float hull, int firerate, float firerange, int inventorySize) {
-            entity.add(engine.createComponent(InventoryComponent.class).init());
-            entity.add(engine.createComponent(CannonFiringComponent.class));
-            entity.add(engine.createComponent(HealthComponent.class).init(hull));
-            entity.add(engine.createComponent(KillComponent.class));
-            entity.add(engine.createComponent(ShipStatisticComponent.class).init(speed, steering, hull, firerate, firerange, inventorySize));
-            return  this;
+        public KillingBuilder killable() {
+            return killingBuilder.reset(entity);
         }
 
-        public EntityBuilder killable() {
-            entity.add(engine.createComponent(KillComponent.class));
+        public EntityBuilder currency(int currency) {
+            entity.add(engine.createComponent(CurrencyComponent.class).init(currency));
             return this;
         }
-
-        public EntityBuilder killAfterDuration(int seconds) {
-            entity.add(engine.createComponent(KillComponent.class).init(seconds * 60));
-            return this;
-        }
-
-        public EntityBuilder staticMovement(Vector2 movement) {
-            entity.add(engine.createComponent(StaticMovementComponent.class).init(movement));
-            return this;
-        }
-
-        /**
-         *  Circle Sensor and Range Sensor
-         */
-        /*
-        public EntityBuilder circleSensor (float radius) {
-            CircleShape shape = new CircleShape();
-            shape.setRadius(radius);
-
-            PhysicsComponent physics = Components.PHYSICS.get(entity);
-            if (physics == null) {
-                physicsBody(DEFAULT_BODY);
-            }
-
-            FixtureDef fixtureDef = new FixtureDef();
-            fixtureDef.isSensor = true;
-            fixtureDef.shape = shape;
-
-            physics.getBody().createFixture(fixtureDef);
-            return this;
-        }
-
-        public EntityBuilder rangeSensor (float range, float arc) {
-            Body body;
-            if (Components.PHYSICS.has(entity)) {
-                body = Components.PHYSICS.get(entity).getBody();
-            } else {
-                Gdx.app.error("Entity Factory", "can not add range sensor : entity does not have a physics component!");
-                return this;
-            }
-
-            Vector2 vertices[] = new Vector2[8];
-
-            for (int i = 0; i <= 7; i++) {
-                vertices[i] = new Vector2(0, 0);
-            }
-
-            for (int i = 0; i < 7; i++) {
-                float angle = (i / 6.0f * arc * MathUtils.degRad) - (90 * MathUtils.degRad);
-                vertices[i + 1].set(range * MathUtils.cos(angle), range * MathUtils.sin(angle));
-            }
-
-            PolygonShape poly = new PolygonShape();
-            poly.set(vertices);
-
-            FixtureDef sensorDef = new FixtureDef();
-            sensorDef.shape = poly;
-            sensorDef.isSensor = true;
-            body.createFixture(sensorDef);
-            poly.dispose();
-            return this;
-        }*/
 
         public Entity addToEngine () {
             engine.addEntity(entity);
@@ -331,8 +240,8 @@ public class EntityFactory {
         public Entity getWithoutAdding () {
             return entity;
         }
-    }
 
+    }
 
     /**
      * Physics Builder and Fixture Builder
@@ -347,6 +256,7 @@ public class EntityFactory {
             body = physicsSystem.createBody(def);
             body.setUserData(entity);
             entity.add(engine.createComponent(PhysicsComponent.class).init(body));
+            entity.add(engine.createComponent(CollisionComponent.class).init());
             return this;
         }
 
@@ -415,6 +325,11 @@ public class EntityFactory {
                 return this;
             }
 
+            public FixtureBuilder isSensor() {
+                def.isSensor = true;
+                return this;
+            }
+
             public FixtureBuilder bodyLoader (BodyEditorLoader loader, String name, float scale) {
                 loader.attachFixture(body, name, def, scale);
                 return this;
@@ -427,5 +342,97 @@ public class EntityFactory {
 
         }
 
+    }
+
+    private static class KillingBuilder {
+        Entity entity;
+        KillComponent component;
+
+        public KillingBuilder reset (Entity entity) {
+            component = engine.createComponent(KillComponent.class);
+            this.entity = entity;
+            return this;
+        }
+
+        public KillingBuilder killAfterAnimation() {
+            component.afterAnimation = true;
+            return this;
+        }
+
+        public KillingBuilder killAfterDuration(int duration) {
+            component.timed = true;
+            component.timer = component.starttime = duration * 60;
+            return this;
+        }
+
+        public KillingBuilder fade() {
+            component.fade = true;
+            return this;
+        }
+
+        public KillingBuilder explode (float radius) {
+            component.exploding = true;
+            component.explodingRadius = radius;
+            return this;
+        }
+
+        public EntityBuilder create() {
+            entity.add(component);
+            return builder;
+        }
+    }
+
+    private static class ShipStatisticBuilder {
+        private Entity entity;
+
+        ShipStatisticComponent shipStats;
+
+        public ShipStatisticBuilder reset (Entity entity) {
+            this.entity = entity;
+            entity.add(engine.createComponent(CannonFiringComponent.class));
+            entity.add(engine.createComponent(InventoryComponent.class).init());
+            entity.add(engine.createComponent(HealthComponent.class).init(DEFAULT_HULL));
+            entity.add(engine.createComponent(KillComponent.class));
+            shipStats = engine.createComponent(ShipStatisticComponent.class).init(DEFAULT_SPEED, DEFAULT_STEERING, DEFAULT_HULL, DEFAULT_FIRERATE, DEFAULT_FIRERANGE, DEFAULT_INVENTORY_SIZE);
+            return this;
+        }
+
+        public ShipStatisticBuilder inventory(int inventorySize) {
+            shipStats.setInventorySize(inventorySize);
+            Components.INVENTORY.get(entity).setSize(inventorySize);
+            return this;
+        }
+
+        public ShipStatisticBuilder currency(int currency) {
+            entity.add(engine.createComponent(CurrencyComponent.class).init(currency));
+            return this;
+        }
+
+        public ShipStatisticBuilder cannonFire(int firerate, float range) {
+            shipStats.setFirerange(range);
+            shipStats.setFirerate(firerate);
+            return this;
+        }
+
+        public ShipStatisticBuilder hull(float hull) {
+            Components.HEALTH.get(entity).value = hull;
+            shipStats.setMaxHull(hull);
+            return this;
+        }
+
+        public ShipStatisticBuilder speed(float speed) {
+            shipStats.setSpeed(speed);
+            return this;
+        }
+
+        public ShipStatisticBuilder steeringSpeed(float speed) {
+            shipStats.setSteering(speed);
+            return this;
+        }
+
+        public EntityBuilder create() {
+            entity.add(shipStats);
+            return builder;
+        }
     }
 }

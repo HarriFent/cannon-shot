@@ -1,7 +1,5 @@
 package com.hfentonfearn.screens;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.math.Vector2;
 import com.hfentonfearn.GameManager;
@@ -43,9 +41,8 @@ public class GameScreen extends AbstractScreen {
     private void createWorld(int width, int height) {
         WorldBuilder worldBuilder = new WorldBuilder(width, height);
         worldBuilder.createWorld();
-        Entity player = engine.getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
-        Vector2 playerpos = Components.PHYSICS.get(player).getPosition();
-        engine.getSystem(CameraSystem.class).setTargetEntity(player);
+        Vector2 playerpos = Components.PHYSICS.get(PlayerComponent.player).getPosition();
+        engine.getSystem(CameraSystem.class).setTargetEntity(PlayerComponent.player);
         engine.getSystem(CameraSystem.class).setWorldBounds(width, height);
         engine.getSystem(CameraSystem.class).goTo(playerpos.x, playerpos.y);
         engine.getSystem(CameraSystem.class).zoom(0.5f);

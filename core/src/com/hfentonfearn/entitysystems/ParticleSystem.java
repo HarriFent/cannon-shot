@@ -13,7 +13,9 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.ParticleComponent;
+import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 
 public class ParticleSystem extends IteratingSystem {
@@ -21,7 +23,7 @@ public class ParticleSystem extends IteratingSystem {
     private static final String ROOT_DIR = "particles/";
 
     public enum ParticleType {
-        WATER("water.p"), SMOKE("smoke.p"), SPARK("spark.p"), CANNON_TRAIL("cannon_trail.p");
+        WATER("water.p"), SMOKE("smoke.p"), SPARK("spark.p"), CANNON_TRAIL("cannon_trail.p"), MONEY("money.p");
 
         public String file;
 
@@ -47,7 +49,7 @@ public class ParticleSystem extends IteratingSystem {
     public void loadTemplates () {
         for (int i = 0; i < ParticleType.values().length; i++) {
             ParticleEffect template = new ParticleEffect();
-            template.load(Gdx.files.internal(ROOT_DIR + ParticleType.values()[i].file), Gdx.files.internal(ROOT_DIR));
+            template.load(Gdx.files.internal(ROOT_DIR + ParticleType.values()[i].file),AssetLoader.particles.atlas);
             effectTemplates.add(template);
 
             ParticleEffectPool pool = new ParticleEffectPool(template, 4, 20);
@@ -100,4 +102,8 @@ public class ParticleSystem extends IteratingSystem {
         batch.end();
     }
 
+    @Override
+    public boolean checkProcessing () {
+        return !GameManager.isPaused();
+    }
 }

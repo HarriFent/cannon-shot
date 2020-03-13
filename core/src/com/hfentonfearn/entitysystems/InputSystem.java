@@ -71,9 +71,11 @@ public class InputSystem extends EntitySystem implements InputProcessor {
                 return true;
 
             case Input.Keys.ESCAPE:
-                GameManager.pause();
-                PauseDialog dialog = new PauseDialog(AssetLoader.skin);
-                dialog.show(guiSystem.getStage());
+                if (!GameManager.isPaused()) {
+                    GameManager.pause();
+                    PauseDialog dialog = new PauseDialog(AssetLoader.skin);
+                    dialog.show(guiSystem.getStage());
+                }
                 return true;
 
         }

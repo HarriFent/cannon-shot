@@ -14,8 +14,8 @@ atlasData: {
 			tintName: null
 			name: base
 			tiled: false
-			minWidth: -1
-			minHeight: -1
+			minWidth: 200
+			minHeight: 50
 			customized: false
 			tenPatchData: null
 		}
@@ -31,8 +31,8 @@ atlasData: {
 			tintName: null
 			name: base-down
 			tiled: false
-			minWidth: -1
-			minHeight: -1
+			minWidth: 200
+			minHeight: 50
 			customized: false
 			tenPatchData: null
 		}
@@ -48,8 +48,8 @@ atlasData: {
 			tintName: null
 			name: base-over
 			tiled: false
-			minWidth: -1
-			minHeight: -1
+			minWidth: 200
+			minHeight: 50
 			customized: false
 			tenPatchData: null
 		}
@@ -71,11 +71,56 @@ atlasData: {
 			tenPatchData: null
 		}
 	]
-	fontDrawables: []
+	fontDrawables: [
+		{
+			file: "/home/hfentonfearn/develop/projects/cannon-shot-git/core/assets/external_resources/atlas_skin/mine/normal.png"
+			bgColor: {
+				r: 0
+				g: 0
+				b: 0
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: normal
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+		}
+	]
 }
 jsonData: {
-	colors: []
-	fonts: []
+	colors: [
+		{
+			class: com.ray3k.skincomposer.data.ColorData
+			color: {
+				r: 0
+				g: 0
+				b: 0
+				a: 1
+			}
+			name: Black
+		}
+		{
+			class: com.ray3k.skincomposer.data.ColorData
+			color: {
+				r: 0.39
+				g: 0.25108662
+				b: 0.075400025
+				a: 1
+			}
+			name: Brown
+		}
+	]
+	fonts: [
+		{
+			class: com.ray3k.skincomposer.data.FontData
+			name: default
+			file: "/home/hfentonfearn/develop/projects/cannon-shot-git/core/assets/external_resources/atlas_skin/mine/normal.fnt"
+		}
+	]
 	freeTypeFonts: []
 	classStyleMap: {
 		com.badlogic.gdx.scenes.scene2d.ui.Button: [
@@ -1294,14 +1339,14 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: null
+						value: default
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.graphics.Color
 						name: fontColor
 						optional: true
-						value: null
+						value: Black
 					}
 					downFontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -1343,21 +1388,21 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: up
 						optional: true
-						value: null
+						value: base
 					}
 					down: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: down
 						optional: true
-						value: null
+						value: base-down
 					}
 					over: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: over
 						optional: true
-						value: null
+						value: base-over
 					}
 					focused: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -1664,14 +1709,14 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: titleFont
 						optional: false
-						value: null
+						value: default
 					}
 					titleFontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.graphics.Color
 						name: titleFontColor
 						optional: true
-						value: null
+						value: Black
 					}
 					stageBackground: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -1692,6 +1737,10 @@ preferences: {
 	maxUndos: {
 		class: java.lang.Integer
 		value: 30
+	}
+	last-import-export-path: {
+		class: java.lang.String
+		value: "/home/hfentonfearn/develop/projects/cannon-shot-git/core/assets/skin/skin2.json"
 	}
 	id: {
 		class: java.lang.Integer

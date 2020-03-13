@@ -1,0 +1,61 @@
+{
+"com.badlogic.gdx.graphics.g2d.BitmapFont": {
+	"default": {
+		"file": "normal.fnt"
+	}
+},
+"com.badlogic.gdx.graphics.Color": {
+	"Black": {
+		"r": 0,
+		"g": 0,
+		"b": 0,
+		"a": 1
+	},
+	"Brown": {
+		"r": 0.39,
+		"g": 0.25108662,
+		"b": 0.075400025,
+		"a": 1
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable": {
+	"base": {
+		"patch": "base",
+		"minWidth": 200,
+		"minHeight": 50
+	},
+	"base-down": {
+		"patch": "base-down",
+		"minWidth": 200,
+		"minHeight": 50
+	},
+	"base-over": {
+		"patch": "base-over",
+		"minWidth": 200,
+		"minHeight": 50
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
+	"default": {
+		"up": "base",
+		"down": "base-down",
+		"over": "base-over"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+	"default": {
+		"font": "default",
+		"fontColor": "Black",
+		"up": "base",
+		"down": "base-down",
+		"over": "base-over"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+	"default": {
+		"background": "window",
+		"titleFont": "default",
+		"titleFontColor": "Black"
+	}
+}
+}

@@ -23,8 +23,8 @@ public class AssetLoader implements Disposable {
         return manager;
     }
 
-    public static final String TEXTURE_ATLAS_OBJECTS = "cannon-shot.atlas";
-    public static final String TEXTURE_ATLAS_PARTICLES = "particles.atlas";
+    public static final String TEXTURE_ATLAS_OBJECTS = "atlas/cannon-shot.atlas";
+    public static final String TEXTURE_ATLAS_PARTICLES = "atlas/particles.atlas";
     public static final String SKIN = "skin/level-plane-ui.json";
     public static final String MAP = "tiledMap/world1.tmx";
 

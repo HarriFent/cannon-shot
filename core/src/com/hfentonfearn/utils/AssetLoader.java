@@ -25,7 +25,7 @@ public class AssetLoader implements Disposable {
 
     public static final String TEXTURE_ATLAS_OBJECTS = "atlas/cannon-shot.atlas";
     public static final String TEXTURE_ATLAS_PARTICLES = "atlas/particles.atlas";
-    public static final String SKIN = "skin/level-plane-ui.json";
+    public static final String SKIN = "skin/skin.json";
     public static final String MAP = "tiledMap/world1.tmx";
 
     public static AssetHotkey hotkey;
@@ -113,8 +113,7 @@ public class AssetLoader implements Disposable {
         public final BitmapFont font;
 
         public AssetFonts (Skin skin) {
-            TextureRegion region = skin.getAtlas().findRegion("font-export");
-            font = new BitmapFont(Gdx.files.internal("skin/font-export.fnt"), region);
+            font = skin.getFont("default");
         }
 
     }

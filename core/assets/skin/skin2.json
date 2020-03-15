@@ -40,6 +40,16 @@
 		"up": "base",
 		"down": "base-down",
 		"over": "base-over"
+	},
+	"inventory": {
+		"up": "base-inv",
+		"down": "base-down-inv"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+	"default": {
+		"font": "default",
+		"fontColor": "Black"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
@@ -51,11 +61,27 @@
 		"over": "base-over"
 	}
 },
+"com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
+	"default": {
+		"font": "default",
+		"fontColor": "Black",
+		"background": "base-inv"
+	}
+},
+"com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
+	"default": {
+		"label": "default"
+	}
+},
 "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
 	"default": {
 		"background": "window",
 		"titleFont": "default",
 		"titleFontColor": "Black"
+	},
+	"inventory": {
+		"background": "window-inv",
+		"titleFont": "default"
 	}
 }
 }

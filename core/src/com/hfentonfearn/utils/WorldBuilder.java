@@ -31,6 +31,9 @@ public class WorldBuilder {
                     //Create ocean rocks
                     EntityFactory.createRocks(((PolygonMapObject)object).getPolygon());
                     break;
+                case "dock":
+                    EntityFactory.createDock(((PolygonMapObject)object).getPolygon());
+                    break;
                 default:
                     //Error
                     System.out.println("Object Type not found for object: " + object.getName());

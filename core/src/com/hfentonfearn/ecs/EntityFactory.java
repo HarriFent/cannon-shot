@@ -85,8 +85,16 @@ public class EntityFactory {
     public static void createRocks(Polygon poly) {
         poly.setPosition(poly.getX()*MPP,poly.getY()*MPP);
         poly.setScale(MPP,MPP);
-        Entity entity = builder.createEntity(EntityCategory.SCENERY,new Vector2(0,0))
+        Entity entity = builder.createEntity(EntityCategory.LAND,new Vector2(0,0))
                 .buildPhysics(StaticBody).addFixture(MATERIAL_STONE).polyChain(poly.getTransformedVertices()).create().getBody()
+                .addToEngine();
+    }
+
+    public static void createDock(Polygon poly) {
+        poly.setPosition(poly.getX()*MPP,poly.getY()*MPP);
+        poly.setScale(MPP,MPP);
+        Entity entity = builder.createEntity(EntityCategory.DOCKS,new Vector2(0,0))
+                .buildPhysics(StaticBody).addFixture(MATERIAL_WOOD).polyChain(poly.getTransformedVertices()).create().getBody()
                 .addToEngine();
     }
 

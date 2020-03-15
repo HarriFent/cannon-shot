@@ -31,7 +31,6 @@ public class CollisionSystem extends IteratingSystem {
                 case ENEMY:
                     switch (entityB.flags) {
                         case LAND:
-                        case SCENERY:
                         case CANNONBALL:
                         case ENEMY:
                         case PLAYER:

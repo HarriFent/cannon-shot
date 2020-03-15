@@ -3,7 +3,7 @@ atlasData: {
 	atlasCurrent: true
 	drawables: [
 		{
-			file: "/home/hfentonfearn/develop/projects/cannon-shot-git/core/assets/external_resources/atlas_skin/mine/base.9.png"
+			file: C:/Users/harry/Development/Java Projects/cannon-shot/core/assets/external_resources/atlas_skin/mine/base.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -20,7 +20,7 @@ atlasData: {
 			tenPatchData: null
 		}
 		{
-			file: "/home/hfentonfearn/develop/projects/cannon-shot-git/core/assets/external_resources/atlas_skin/mine/base-down.9.png"
+			file: C:/Users/harry/Development/Java Projects/cannon-shot/core/assets/external_resources/atlas_skin/mine/base-down.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -37,7 +37,7 @@ atlasData: {
 			tenPatchData: null
 		}
 		{
-			file: "/home/hfentonfearn/develop/projects/cannon-shot-git/core/assets/external_resources/atlas_skin/mine/base-over.9.png"
+			file: C:/Users/harry/Development/Java Projects/cannon-shot/core/assets/external_resources/atlas_skin/mine/base-over.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -54,7 +54,7 @@ atlasData: {
 			tenPatchData: null
 		}
 		{
-			file: "/home/hfentonfearn/develop/projects/cannon-shot-git/core/assets/external_resources/atlas_skin/mine/window.9.png"
+			file: C:/Users/harry/Development/Java Projects/cannon-shot/core/assets/external_resources/atlas_skin/mine/window.9.png
 			bgColor: {
 				r: 1
 				g: 1
@@ -70,10 +70,61 @@ atlasData: {
 			customized: false
 			tenPatchData: null
 		}
+		{
+			file: C:/Users/harry/Development/Java Projects/cannon-shot/core/assets/external_resources/atlas_skin/mine/window-inv.9.png
+			bgColor: {
+				r: 0
+				g: 0
+				b: 0
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: window-inv
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+		}
+		{
+			file: C:/Users/harry/Development/Java Projects/cannon-shot/core/assets/external_resources/atlas_skin/mine/base-inv.9.png
+			bgColor: {
+				r: 0
+				g: 0
+				b: 0
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: base-inv
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+		}
+		{
+			file: C:/Users/harry/Development/Java Projects/cannon-shot/core/assets/external_resources/atlas_skin/mine/base-down-inv.9.png
+			bgColor: {
+				r: 0
+				g: 0
+				b: 0
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: base-down-inv
+			tiled: false
+			minWidth: -1
+			minHeight: -1
+			customized: false
+			tenPatchData: null
+		}
 	]
 	fontDrawables: [
 		{
-			file: "/home/hfentonfearn/develop/projects/cannon-shot-git/core/assets/external_resources/atlas_skin/mine/normal.png"
+			file: C:/Users/harry/Development/Java Projects/cannon-shot/core/assets/external_resources/atlas_skin/mine/normal.png
 			bgColor: {
 				r: 0
 				g: 0
@@ -118,7 +169,7 @@ jsonData: {
 		{
 			class: com.ray3k.skincomposer.data.FontData
 			name: default
-			file: "/home/hfentonfearn/develop/projects/cannon-shot-git/core/assets/external_resources/atlas_skin/mine/normal.fnt"
+			file: C:/Users/harry/Development/Java Projects/cannon-shot/core/assets/external_resources/atlas_skin/mine/normal.fnt
 		}
 	]
 	freeTypeFonts: []
@@ -229,6 +280,113 @@ jsonData: {
 					}
 				}
 				deletable: false
+				parent: null
+			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: inventory
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.Button
+				properties: {
+					up: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: up
+						optional: true
+						value: base-inv
+					}
+					down: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: down
+						optional: true
+						value: base-down-inv
+					}
+					over: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: over
+						optional: true
+						value: null
+					}
+					focused: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: focused
+						optional: true
+						value: null
+					}
+					checked: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: checked
+						optional: true
+						value: null
+					}
+					checkedOver: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: checkedOver
+						optional: true
+						value: null
+					}
+					checkedFocused: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: checkedFocused
+						optional: true
+						value: null
+					}
+					disabled: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: disabled
+						optional: true
+						value: null
+					}
+					pressedOffsetX: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: float
+						name: pressedOffsetX
+						optional: true
+						value: 0
+					}
+					pressedOffsetY: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: float
+						name: pressedOffsetY
+						optional: true
+						value: 0
+					}
+					unpressedOffsetX: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: float
+						name: unpressedOffsetX
+						optional: true
+						value: 0
+					}
+					unpressedOffsetY: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: float
+						name: unpressedOffsetY
+						optional: true
+						value: 0
+					}
+					checkedOffsetX: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: float
+						name: checkedOffsetX
+						optional: true
+						value: 0
+					}
+					checkedOffsetY: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: float
+						name: checkedOffsetY
+						optional: true
+						value: 0
+					}
+				}
+				deletable: true
 				parent: null
 			}
 		]
@@ -794,14 +952,14 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: null
+						value: default
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.graphics.Color
 						name: fontColor
 						optional: true
-						value: null
+						value: Black
 					}
 					background: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -1497,14 +1655,14 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: null
+						value: default
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.graphics.Color
 						name: fontColor
 						optional: false
-						value: null
+						value: Black
 					}
 					focusedFontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -1525,7 +1683,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: background
 						optional: true
-						value: null
+						value: base-inv
 					}
 					focusedBackground: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -1729,6 +1887,43 @@ jsonData: {
 				deletable: false
 				parent: null
 			}
+			{
+				class: com.ray3k.skincomposer.data.StyleData
+				name: inventory
+				clazz: com.badlogic.gdx.scenes.scene2d.ui.Window
+				properties: {
+					background: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: background
+						optional: true
+						value: window-inv
+					}
+					titleFont: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.graphics.g2d.BitmapFont
+						name: titleFont
+						optional: false
+						value: default
+					}
+					titleFontColor: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.graphics.Color
+						name: titleFontColor
+						optional: true
+						value: null
+					}
+					stageBackground: {
+						class: com.ray3k.skincomposer.data.StyleProperty
+						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
+						name: stageBackground
+						optional: true
+						value: null
+					}
+				}
+				deletable: true
+				parent: null
+			}
 		]
 	}
 	customClasses: []
@@ -1751,6 +1946,6 @@ preferences: {
 		value: false
 	}
 }
-saveFile: "/home/hfentonfearn/develop/projects/cannon-shot-git/core/assets/external_resources/atlas_skin/skinCompFile.scmp"
+saveFile: C:/Users/harry/Development/Java Projects/cannon-shot/core/assets/external_resources/atlas_skin/skinCompFile.scmp
 version: 34
 }

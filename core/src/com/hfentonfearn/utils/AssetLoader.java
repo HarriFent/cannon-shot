@@ -153,7 +153,7 @@ public class AssetLoader implements Disposable {
             tiledMap = new TmxMapLoader().load(MAP);
             width = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
             height = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
-            spawnzones = tiledMap.getLayers().get("spawnzones").getObjects();
+            spawnzones = tiledMap.getLayers().get("zones").getObjects();
         }
     }
 

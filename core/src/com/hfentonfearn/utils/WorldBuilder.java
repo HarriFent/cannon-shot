@@ -39,5 +39,8 @@ public class WorldBuilder {
                     System.out.println("Object Type not found for object: " + object.getName());
             }
         }
+        for (MapObject object : AssetLoader.map.zones) {
+
+        }
     }
 }

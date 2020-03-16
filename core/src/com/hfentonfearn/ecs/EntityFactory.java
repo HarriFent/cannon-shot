@@ -100,11 +100,14 @@ public class EntityFactory {
     }
 
     public static void createDockZone(Rectangle rect, float angle) {
-        Entity entity = builder.createEntity(EntityCategory.DOCKS, new Vector2(rect.x, rect.y))
+        //FIX THIS
+        Vector2 pos = new Vector2(rect.x + rect.width/2, rect.y + rect.height/2);
+        Entity entity = builder.createEntity(EntityCategory.DOCKS,pos)
                 .sprite(AssetLoader.effects.dockZone)
-                .buildPhysics(StaticBody).addFixture().isSensor().rectangle(rect, angle).create().getBody()
+                .buildPhysics(StaticBody).addFixture().isSensor().rectangle(rect, angle).create()
+                .rotate(angle)
+                .getBody()
                 .addToEngine();
-        //Components.PHYSICS.get(entity).getBody().setTransform(rect.x,rect.y, (float) Math.toRadians(angle));
     }
 
     public static Entity createCannonBall(Vector2 position, Vector2 linearVel) {
@@ -285,6 +288,11 @@ public class EntityFactory {
             return fixtureBuilder.reset(body);
         }
 
+        public PhysicsBuilder rotate(float angle) {
+            body.setTransform(body.getPosition(),(float) Math.toRadians(angle));
+            return this;
+        }
+
         public EntityBuilder getBody () {
             return builder;
         }
@@ -347,8 +355,8 @@ public class EntityFactory {
 
             public FixtureBuilder rectangle (Rectangle rect, float angle) {
                 PolygonShape poly = new PolygonShape();
-                Vector2 center = new Vector2(rect.x * MPP,rect.y * MPP);
-                poly.setAsBox((rect.width/2) * MPP,(rect.height/2) * MPP, center, angle);
+                Vector2 center = new Vector2(0,0);
+                poly.setAsBox((rect.width/2) * MPP,(rect.height/2) * MPP, center, (float) Math.toRadians(angle));
                 def.shape = poly;
                 return this;
             }

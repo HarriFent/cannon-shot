@@ -43,9 +43,11 @@ public class EnemySpawningSystem extends EntitySystem {
         while (true) {
             Vector2 spawnPoint = new Vector2(MathUtils.random(AssetLoader.map.width), MathUtils.random(AssetLoader.map.height));
             for (MapObject obj : AssetLoader.map.zones) {
-                RectangleMapObject object = (RectangleMapObject) obj;
-                if (object.getRectangle().contains(spawnPoint))
-                    return spawnPoint;
+                if (obj.getProperties().get("type", String.class).equalsIgnoreCase("enemy_spawn")) {
+                    RectangleMapObject object = (RectangleMapObject) obj;
+                    if (object.getRectangle().contains(spawnPoint))
+                        return spawnPoint;
+                }
             }
         }
     }

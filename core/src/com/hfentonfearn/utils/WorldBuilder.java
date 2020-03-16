@@ -45,8 +45,7 @@ public class WorldBuilder {
             switch (object.getProperties().get("type", String.class)) {
                 case "dock":
                     Rectangle rect =  ((RectangleMapObject) object).getRectangle();
-                    float angle = object.getProperties().get("rotation", Float.class);
-//                    Vector2 centerpos = new Vector2(rect.width/2, rect.height/2).rotate(angle).add(new Vector2(rect.x, rect.y));
+                    float angle = object.getProperties().get("angle", Float.class) == null ? 0 : object.getProperties().get("angle", Float.class);
                     EntityFactory.createDockZone(rect, angle);
                     break;
             }

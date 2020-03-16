@@ -3,8 +3,12 @@ package com.hfentonfearn.entitysystems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.CollisionComponent;
+import com.hfentonfearn.components.ZoneTypeComponent;
 import com.hfentonfearn.ecs.EntityFactory;
+import com.hfentonfearn.ui.InventoryDialog;
+import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.ecs.EntityCategory.*;
@@ -20,14 +24,24 @@ public class CollisionSystem extends IteratingSystem {
         for (Entity entityB : Components.COLLISION.get(entityA).collisionEntities){
             switch (entityA.flags) {
                 case PLAYER:
-                    if (entityB.flags == DYINGSHIP) {
-                        int booty = Components.CURRENCY.get(entityB).currency;
-                        if (booty > 0) {
-                            EntityFactory.createParticle(Components.PHYSICS.get(entityA).getPosition(), ParticleSystem.ParticleType.MONEY,0);
-                            Components.CURRENCY.get(entityB).currency--;
-                            Components.CURRENCY.get(entityA).currency++;
-                        }
+                    switch (entityB.flags) {
+                        case DYINGSHIP:
+                            int booty = Components.CURRENCY.get(entityB).currency;
+                            if (booty > 0) {
+                                EntityFactory.createParticle(Components.PHYSICS.get(entityA).getPosition(), ParticleSystem.ParticleType.MONEY,0);
+                                Components.CURRENCY.get(entityB).currency--;
+                                Components.CURRENCY.get(entityA).currency++;
+                            }
+                            break;
+                        case EFFECT:
+                            if (Components.ZONETYPE.get(entityA).type == ZoneTypeComponent.DOCK) {
+                                GameManager.pause();
+                                InventoryDialog inv = new InventoryDialog(AssetLoader.skin);
+
+                            }
+                            break;
                     }
+
                 case ENEMY:
                     switch (entityB.flags) {
                         case LAND:

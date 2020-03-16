@@ -108,6 +108,7 @@ public class EntityFactory {
                 .rotate(angle)
                 .getBody()
                 .addToEngine();
+        entity.add(new ZoneTypeComponent(ZoneTypeComponent.DOCK));
     }
 
     public static Entity createCannonBall(Vector2 position, Vector2 linearVel) {

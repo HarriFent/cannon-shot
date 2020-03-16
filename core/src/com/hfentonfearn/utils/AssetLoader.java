@@ -25,8 +25,7 @@ public class AssetLoader implements Disposable {
 
     public static final String TEXTURE_ATLAS_OBJECTS = "atlas/cannon-shot.atlas";
     public static final String TEXTURE_ATLAS_PARTICLES = "atlas/particles.atlas";
-    public static final String SKIN = "skin/skin.json";
-    public static final String SKIN2 = "skin/skin2.json";
+    public static final String SKIN = "skin/skin2.json";
     public static final String MAP = "tiledMap/world1.tmx";
 
     public static AssetHotkey hotkey;
@@ -47,13 +46,13 @@ public class AssetLoader implements Disposable {
         getManager(); // Insure the manager exists
         manager.load(TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
         manager.load(TEXTURE_ATLAS_PARTICLES, TextureAtlas.class);
-        manager.load(SKIN2, Skin.class);
+        manager.load(SKIN, Skin.class);
     }
 
     public static void create () {
         TextureAtlas atlas = manager.get(TEXTURE_ATLAS_OBJECTS);
 
-        skin = manager.get(SKIN2);
+        skin = manager.get(SKIN);
         hotkey = new AssetHotkey(atlas);
         fonts = new AssetFonts(skin);
         map = new AssetMap();
@@ -191,10 +190,12 @@ public class AssetLoader implements Disposable {
     public static class AssetEffects {
         public final Animation<TextureRegion> cannonSplash;
         public final Animation<TextureRegion> cannonExplosion;
+        public final AtlasRegion dockZone;
 
         public AssetEffects(TextureAtlas atlas) {
             cannonSplash = new Animation<TextureRegion>(0.06f, atlas.findRegions("waterSplash"));
             cannonExplosion = new Animation<TextureRegion>(0.08f, atlas.findRegions("explosion"));
+            dockZone = atlas.findRegion("dockZone");
         }
     }
 

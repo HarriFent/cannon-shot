@@ -113,6 +113,7 @@ public class DebugRendererSystem extends EntitySystem {
         output.add("F2 = Decrease player speed stat");
         output.add("F4 = Spawns an Dead Enemy Ship at the mouse position");
         output.add("F5 = Spawns an Enemy Ship at the mouse position");
+        output.add("Mouse position: (" + Gdx.input.getX() + ", " + Gdx.input.getY() + ")" );
         for (String str : strings)
             output.add(str);
         strings = new Array<>();

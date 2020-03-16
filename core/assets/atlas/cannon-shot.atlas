@@ -4,18 +4,9 @@ size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-button
-  rotate: false
-  xy: 116, 62
-  size: 48, 48
-  split: 13, 13, 13, 13
-  pad: 13, 13, 13, 13
-  orig: 48, 48
-  offset: 0, 0
-  index: -1
 cannon
   rotate: false
-  xy: 952, 182
+  xy: 184, 56
   size: 29, 20
   orig: 29, 20
   offset: 0, 0
@@ -48,9 +39,16 @@ cloud3
   orig: 228, 124
   offset: 0, 0
   index: -1
+dockZone
+  rotate: false
+  xy: 740, 130
+  size: 60, 120
+  orig: 60, 120
+  offset: 0, 0
+  index: -1
 explosion
   rotate: false
-  xy: 876, 175
+  xy: 938, 175
   size: 74, 75
   orig: 74, 75
   offset: 0, 0
@@ -78,49 +76,49 @@ hullLarge
   index: -1
 sailWhite
   rotate: false
-  xy: 952, 204
+  xy: 116, 64
   size: 66, 46
   orig: 66, 46
   offset: 0, 0
   index: -1
 shipBlack
   rotate: false
-  xy: 740, 137
+  xy: 802, 137
   size: 66, 113
   orig: 66, 113
   offset: 0, 0
   index: -1
 shipBlackDead
   rotate: false
-  xy: 808, 137
+  xy: 870, 137
   size: 66, 113
   orig: 66, 113
   offset: 0, 0
   index: -1
 waterSplash
   rotate: false
-  xy: 876, 141
+  xy: 938, 141
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
 waterSplash
   rotate: false
-  xy: 166, 78
+  xy: 184, 78
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
 waterSplash
   rotate: false
-  xy: 910, 141
+  xy: 972, 141
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 3
 waterSplash
   rotate: false
-  xy: 200, 78
+  xy: 218, 78
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

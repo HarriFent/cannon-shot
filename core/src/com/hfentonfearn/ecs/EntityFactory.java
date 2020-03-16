@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -93,9 +94,17 @@ public class EntityFactory {
     public static void createDock(Polygon poly) {
         poly.setPosition(poly.getX()*MPP,poly.getY()*MPP);
         poly.setScale(MPP,MPP);
-        Entity entity = builder.createEntity(EntityCategory.DOCKS,new Vector2(0,0))
+        builder.createEntity(EntityCategory.DOCKS,new Vector2(0,0))
                 .buildPhysics(StaticBody).addFixture(MATERIAL_WOOD).polyChain(poly.getTransformedVertices()).create().getBody()
                 .addToEngine();
+    }
+
+    public static void createDockZone(Rectangle rect, float angle) {
+        Entity entity = builder.createEntity(EntityCategory.DOCKS, new Vector2(rect.x, rect.y))
+                .sprite(AssetLoader.effects.dockZone)
+                .buildPhysics(StaticBody).addFixture().isSensor().rectangle(rect, angle).create().getBody()
+                .addToEngine();
+        //Components.PHYSICS.get(entity).getBody().setTransform(rect.x,rect.y, (float) Math.toRadians(angle));
     }
 
     public static Entity createCannonBall(Vector2 position, Vector2 linearVel) {
@@ -133,7 +142,7 @@ public class EntityFactory {
 
     public static Entity createDyingShip(Vector2 position, int currency) {
         Entity entity = builder.createEntity(EntityCategory.DYINGSHIP,position)
-                .buildPhysics(DynamicBody).addFixture(-1).circle(0.5f).isSensor().create().getBody()
+                .buildPhysics(DynamicBody).addFixture().circle(0.5f).isSensor().create().getBody()
                 .sprite(AssetLoader.enemyShip.deadShip)
                 .killable().killAfterDuration(10).explode(20).fade().create()
                 .currency(currency)
@@ -272,6 +281,10 @@ public class EntityFactory {
             return fixtureBuilder.reset(body, material);
         }
 
+        public FixtureBuilder addFixture () {
+            return fixtureBuilder.reset(body);
+        }
+
         public EntityBuilder getBody () {
             return builder;
         }
@@ -284,6 +297,12 @@ public class EntityFactory {
                 this.body = body;
                 def = new FixtureDef();
                 setMaterial(material);
+                return this;
+            }
+
+            public FixtureBuilder reset (Body body) {
+                this.body = body;
+                def = new FixtureDef();
                 return this;
             }
 
@@ -323,6 +342,14 @@ public class EntityFactory {
                 CircleShape circle = new CircleShape();
                 circle.setRadius(radius);
                 def.shape = circle;
+                return this;
+            }
+
+            public FixtureBuilder rectangle (Rectangle rect, float angle) {
+                PolygonShape poly = new PolygonShape();
+                Vector2 center = new Vector2(rect.x * MPP,rect.y * MPP);
+                poly.setAsBox((rect.width/2) * MPP,(rect.height/2) * MPP, center, angle);
+                def.shape = poly;
                 return this;
             }
 

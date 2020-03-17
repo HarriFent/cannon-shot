@@ -3,12 +3,10 @@ package com.hfentonfearn.entitysystems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.CollisionComponent;
 import com.hfentonfearn.components.ZoneTypeComponent;
 import com.hfentonfearn.ecs.EntityFactory;
-import com.hfentonfearn.ui.InventoryDialog;
-import com.hfentonfearn.utils.AssetLoader;
+import com.hfentonfearn.ui.actions.DockActionButton;
 import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.ecs.EntityCategory.*;
@@ -35,9 +33,7 @@ public class CollisionSystem extends IteratingSystem {
                             break;
                         case EFFECT:
                             if (Components.ZONETYPE.get(entityA).type == ZoneTypeComponent.DOCK) {
-                                GameManager.pause();
-                                InventoryDialog inv = new InventoryDialog(AssetLoader.skin);
-
+                                PlayerActionSystem.showButton(DockActionButton.class);
                             }
                             break;
                     }

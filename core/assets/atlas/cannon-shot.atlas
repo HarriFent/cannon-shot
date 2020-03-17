@@ -4,121 +4,128 @@ size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+btnDock
+  rotate: false
+  xy: 54, 50
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 cannon
   rotate: false
-  xy: 184, 56
+  xy: 182, 51
   size: 29, 20
   orig: 29, 20
   offset: 0, 0
   index: -1
 cannonBall
   rotate: false
-  xy: 98, 39
+  xy: 122, 9
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 cloud1
   rotate: false
-  xy: 270, 115
+  xy: 270, 119
   size: 238, 135
   orig: 238, 135
   offset: 0, 0
   index: -1
 cloud2
   rotate: false
-  xy: 2, 112
+  xy: 2, 116
   size: 266, 138
   orig: 266, 138
   offset: 0, 0
   index: -1
 cloud3
   rotate: false
-  xy: 510, 126
+  xy: 510, 130
   size: 228, 124
   orig: 228, 124
   offset: 0, 0
   index: -1
 dockZone
   rotate: false
-  xy: 740, 130
+  xy: 740, 134
   size: 60, 120
   orig: 60, 120
   offset: 0, 0
   index: -1
 explosion
   rotate: false
-  xy: 938, 175
+  xy: 938, 179
   size: 74, 75
   orig: 74, 75
   offset: 0, 0
   index: 3
 explosion
   rotate: false
-  xy: 54, 51
+  xy: 120, 55
   size: 60, 59
   orig: 60, 59
   offset: 0, 0
   index: 2
 explosion
   rotate: false
-  xy: 54, 8
+  xy: 182, 73
   size: 42, 41
   orig: 42, 41
   offset: 0, 0
   index: 1
 hullLarge
   rotate: false
-  xy: 2, 2
+  xy: 2, 6
   size: 50, 108
   orig: 50, 108
   offset: 0, 0
   index: -1
 sailWhite
   rotate: false
-  xy: 116, 64
+  xy: 54, 2
   size: 66, 46
   orig: 66, 46
   offset: 0, 0
   index: -1
 shipBlack
   rotate: false
-  xy: 802, 137
+  xy: 802, 141
   size: 66, 113
   orig: 66, 113
   offset: 0, 0
   index: -1
 shipBlackDead
   rotate: false
-  xy: 870, 137
+  xy: 870, 141
   size: 66, 113
   orig: 66, 113
   offset: 0, 0
   index: -1
 waterSplash
   rotate: false
-  xy: 938, 141
+  xy: 938, 145
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
 waterSplash
   rotate: false
-  xy: 184, 78
+  xy: 226, 82
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
 waterSplash
   rotate: false
-  xy: 972, 141
+  xy: 972, 145
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 3
 waterSplash
   rotate: false
-  xy: 218, 78
+  xy: 122, 21
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

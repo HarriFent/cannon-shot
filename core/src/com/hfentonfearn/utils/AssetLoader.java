@@ -3,8 +3,11 @@ package com.hfentonfearn.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -28,7 +31,6 @@ public class AssetLoader implements Disposable {
     public static final String SKIN = "skin/skin2.json";
     public static final String MAP = "tiledMap/world1.tmx";
 
-    public static AssetHotkey hotkey;
     public static AssetFonts fonts;
     public static AssetMap map;
     public static AssetMiniMap minimap;
@@ -39,6 +41,7 @@ public class AssetLoader implements Disposable {
     public static AssetProjectiles projectiles;
     public static AssetEffects effects;
     public static AssetParticles particles;
+    public static AssetActions actions;
 
     public static Skin skin;
 
@@ -53,7 +56,6 @@ public class AssetLoader implements Disposable {
         TextureAtlas atlas = manager.get(TEXTURE_ATLAS_OBJECTS);
 
         skin = manager.get(SKIN);
-        hotkey = new AssetHotkey(atlas);
         fonts = new AssetFonts(skin);
         map = new AssetMap();
         minimap = new AssetMiniMap();
@@ -63,6 +65,7 @@ public class AssetLoader implements Disposable {
         clouds = new AssetCloud(atlas);
         projectiles = new AssetProjectiles(atlas);
         effects = new AssetEffects(atlas);
+        actions = new AssetActions(atlas);
 
         particles = new AssetParticles(manager.get(TEXTURE_ATLAS_PARTICLES));
     }
@@ -156,14 +159,6 @@ public class AssetLoader implements Disposable {
         }
     }
 
-    public static class AssetHotkey {
-        public final NinePatch button;
-
-        public AssetHotkey (TextureAtlas atlas) {
-            button = atlas.createPatch("button");
-        }
-    }
-
     public static class AssetCloud {
         public final AtlasRegion[] clouds;
 
@@ -204,6 +199,14 @@ public class AssetLoader implements Disposable {
 
         public AssetParticles(TextureAtlas atlas) {
             this.atlas = atlas;
+        }
+    }
+
+    public static class AssetActions {
+        public final AtlasRegion dock;
+
+        public AssetActions(TextureAtlas atlas) {
+            dock = atlas.findRegion("btnDock");
         }
     }
 

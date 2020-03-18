@@ -2,6 +2,7 @@ package com.hfentonfearn.entitysystems;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -15,7 +16,6 @@ import com.hfentonfearn.utils.Components;
 
 public class PlayerActionSystem extends EntitySystem {
 
-    private GUISystem guiSystem;
     private CameraSystem cameraSystem;
     private OrthographicCamera camera;
 
@@ -25,10 +25,10 @@ public class PlayerActionSystem extends EntitySystem {
 
     private final int radius = 80;
 
-    public PlayerActionSystem() {
+    public PlayerActionSystem(GUISystem guiSystem) {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        actions.add(new DockActionButton());
+        actions.add(new DockActionButton(guiSystem));
     }
 
     public static void hideButton(Class<DockActionButton> actionButtonClass) {
@@ -39,7 +39,6 @@ public class PlayerActionSystem extends EntitySystem {
 
     public void addedToEngine (Engine engine) {
         cameraSystem = engine.getSystem(CameraSystem.class);
-        guiSystem = engine.getSystem(GUISystem.class);
     }
 
     public static <T extends ActionButton> void showButton(Class<T> actionButtonClass) {
@@ -76,13 +75,18 @@ public class PlayerActionSystem extends EntitySystem {
     }
 
     private void drawActionButtons(Vector2 center) {
-        int angle = 0;
+        int angle = 120;
         for ( ActionButton a : actions) {
             DebugRendererSystem.addDebug(a.getClass().getSimpleName() + " isHidden: ", a.isHidden());
+            if (a.isMouseOver()) {
+                getEngine().getSystem(CannonFiringSystem.class).stopFiring();
+            } else {
+                getEngine().getSystem(CannonFiringSystem.class).startFiring();
+            }
             if (!a.isHidden()) {
-                float posX = (float) (center.x + (radius * Math.cos(angle)));
-                float posY = (float) (center.y + (radius * Math.sin(angle)));
-                a.draw(batch, new Vector2(posX, posY));
+                float posX = (float) (center.x + (radius * Math.cos(Math.toRadians(angle))));
+                float posY = (float) (center.y + (radius * Math.sin(Math.toRadians(angle))));
+                a.draw(batch, new Vector2(posX, posY), cameraSystem.screenToWorldCords(Gdx.input.getX(), Gdx.input.getY()));
                 angle += 60;
             }
         }

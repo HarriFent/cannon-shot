@@ -4,9 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.hfentonfearn.components.CollisionComponent;
-import com.hfentonfearn.components.ZoneTypeComponent;
 import com.hfentonfearn.ecs.EntityFactory;
-import com.hfentonfearn.ui.actions.DockActionButton;
 import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.ecs.EntityCategory.*;
@@ -29,11 +27,6 @@ public class CollisionSystem extends IteratingSystem {
                                 EntityFactory.createParticle(Components.PHYSICS.get(entityA).getPosition(), ParticleSystem.ParticleType.MONEY,0);
                                 Components.CURRENCY.get(entityB).currency--;
                                 Components.CURRENCY.get(entityA).currency++;
-                            }
-                            break;
-                        case EFFECT:
-                            if (Components.ZONETYPE.get(entityA).type == ZoneTypeComponent.DOCK) {
-                                PlayerActionSystem.showButton(DockActionButton.class);
                             }
                             break;
                     }

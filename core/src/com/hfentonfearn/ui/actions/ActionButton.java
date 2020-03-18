@@ -1,6 +1,8 @@
 package com.hfentonfearn.ui.actions;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 public abstract class ActionButton {
 
@@ -15,10 +17,19 @@ public abstract class ActionButton {
     public abstract void onClick();
 
     public void show() {
-        hidden = true;
+        hidden = false;
     }
 
     public void hide() {
-        hidden = false;
+        hidden = true;
     }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void draw(SpriteBatch batch, Vector2 pos) {
+        sprite.setCenter(pos.x, pos.y);
+        sprite.draw(batch);
+    };
 }

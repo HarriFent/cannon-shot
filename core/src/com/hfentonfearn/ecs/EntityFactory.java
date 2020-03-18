@@ -102,13 +102,13 @@ public class EntityFactory {
     public static void createDockZone(Rectangle rect, float angle) {
         //FIX THIS
         Vector2 pos = new Vector2(rect.x + rect.width/2, rect.y + rect.height/2);
-        Entity entity = builder.createEntity(EntityCategory.DOCKS,pos)
+        Entity entity = builder.createEntity(EntityCategory.ZONE,pos)
                 .sprite(AssetLoader.effects.dockZone)
                 .buildPhysics(StaticBody).addFixture().isSensor().rectangle(rect, angle).create()
                 .rotate(angle)
                 .getBody()
+                .isZone(ZoneTypeComponent.DOCK)
                 .addToEngine();
-        entity.add(new ZoneTypeComponent(ZoneTypeComponent.DOCK));
     }
 
     public static Entity createCannonBall(Vector2 position, Vector2 linearVel) {
@@ -253,6 +253,11 @@ public class EntityFactory {
             return this;
         }
 
+        public EntityBuilder isZone(int type) {
+            entity.add(new ZoneTypeComponent(type));
+            return this;
+        }
+
         public Entity addToEngine () {
             engine.addEntity(entity);
             return entity;
@@ -261,7 +266,6 @@ public class EntityFactory {
         public Entity getWithoutAdding () {
             return entity;
         }
-
     }
 
     /**

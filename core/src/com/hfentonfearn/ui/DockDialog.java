@@ -28,10 +28,11 @@ public class DockDialog extends Window {
 
     private void initialize() {
         add(contentTable = new Table(skin)).expand().fill();
+
         setMovable(false);
         setModal(true);
 
-        TextButton closeButton = new TextButton("Close", skin);
+        TextButton closeButton = new TextButton("Close", skin, "inventory");
         closeButton.pad(10);
         closeButton.addListener(new ChangeListener() {
             @Override

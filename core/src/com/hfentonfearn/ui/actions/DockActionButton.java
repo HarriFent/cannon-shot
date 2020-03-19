@@ -17,10 +17,8 @@ public class DockActionButton extends ActionButton{
     @Override
     public void onClick() {
         //Show Docks Gui
-        DockDialog inv = new DockDialog(AssetLoader.skin);
-        inv.show(guiSystem.getStage());
+        DockDialog dock = new DockDialog(AssetLoader.skin);
+        dock.show(guiSystem.getStage());
     }
-
-
 
 }

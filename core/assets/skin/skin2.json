@@ -59,6 +59,12 @@
 		"up": "base",
 		"down": "base-down",
 		"over": "base-over"
+	},
+	"inventory": {
+		"font": "default",
+		"fontColor": "Black",
+		"up": "base-inv",
+		"down": "base-down-inv"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {

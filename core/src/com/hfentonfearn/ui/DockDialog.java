@@ -14,12 +14,12 @@ import com.hfentonfearn.GameManager;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
-public class InventoryDialog extends Window {
+public class DockDialog extends Window {
 
     Table contentTable;
     private Skin skin;
 
-    public InventoryDialog(Skin skin) {
+    public DockDialog(Skin skin) {
         super("", skin, "inventory");
         setSkin(skin);
         this.skin = skin;

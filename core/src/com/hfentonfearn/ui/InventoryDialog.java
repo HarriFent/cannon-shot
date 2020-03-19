@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -15,8 +16,18 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class InventoryDialog extends Window {
 
+    Table contentTable;
+    private Skin skin;
+
     public InventoryDialog(Skin skin) {
         super("", skin, "inventory");
+        setSkin(skin);
+        this.skin = skin;
+        initialize();
+    }
+
+    private void initialize() {
+        add(contentTable = new Table(skin)).expand().fill();
         setMovable(false);
         setModal(true);
 
@@ -29,10 +40,12 @@ public class InventoryDialog extends Window {
                 remove();
             }
         });
+
+        contentTable.add(closeButton);
     }
 
     public void show (Stage stage) {
-        show(stage, sequence(Actions.alpha(0), Actions.fadeIn(3f, Interpolation.fade)));
+        show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.3f, Interpolation.fade)));
         setPosition(Math.round((stage.getWidth() - getWidth()) / 2), Math.round((stage.getHeight() - getHeight()) / 2));
     }
 

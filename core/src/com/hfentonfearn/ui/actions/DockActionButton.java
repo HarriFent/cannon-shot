@@ -2,7 +2,7 @@ package com.hfentonfearn.ui.actions;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.hfentonfearn.entitysystems.GUISystem;
-import com.hfentonfearn.ui.InventoryDialog;
+import com.hfentonfearn.ui.DockDialog;
 import com.hfentonfearn.utils.AssetLoader;
 
 public class DockActionButton extends ActionButton{
@@ -17,7 +17,7 @@ public class DockActionButton extends ActionButton{
     @Override
     public void onClick() {
         //Show Docks Gui
-        InventoryDialog inv = new InventoryDialog(AssetLoader.skin);
+        DockDialog inv = new DockDialog(AssetLoader.skin);
         inv.show(guiSystem.getStage());
     }
 

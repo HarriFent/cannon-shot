@@ -5,12 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.hfentonfearn.GameManager;
+import com.hfentonfearn.components.PlayerComponent;
+import com.hfentonfearn.components.ShipStatisticComponent;
+import com.hfentonfearn.utils.Components;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
@@ -42,7 +42,22 @@ public class DockDialog extends Window {
             }
         });
 
+        ShipStatisticComponent stats = Components.STATS.get(PlayerComponent.player);
+        createStatRow("Range:", stats.getFirerange());
+
         contentTable.add(closeButton);
+    }
+
+    private void createStatRow(String s, float f) {
+
+        Label lbl = new Label(s, skin, "inventory");
+        contentTable.row();
+        contentTable.add(lbl);
+
+        TextButton btn = new TextButton("+", skin);
+        btn.
+        contentTable.add();
+
     }
 
     public void show (Stage stage) {

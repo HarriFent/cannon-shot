@@ -27,7 +27,7 @@ public class Constants {
     public static final float CANNONBALL_DAMPING = 2f;
 
     //Default Ship stats
-    public static final float DEFAULT_SPEED = 30f;
+    public static final float DEFAULT_SPEED = 20f;
     public static final float DEFAULT_STEERING = 0.1f;
     public static final float DEFAULT_HULL = 80f;
     public static final int DEFAULT_FIRERATE = 100;

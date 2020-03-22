@@ -61,7 +61,7 @@ public class AssetLoader implements Disposable {
         minimap = new AssetMiniMap();
         playerShip = new AssetPlayerShip(atlas);
         enemyShip = new AssetEnemyShip(atlas);
-        ui = new AssetsUI();
+        ui = new AssetsUI(atlas);
         clouds = new AssetCloud(atlas);
         projectiles = new AssetProjectiles(atlas);
         effects = new AssetEffects(atlas);
@@ -124,9 +124,22 @@ public class AssetLoader implements Disposable {
     public static class AssetsUI {
 
         public Texture mainMenu;
+        public DockUI docks;
 
-        public AssetsUI () {
+        public AssetsUI (TextureAtlas atlas) {
             mainMenu = new Texture(Gdx.files.internal("ui/MainMenu.png"));
+            docks = new DockUI(atlas);
+        }
+
+        public static class DockUI {
+
+            public final AtlasRegion[] upgBtnSails = new AtlasRegion[6];
+
+            public DockUI(TextureAtlas atlas) {
+                for (int i = 0; i < upgBtnSails.length; i++) {
+                    upgBtnSails[i] = atlas.findRegion("dockSail" + (i+1));
+                }
+            }
         }
     }
 

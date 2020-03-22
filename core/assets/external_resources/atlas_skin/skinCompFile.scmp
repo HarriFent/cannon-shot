@@ -635,14 +635,14 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: imageUp
 						optional: true
-						value: null
+						value: base
 					}
 					imageDown: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: imageDown
 						optional: true
-						value: null
+						value: base-down
 					}
 					imageOver: {
 						class: com.ray3k.skincomposer.data.StyleProperty

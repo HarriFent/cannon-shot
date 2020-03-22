@@ -33,13 +33,19 @@
 		"patch": "base-over",
 		"minWidth": 50,
 		"minHeight": 50
+	},
+	"base-disabled": {
+		"patch": "base-disabled",
+		"minWidth": 50,
+		"minHeight": 50
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
 	"default": {
 		"up": "base",
 		"down": "base-down",
-		"over": "base-over"
+		"over": "base-over",
+		"disabled": "base-disabled"
 	},
 	"inventory": {
 		"up": "base-inv",
@@ -48,8 +54,10 @@
 },
 "com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
 	"default": {
-		"imageUp": "base",
-		"imageDown": "base-down"
+		"up": "base",
+		"down": "base-down",
+		"over": "base-over",
+		"disabled": "base-disabled"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
@@ -64,7 +72,8 @@
 		"fontColor": "Black",
 		"up": "base",
 		"down": "base-down",
-		"over": "base-over"
+		"over": "base-over",
+		"disabled": "base-disabled"
 	},
 	"inventory": {
 		"font": "default",

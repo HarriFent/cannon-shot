@@ -155,6 +155,23 @@ atlasData: {
 			customized: false
 			tenPatchData: null
 		}
+		{
+			file: C:/Users/harry/Development/Java Projects/cannon-shot/core/assets/external_resources/atlas_skin/mine/base-disabled.9.png
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			tint: null
+			tintName: null
+			name: base-disabled
+			tiled: false
+			minWidth: 50
+			minHeight: 50
+			customized: false
+			tenPatchData: null
+		}
 	]
 	fontDrawables: [
 		{
@@ -268,7 +285,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: disabled
 						optional: true
-						value: null
+						value: base-disabled
 					}
 					pressedOffsetX: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -635,14 +652,14 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: imageUp
 						optional: true
-						value: base
+						value: null
 					}
 					imageDown: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: imageDown
 						optional: true
-						value: base-down
+						value: null
 					}
 					imageOver: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -677,21 +694,21 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: up
 						optional: true
-						value: null
+						value: base
 					}
 					down: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: down
 						optional: true
-						value: null
+						value: base-down
 					}
 					over: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: over
 						optional: true
-						value: null
+						value: base-over
 					}
 					focused: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -726,7 +743,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: disabled
 						optional: true
-						value: null
+						value: base-disabled
 					}
 					pressedOffsetX: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -1629,7 +1646,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: disabled
 						optional: true
-						value: null
+						value: base-disabled
 					}
 					pressedOffsetX: {
 						class: com.ray3k.skincomposer.data.StyleProperty

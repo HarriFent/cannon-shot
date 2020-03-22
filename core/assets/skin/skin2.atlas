@@ -13,6 +13,15 @@ base
   orig: 32, 32
   offset: 0, 0
   index: -1
+base-disabled
+  rotate: false
+  xy: 306, 270
+  size: 32, 32
+  split: 13, 13, 13, 13
+  pad: 16, 14, 15, 15
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 base-down
   rotate: false
   xy: 272, 304

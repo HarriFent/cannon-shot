@@ -18,6 +18,7 @@ public class DockDialog extends Window {
 
     Table contentTable;
     private Skin skin;
+    private TextButton[] tabs = new TextButton[5];
 
     public DockDialog(Skin skin) {
         super("", skin, "inventory");
@@ -32,6 +33,27 @@ public class DockDialog extends Window {
         setMovable(false);
         setModal(true);
 
+
+
+        ShipStatisticComponent stats = Components.STATS.get(PlayerComponent.player);
+
+        tabs[0] = new TextButton("Speed",skin,"tab");
+        tabs[0].setChecked(true);
+
+        tabs[1] = new TextButton("Steering",skin, "tab");
+        tabs[2] = new TextButton("Hull",skin, "tab");
+        tabs[3] = new TextButton("Cannons",skin, "tab");
+        tabs[4] = new TextButton("Cargo",skin, "tab");
+
+        contentTable.add(tabs[0]).prefWidth(200);
+        contentTable.add(tabs[1]).prefWidth(200);
+        contentTable.add(tabs[2]).prefWidth(200);
+        contentTable.add(tabs[3]).prefWidth(200);
+        contentTable.add(tabs[4]).prefWidth(200);
+        contentTable.row();
+        contentTable.add(new Container<>()).colspan(5).prefHeight(500);
+        contentTable.row();
+
         TextButton closeButton = new TextButton("Close", skin, "inventory");
         closeButton.pad(10);
         closeButton.addListener(new ChangeListener() {
@@ -42,22 +64,8 @@ public class DockDialog extends Window {
             }
         });
 
-        ShipStatisticComponent stats = Components.STATS.get(PlayerComponent.player);
-        createStatRow("Range:", stats.getFirerange());
-
-        contentTable.add(closeButton);
-    }
-
-    private void createStatRow(String s, float f) {
-
-        Label lbl = new Label(s, skin, "inventory");
-        contentTable.row();
-        contentTable.add(lbl);
-
-        TextButton btn = new TextButton("+", skin);
-        btn.
-        contentTable.add();
-
+        contentTable.add(new TextButton("Repair Hull",skin)).prefWidth(200).left().colspan(4);
+        contentTable.add(closeButton).right();
     }
 
     public void show (Stage stage) {

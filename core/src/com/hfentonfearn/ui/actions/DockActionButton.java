@@ -1,6 +1,7 @@
 package com.hfentonfearn.ui.actions;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.hfentonfearn.GameManager;
 import com.hfentonfearn.entitysystems.GUISystem;
 import com.hfentonfearn.ui.DockDialog;
 import com.hfentonfearn.utils.AssetLoader;
@@ -17,8 +18,8 @@ public class DockActionButton extends ActionButton{
     @Override
     public void onClick() {
         //Show Docks Gui
-        DockDialog dock = new DockDialog(AssetLoader.skin);
-        dock.show(guiSystem.getStage());
+        GameManager.pause();
+        new DockDialog(AssetLoader.skin).show(guiSystem.getStage());
     }
 
 }

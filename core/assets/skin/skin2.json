@@ -21,17 +21,17 @@
 "com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable": {
 	"base": {
 		"patch": "base",
-		"minWidth": 200,
+		"minWidth": 50,
 		"minHeight": 50
 	},
 	"base-down": {
 		"patch": "base-down",
-		"minWidth": 200,
+		"minWidth": 50,
 		"minHeight": 50
 	},
 	"base-over": {
 		"patch": "base-over",
-		"minWidth": 200,
+		"minWidth": 50,
 		"minHeight": 50
 	}
 },
@@ -65,6 +65,13 @@
 		"fontColor": "Black",
 		"up": "base-inv",
 		"down": "base-down-inv"
+	},
+	"tab": {
+		"font": "default",
+		"fontColor": "Black",
+		"up": "base-tab",
+		"down": "base-down-tab",
+		"checked": "base-down-tab"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {

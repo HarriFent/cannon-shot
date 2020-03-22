@@ -31,6 +31,14 @@ base-down-inv
   orig: 32, 32
   offset: 0, 0
   index: -1
+base-down-tab
+  rotate: false
+  xy: 69, 224
+  size: 32, 32
+  split: 11, 11, 9, 5
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 base-inv
   rotate: false
   xy: 306, 304
@@ -45,6 +53,14 @@ base-over
   size: 32, 32
   split: 13, 13, 13, 13
   pad: 16, 14, 15, 15
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+base-tab
+  rotate: false
+  xy: 35, 163
+  size: 32, 32
+  split: 11, 11, 9, 5
   orig: 32, 32
   offset: 0, 0
   index: -1

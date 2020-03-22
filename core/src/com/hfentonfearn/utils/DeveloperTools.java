@@ -10,7 +10,9 @@ import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.entitysystems.CameraSystem;
+import com.hfentonfearn.entitysystems.GUISystem;
 import com.hfentonfearn.entitysystems.ParticleSystem;
+import com.hfentonfearn.ui.DockDialog;
 
 public class DeveloperTools {
 
@@ -46,5 +48,10 @@ public class DeveloperTools {
         PooledEngine engine = GameManager.getEngine();
         Vector2 pos = engine.getSystem(CameraSystem.class).screenToWorldCords(Gdx.input.getX(), Gdx.input.getY());
         EntityFactory.createParticle(pos, ParticleSystem.ParticleType.WATER, 0);
+    }
+
+    public static void openDockDialog() {
+        PooledEngine engine = GameManager.getEngine();
+        new DockDialog(AssetLoader.skin).show(engine.getSystem(GUISystem.class).getStage());
     }
 }

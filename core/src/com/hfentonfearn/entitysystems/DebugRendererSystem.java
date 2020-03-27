@@ -16,6 +16,8 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.SpriteComponent;
+import com.hfentonfearn.objects.PlayerUpgrades;
+import com.hfentonfearn.ui.tabs.SpeedTab;
 import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.GameManager.GameConfig.BUILD;
@@ -107,6 +109,7 @@ public class DebugRendererSystem extends EntitySystem {
     private Array<String> updateDebugStrings() {
         Array<String> output = new Array<>();
         output.add("DEBUG MODE");
+        output.add("SpeedCurrentIndex: " + PlayerUpgrades.speed);
         //drawControls(output);
         for (String str : strings)
             output.add(str);

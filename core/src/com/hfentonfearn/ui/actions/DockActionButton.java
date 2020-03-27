@@ -19,7 +19,7 @@ public class DockActionButton extends ActionButton{
     public void onClick() {
         //Show Docks Gui
         GameManager.pause();
-        new DockDialog(AssetLoader.skin).show(guiSystem.getStage());
+        new DockDialog(AssetLoader.skin, guiSystem).show(guiSystem.getStage());
     }
 
 }

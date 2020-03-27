@@ -3,10 +3,11 @@ package com.hfentonfearn.ui.tabs;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.hfentonfearn.ui.DockDialog;
 
 public class CannonTab extends DockTab {
-    public CannonTab(Container<Table> tabPane) {
-        super("Cannon", tabPane);
+    public CannonTab(DockDialog dialog) {
+        super("Cannon", dialog.getTabPane());
 
         tabContent.add(new Button(skin));
         tabContent.row();
@@ -16,5 +17,10 @@ public class CannonTab extends DockTab {
         tabContent.row();
         tabContent.add(new Button(skin));
         tabContent.row();
+    }
+
+    @Override
+    protected void initialize() {
+
     }
 }

@@ -1,14 +1,16 @@
 package com.hfentonfearn.ui.tabs;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
-import com.hfentonfearn.components.PlayerComponent;
+import com.hfentonfearn.objects.PlayerUpgrades;
+import com.hfentonfearn.ui.DockDialog;
+import com.hfentonfearn.ui.UpgradeDialog;
 import com.hfentonfearn.utils.AssetLoader;
-import com.hfentonfearn.utils.Components;
 
 public class SpeedTab extends DockTab {
 
@@ -19,79 +21,66 @@ public class SpeedTab extends DockTab {
     Cotton = 40f
     Silk = 50f
     Cursed = 60f
-     */
-    private Array<UpgradeButton> btns = new Array<>();
+    */
 
-    public SpeedTab(Container<Table> tabPane) {
-        super("Speed", tabPane);
-        btns.add(createButton(null,0,20,0, true));
-        btns.add(createButton(btns.get(0),1,30, 300,false));
-        btns.add(createButton(btns.get(1),2,35, 500,false));
-        btns.add(createButton(btns.get(2),3,40, 600,false));
-        btns.add(createButton(btns.get(3),4,50, 800,false));
-        btns.add(createButton(btns.get(4),5,60, 1000,false));
+    private Array<UpgradeItem> items = new Array<>();
+    private DockDialog dockDialog;
 
-        for (UpgradeButton btn : btns) {
-            tabContent.add(btn);
-            tabContent.row();
-        }
+    public SpeedTab(DockDialog dialog) {
+        super("Speed", dialog.getTabPane());
+        dockDialog = dialog;
+
+        UpgradeItem item = new UpgradeItem(null,"Torn Rags", "These torn rags barely help you get you ship from A to B.", 0, 20);
+        items.add(item);
+        item = new UpgradeItem(item,"Flax Sails", "These basic sails catch the wind enough to get the ship moving.", 300, 30);
+        items.add(item);
+        item = new UpgradeItem(item,"Hemp Sails", "Although pretty heavy, these hemp sails are more resilient.", 500, 35);
+        items.add(item);
+        item = new UpgradeItem(item,"Cotton Sails", "Light weight cotton is stitched to to provide a good speed.", 600, 40);
+        items.add(item);
+        item = new UpgradeItem(item, "Silk Sails", "Luxury sails fit only for kings increase the speed drastically.", 800, 50);
+        items.add(item);
+        item = new UpgradeItem(item, "Cursed Sails", "Sails cursed with the souls of dead sailors. Their spirits carry the wind.", 1000, 60);
+        items.add(item);
+
+        initialize();
     }
 
-    private UpgradeButton createButton(UpgradeButton parent, int index, float speed, int cost, boolean purchased) {
-        UpgradeButton upgradeButton = new UpgradeButton(parent, purchased, cost);
-        ImageButton.ImageButtonStyle style = upgradeButton.getStyle();
+    private ImageButton createButton(int index, UpgradeItem item) {
+        item.purchased = index <= PlayerUpgrades.speed;
+        ImageButton imageButton = new ImageButton(skin);
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle(imageButton.getStyle());
         style.imageUp = new TextureRegionDrawable(AssetLoader.ui.docks.upgBtnSails[index]);
-        upgradeButton.setStyle(style);
-        upgradeButton.addListener(new ChangeListener() {
+        imageButton.setStyle(style);
+        imageButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                int currency = Components.CURRENCY.get(PlayerComponent.player).currency;
-                if (cost <= currency) {
-                    Components.STATS.get(PlayerComponent.player).setSpeed(speed);
-                    Components.CURRENCY.get(PlayerComponent.player).currency -= cost;
-                    upgradeButton.purchased = true;
-                    for (UpgradeButton btn : btns)
-                        btn.checkParent();
-                } else {
-                    // Cannot afford the upgrade
-                }
+                new UpgradeDialog(item).show(dockDialog.getStage());
+                //TODO this doesnt work
+                refresh();
             }
         });
-        return upgradeButton;
+        return imageButton;
     }
 
-    private class UpgradeButton extends ImageButton {
-        private UpgradeButton parent;
-        private boolean purchased;
-        private int cost;
-
-        public UpgradeButton(UpgradeButton parent, boolean purchased, int cost){
-            super(skin);
-            this.parent = parent;
-            this.purchased = purchased;
-            this.cost = cost;
-            setDisabled(true);
-            checkParent();
-        }
-
-        public void checkParent() {
-            if (purchased) {
-                setDisabled(true);
+    @Override
+    protected void initialize() {
+        int index = 0;
+        for (UpgradeItem upItem : items) {
+            tabContent.add(createButton(index, upItem)).size(70);
+            Label l = new Label(upItem.name, skin);
+            Label.LabelStyle style = new Label.LabelStyle(l.getStyle());
+            if (upItem.purchased) {
+                style.fontColor = Color.DARK_GRAY;
+            } else if (upItem.canPurchase()) {
+                style.fontColor = Color.GOLD;
             } else {
-                if (parent.isPurchased()) {
-                    setDisabled(false);
-                } else {
-                    setDisabled(true);
-                }
+                style.fontColor = Color.BLACK;
             }
-        }
-
-        public boolean isPurchased() {
-            return purchased;
-        }
-
-        public int getCost() {
-            return cost;
+            l.setStyle(style);
+            tabContent.add(l).width(200).padLeft(10);
+            tabContent.row();
+            index++;
         }
     }
 }

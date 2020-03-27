@@ -25,6 +25,13 @@ public abstract class DockTab {
         tabContent = new Table();
     }
 
+    public void refresh() {
+        tabContent = new Table();
+        initialize();
+    }
+
+    protected abstract void initialize();
+
     public Table getTabContent() {
         return tabContent;
     }

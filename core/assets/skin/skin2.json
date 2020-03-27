@@ -1,115 +1,115 @@
 {
-"com.badlogic.gdx.graphics.g2d.BitmapFont": {
-	"default": {
-		"file": "normal.fnt"
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	default: {
+		file: normal.fnt
 	}
-},
-"com.badlogic.gdx.graphics.Color": {
-	"Black": {
-		"r": 0,
-		"g": 0,
-		"b": 0,
-		"a": 1
-	},
-	"Brown": {
-		"r": 0.39,
-		"g": 0.25108662,
-		"b": 0.075400025,
-		"a": 1
+}
+com.badlogic.gdx.graphics.Color: {
+	Black: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
 	}
-},
-"com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable": {
-	"base": {
-		"patch": "base",
-		"minWidth": 50,
-		"minHeight": 50
-	},
-	"base-down": {
-		"patch": "base-down",
-		"minWidth": 50,
-		"minHeight": 50
-	},
-	"base-over": {
-		"patch": "base-over",
-		"minWidth": 50,
-		"minHeight": 50
-	},
-	"base-disabled": {
-		"patch": "base-disabled",
-		"minWidth": 50,
-		"minHeight": 50
+	Brown: {
+		r: 0.39
+		g: 0.25108662
+		b: 0.075400025
+		a: 1
 	}
-},
-"com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle": {
-	"default": {
-		"up": "base",
-		"down": "base-down",
-		"over": "base-over",
-		"disabled": "base-disabled"
-	},
-	"inventory": {
-		"up": "base-inv",
-		"down": "base-down-inv"
+}
+com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable: {
+	base: {
+		patch: base
+		minWidth: 50
+		minHeight: 50
 	}
-},
-"com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
-	"default": {
-		"up": "base",
-		"down": "base-down",
-		"over": "base-over",
-		"disabled": "base-disabled"
+	base-down: {
+		patch: base-down
+		minWidth: 50
+		minHeight: 50
 	}
-},
-"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
-	"default": {
-		"font": "default",
-		"fontColor": "Black"
+	base-over: {
+		patch: base-over
+		minWidth: 50
+		minHeight: 50
 	}
-},
-"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
-	"default": {
-		"font": "default",
-		"fontColor": "Black",
-		"up": "base",
-		"down": "base-down",
-		"over": "base-over",
-		"disabled": "base-disabled"
-	},
-	"inventory": {
-		"font": "default",
-		"fontColor": "Black",
-		"up": "base-inv",
-		"down": "base-down-inv"
-	},
-	"tab": {
-		"font": "default",
-		"fontColor": "Black",
-		"up": "base-tab",
-		"down": "base-down-tab",
-		"checked": "base-down-tab"
+	base-disabled: {
+		patch: base-disabled
+		minWidth: 50
+		minHeight: 50
 	}
-},
-"com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
-	"default": {
-		"font": "default",
-		"fontColor": "Black",
-		"background": "base-inv"
+}
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: base
+		down: base-down
+		over: base-over
+		disabled: base-disabled
 	}
-},
-"com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {
-	"default": {
-		"label": "default"
+	inventory: {
+		up: base-inv
+		down: base-down-inv
 	}
-},
-"com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
-	"default": {
-		"background": "window",
-		"titleFont": "default",
-		"titleFontColor": "Black"
-	},
-	"inventory": {
-		"background": "window-inv",
-		"titleFont": "default"
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+	default: {
+		up: base
+		down: base-down
+		over: base-over
+		disabled: base-disabled
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: default
+		fontColor: Black
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: default
+		fontColor: Black
+		up: base
+		down: base-down
+		over: base-over
+		disabled: base-disabled
+	}
+	inventory: {
+		font: default
+		fontColor: Black
+		up: base-inv
+		down: base-down-inv
+	}
+	tab: {
+		font: default
+		fontColor: Black
+		up: base-tab
+		down: base-down-tab
+		checked: base-down-tab
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+	default: {
+		font: default
+		fontColor: Black
+		background: base-inv
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: window
+		titleFont: default
+		titleFontColor: Black
+	}
+	inventory: {
+		background: window-inv
+		titleFont: default
 	}
 }
 }

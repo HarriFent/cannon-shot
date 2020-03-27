@@ -52,6 +52,6 @@ public class DeveloperTools {
 
     public static void openDockDialog() {
         PooledEngine engine = GameManager.getEngine();
-        new DockDialog(AssetLoader.skin).show(engine.getSystem(GUISystem.class).getStage());
+        new DockDialog(AssetLoader.skin, engine.getSystem(GUISystem.class)).show(engine.getSystem(GUISystem.class).getStage());
     }
 }

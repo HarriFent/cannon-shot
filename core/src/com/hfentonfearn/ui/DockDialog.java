@@ -8,21 +8,24 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.hfentonfearn.GameManager;
+import com.hfentonfearn.entitysystems.GUISystem;
 import com.hfentonfearn.ui.tabs.*;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class DockDialog extends Window {
 
-    Table contentTable;
+    private GUISystem guiSystem;
+    private Table contentTable;
     private Skin skin;
     private DockTab[] tabs = new DockTab[5];
     private Container<Table> tabPane = new Container();
 
-    public DockDialog(Skin skin) {
+    public DockDialog(Skin skin, GUISystem guiSystem) {
         super("", skin, "inventory");
         setSkin(skin);
         this.skin = skin;
+        this.guiSystem = guiSystem;
         initialize();
     }
 
@@ -32,11 +35,11 @@ public class DockDialog extends Window {
         setMovable(false);
         setModal(true);
 
-        tabs[0] = new SpeedTab(tabPane);
-        tabs[1] = new SteeringTab(tabPane);
-        tabs[2] = new HullTab(tabPane);
-        tabs[3] = new CannonTab(tabPane);
-        tabs[4] = new CargoTab(tabPane);
+        tabs[0] = new SpeedTab(this);
+        tabs[1] = new SteeringTab(this);
+        tabs[2] = new HullTab(this);
+        tabs[3] = new CannonTab(this);
+        tabs[4] = new CargoTab(this);
 
         ButtonGroup buttonGroup = new ButtonGroup();
         for (DockTab tab : tabs) {
@@ -83,5 +86,13 @@ public class DockDialog extends Window {
         stage.setKeyboardFocus(this);
         stage.setScrollFocus(this);
         if (action != null) addAction(action);
+    }
+
+    public GUISystem getGuiSystem() {
+        return guiSystem;
+    }
+
+    public Container<Table> getTabPane() {
+        return tabPane;
     }
 }

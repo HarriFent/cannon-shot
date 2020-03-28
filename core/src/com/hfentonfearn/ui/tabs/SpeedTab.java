@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
@@ -52,12 +53,11 @@ public class SpeedTab extends DockTab {
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle(imageButton.getStyle());
         style.imageUp = new TextureRegionDrawable(AssetLoader.ui.docks.upgBtnSails[index]);
         imageButton.setStyle(style);
+        DockTab tab = this;
         imageButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                new UpgradeDialog(item).show(dockDialog.getStage());
-                //TODO this doesnt work
-                refresh();
+                new UpgradeDialog(tab, item).show(dockDialog.getStage());
             }
         });
         return imageButton;

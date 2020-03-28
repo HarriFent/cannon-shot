@@ -56,7 +56,7 @@ public class EntityFactory {
                 .sprite(AssetLoader.playerShip.ship)
                 .sprite(AssetLoader.playerShip.sail)
                 .acceleration()
-                .shipStats().currency(500).create()
+                .shipStats().currency(2000).create()
                 .getWithoutAdding();
         entity.add(new PlayerComponent());
         PlayerComponent.player = entity;

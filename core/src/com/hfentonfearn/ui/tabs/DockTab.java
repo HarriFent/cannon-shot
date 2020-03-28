@@ -10,12 +10,14 @@ import com.hfentonfearn.utils.AssetLoader;
 
 public abstract class DockTab {
 
+    private Container<Table> tabPane;
     protected TextButton btnTab;
     protected Table tabContent;
     protected final Skin skin = AssetLoader.skin;
 
     public DockTab(String tabName, Container<Table> tabPane) {
         btnTab = new TextButton(tabName, skin,"tab");
+        this.tabPane = tabPane;
         btnTab.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -28,6 +30,7 @@ public abstract class DockTab {
     public void refresh() {
         tabContent = new Table();
         initialize();
+        tabPane.setActor(tabContent);
     }
 
     protected abstract void initialize();

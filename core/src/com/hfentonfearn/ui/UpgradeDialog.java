@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.objects.PlayerUpgrades;
+import com.hfentonfearn.ui.tabs.DockTab;
 import com.hfentonfearn.ui.tabs.SpeedTab;
 import com.hfentonfearn.ui.tabs.UpgradeItem;
 import com.hfentonfearn.utils.AssetLoader;
@@ -19,7 +20,7 @@ public class UpgradeDialog extends Dialog {
     private Skin skin = AssetLoader.skin;
     private UpgradeItem item;
 
-    public UpgradeDialog(UpgradeItem item) {
+    public UpgradeDialog(DockTab tab, UpgradeItem item) {
         super(item.name, AssetLoader.skin);
         this.item = item;
         setPosition((Gdx.graphics.getWidth() * 0.5f) - (getWidth() * 0.5f),
@@ -34,7 +35,7 @@ public class UpgradeDialog extends Dialog {
         getContentTable().add(new Label("Speed level: " + item.value, skin)).left();
         getContentTable().row();
 
-        getButtonTable().add(getUpgradeButton()).expand().fillX();
+        getButtonTable().add(getUpgradeButton(tab)).expand().fillX();
         TextButton closeButton = new TextButton("Close", skin);
         closeButton.addListener(new ChangeListener() {
             @Override
@@ -45,7 +46,7 @@ public class UpgradeDialog extends Dialog {
         getButtonTable().add(closeButton).expand().fillX();
     }
 
-    private TextButton getUpgradeButton() {
+    private TextButton getUpgradeButton(DockTab tab) {
         String label = "Purchase";
         boolean disabled = false;
         if (item.purchased) {
@@ -69,6 +70,7 @@ public class UpgradeDialog extends Dialog {
                     Components.CURRENCY.get(PlayerComponent.player).currency -= item.cost;
                     item.purchased = true;
                     PlayerUpgrades.speed++;
+                    tab.refresh();
                     hide();
                 }
             }

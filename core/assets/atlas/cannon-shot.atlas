@@ -13,14 +13,14 @@ btnDock
   index: -1
 cannon
   rotate: false
-  xy: 182, 47
+  xy: 250, 47
   size: 29, 20
   orig: 29, 20
   offset: 0, 0
   index: -1
 cannonBall
   rotate: false
-  xy: 213, 57
+  xy: 985, 133
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -46,44 +46,86 @@ cloud3
   orig: 228, 124
   offset: 0, 0
   index: -1
-dockSail1
+dockSpeed1
   rotate: false
-  xy: 122, 8
+  xy: 605, 83
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
-dockSail2
-  rotate: false
-  xy: 229, 69
-  size: 45, 45
-  orig: 45, 45
-  offset: 0, 0
-  index: -1
-dockSail3
+dockSpeed2
   rotate: false
   xy: 182, 69
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
-dockSail4
+dockSpeed3
+  rotate: false
+  xy: 122, 8
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSpeed4
+  rotate: false
+  xy: 229, 69
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSpeed5
   rotate: false
   xy: 276, 72
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
-dockSail5
+dockSpeed6
   rotate: false
   xy: 323, 72
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
-dockSail6
+dockSteering1
   rotate: false
   xy: 370, 72
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSteering2
+  rotate: false
+  xy: 417, 72
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSteering3
+  rotate: false
+  xy: 558, 83
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSteering4
+  rotate: false
+  xy: 464, 72
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSteering5
+  rotate: false
+  xy: 938, 132
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSteering6
+  rotate: false
+  xy: 511, 83
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
@@ -111,7 +153,7 @@ explosion
   index: 2
 explosion
   rotate: false
-  xy: 417, 76
+  xy: 652, 87
   size: 42, 41
   orig: 42, 41
   offset: 0, 0
@@ -132,42 +174,42 @@ sailWhite
   index: -1
 shipBlack
   rotate: false
-  xy: 870, 141
+  xy: 802, 141
   size: 66, 113
   orig: 66, 113
   offset: 0, 0
   index: -1
 shipBlackDead
   rotate: false
-  xy: 802, 141
+  xy: 870, 141
   size: 66, 113
   orig: 66, 113
   offset: 0, 0
   index: -1
 waterSplash
   rotate: false
-  xy: 938, 145
+  xy: 696, 96
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
 waterSplash
   rotate: false
-  xy: 461, 85
+  xy: 985, 145
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
 waterSplash
   rotate: false
-  xy: 972, 145
+  xy: 182, 35
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 3
 waterSplash
   rotate: false
-  xy: 495, 85
+  xy: 216, 35
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

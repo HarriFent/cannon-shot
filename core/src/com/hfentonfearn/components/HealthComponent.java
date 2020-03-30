@@ -29,4 +29,12 @@ public class HealthComponent implements Component, Poolable {
         max = 0;
         value = 0;
     }
+
+    public void fullHeal() {
+        value = max;
+    }
+
+    public void heal(int amount) {
+        value += amount;
+    }
 }

@@ -10,8 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.objects.PlayerUpgrades;
 import com.hfentonfearn.ui.tabs.DockTab;
-import com.hfentonfearn.ui.tabs.SpeedTab;
-import com.hfentonfearn.ui.tabs.UpgradeItem;
 import com.hfentonfearn.utils.AssetLoader;
 import com.hfentonfearn.utils.Components;
 
@@ -66,10 +64,26 @@ public class UpgradeDialog extends Dialog {
             public void changed(ChangeEvent event, Actor actor) {
                 int currency = Components.CURRENCY.get(PlayerComponent.player).currency;
                 if (item.cost <= currency) {
-                    Components.STATS.get(PlayerComponent.player).setSpeed(item.value);
                     Components.CURRENCY.get(PlayerComponent.player).currency -= item.cost;
                     item.purchased = true;
-                    PlayerUpgrades.speed++;
+                    switch (item.type) {
+                        case SPEED:
+                            PlayerUpgrades.speed++;
+                            Components.STATS.get(PlayerComponent.player).setSpeed(item.value);
+                            break;
+                        case STEERING:
+                            PlayerUpgrades.steering++;
+                            Components.STATS.get(PlayerComponent.player).setSteering(item.value);
+                            break;
+                        case FIRERATE:
+                            break;
+                        case FIRERANGE:
+                            break;
+                        case HULL:
+                            break;
+                        case CARGO:
+                            break;
+                    }
                     tab.refresh();
                     hide();
                 }

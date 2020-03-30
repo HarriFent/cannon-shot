@@ -133,12 +133,14 @@ public class AssetLoader implements Disposable {
 
         public static class DockUI {
 
-            public final AtlasRegion[] upgBtnSails = new AtlasRegion[6];
+            public final AtlasRegion[] upgBtnSpeed = new AtlasRegion[6];
+            public final AtlasRegion[] upgBtnSteering = new AtlasRegion[6];
 
             public DockUI(TextureAtlas atlas) {
-                for (int i = 0; i < upgBtnSails.length; i++) {
-                    upgBtnSails[i] = atlas.findRegion("dockSail" + (i+1));
-                }
+                for (int i = 0; i < upgBtnSpeed.length; i++)
+                    upgBtnSpeed[i] = atlas.findRegion("dockSpeed" + (i+1));
+                for (int i = 0; i < upgBtnSteering.length; i++)
+                    upgBtnSteering[i] = atlas.findRegion("dockSteering" + (i+1));
             }
         }
     }

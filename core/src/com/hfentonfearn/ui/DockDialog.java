@@ -8,8 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.hfentonfearn.GameManager;
+import com.hfentonfearn.components.CurrencyComponent;
+import com.hfentonfearn.components.HealthComponent;
+import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.entitysystems.GUISystem;
 import com.hfentonfearn.ui.tabs.*;
+import com.hfentonfearn.utils.Components;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
@@ -69,7 +73,25 @@ public class DockDialog extends Window {
             }
         });
 
-        contentTable.add(new TextButton("Repair Hull",skin)).prefWidth(200).left().colspan(4);
+        TextButton repairButton = new TextButton("Repair Hull",skin);
+        repairButton.pad(10);
+        repairButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                HealthComponent health = Components.HEALTH.get(PlayerComponent.player);
+                CurrencyComponent currency = Components.CURRENCY.get(PlayerComponent.player);
+                float healthGone = health.max - health.value;
+                if (currency.currency >= healthGone) {
+                    currency.currency -= healthGone;
+                    health.fullHeal();
+                } else {
+                    health.heal(currency.currency);
+                    currency.currency = 0;
+                }
+            }
+        });
+
+        contentTable.add(repairButton).prefWidth(200).left().colspan(4);
         contentTable.add(closeButton).right();
     }
 

@@ -30,7 +30,7 @@ public class UpgradeDialog extends Dialog {
         getContentTable().row();
         getContentTable().add(new Label("Upgrade Cost: " + item.cost, skin)).left();
         getContentTable().row();
-        getContentTable().add(new Label("Speed level: " + item.value, skin)).left();
+        getContentTable().add(new Label(item.type.toString() + ": " + item.value, skin)).left();
         getContentTable().row();
 
         getButtonTable().add(getUpgradeButton(tab)).expand().fillX();
@@ -80,6 +80,8 @@ public class UpgradeDialog extends Dialog {
                         case FIRERANGE:
                             break;
                         case HULL:
+                            PlayerUpgrades.hull++;
+                            Components.STATS.get(PlayerComponent.player).setMaxHull(item.value);
                             break;
                         case CARGO:
                             break;

@@ -59,6 +59,7 @@ public abstract class DockTab {
                 item.purchased = index <= PlayerUpgrades.cannonRange;
                 break;
             case HULL:
+                style.imageUp = new TextureRegionDrawable(AssetLoader.ui.docks.upgBtnHull[index]);
                 item.purchased = index <= PlayerUpgrades.hull;
                 break;
             case CARGO:

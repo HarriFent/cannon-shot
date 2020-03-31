@@ -16,7 +16,27 @@ public class UpgradeItem {
         HULL,
         CARGO,
         FIRERANGE,
-        FIRERATE
+        FIRERATE;
+
+        @Override
+        public String toString() {
+            switch (this) {
+                case FIRERANGE:
+                    return "Cannon range";
+                case STEERING:
+                    return "Steering strength";
+                case FIRERATE:
+                    return "Cannon fire rate";
+                case SPEED:
+                    return "Speed level";
+                case CARGO:
+                    return "Cargo capacity";
+                case HULL:
+                    return "Hull points";
+                default:
+                    return "Enum Not Found";
+            }
+        }
     }
 
     public UpgradeItem(UpgradeItem parent, String name, String description, int cost, float value, UpgradeType type) {

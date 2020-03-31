@@ -14,10 +14,10 @@ public class CargoTab extends DockTab {
         super("Cargo", dialog);
 
         addItem(null, "Small Cargo Hold", "A small cupboard at the back of the ship can store a few items.", 0, 3);
-        addItem(items.get(0), "Large Cargo Hold", "Taking the cupboard wall out makes room for a few more things.", 0, 5);
-        addItem(items.get(1), "Master Cargo Hold", "Fixing up the ship reveals additional spaces to store your cargo.", 0, 7);
-        addItem(items.get(2), "Drunk Crew", "The crew have a huge party and drink all the rum supplies freeing space.", 0, 9);
-        addItem(items.get(3), "Hungry Crew", "The crew value cargo over food. They throw the supplies in the ocean.", 0, 12);
+        addItem(items.get(0), "Large Cargo Hold", "Taking the cupboard wall out makes room for a few more things.", 292, 5);
+        addItem(items.get(1), "Master Cargo Hold", "Fixing up the ship reveals additional spaces to store your cargo.", 500, 7);
+        addItem(items.get(2), "Drunk Crew", "The crew have a huge party and drink all the rum supplies freeing space.", 737, 9);
+        addItem(items.get(3), "Hungry Crew", "The crew value cargo over food. They throw the supplies in the ocean.", 1210, 12);
 
         initialize();
     }

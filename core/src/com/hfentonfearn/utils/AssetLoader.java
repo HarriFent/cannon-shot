@@ -136,6 +136,9 @@ public class AssetLoader implements Disposable {
             public final AtlasRegion[] upgBtnSpeed = new AtlasRegion[6];
             public final AtlasRegion[] upgBtnSteering = new AtlasRegion[6];
             public final AtlasRegion[] upgBtnHull = new AtlasRegion[6];
+            public final AtlasRegion[] upgBtnInventory = new AtlasRegion[6];
+            public final AtlasRegion[] upgBtnFireRate = new AtlasRegion[6];
+            public final AtlasRegion[] upgBtnFireRange = new AtlasRegion[6];
 
             public DockUI(TextureAtlas atlas) {
                 for (int i = 0; i < upgBtnSpeed.length; i++)
@@ -144,6 +147,12 @@ public class AssetLoader implements Disposable {
                     upgBtnSteering[i] = atlas.findRegion("dockSteering" + (i+1));
                 for (int i = 0; i < upgBtnHull.length; i++)
                     upgBtnHull[i] = atlas.findRegion("dockHull" + (i+1));
+                for (int i = 0; i < upgBtnInventory.length; i++)
+                    upgBtnInventory[i] = atlas.findRegion("dockInventory" + (i+1));
+                for (int i = 0; i < upgBtnFireRate.length; i++)
+                    upgBtnFireRate[i] = atlas.findRegion("dockFireRate" + (i+1));
+                for (int i = 0; i < upgBtnFireRange.length; i++)
+                    upgBtnFireRange[i] = atlas.findRegion("dockFireRange" + (i+1));
             }
         }
     }

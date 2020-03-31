@@ -53,9 +53,11 @@ public abstract class DockTab {
                 item.purchased = index <= PlayerUpgrades.steering;
                 break;
             case FIRERATE:
+                style.imageUp = new TextureRegionDrawable(AssetLoader.ui.docks.upgBtnFireRate[index]);
                 item.purchased = index <= PlayerUpgrades.cannonFire;
                 break;
             case FIRERANGE:
+                style.imageUp = new TextureRegionDrawable(AssetLoader.ui.docks.upgBtnFireRange[index]);
                 item.purchased = index <= PlayerUpgrades.cannonRange;
                 break;
             case HULL:
@@ -63,6 +65,7 @@ public abstract class DockTab {
                 item.purchased = index <= PlayerUpgrades.hull;
                 break;
             case CARGO:
+                style.imageUp = new TextureRegionDrawable(AssetLoader.ui.docks.upgBtnInventory[index]);
                 item.purchased = index <= PlayerUpgrades.inventory;
                 break;
         }

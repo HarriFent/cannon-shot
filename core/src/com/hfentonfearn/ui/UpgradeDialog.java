@@ -76,14 +76,20 @@ public class UpgradeDialog extends Dialog {
                             Components.STATS.get(PlayerComponent.player).setSteering(item.value);
                             break;
                         case FIRERATE:
+                            PlayerUpgrades.cannonFire++;
+                            Components.STATS.get(PlayerComponent.player).setFirerate((int) item.value);
                             break;
                         case FIRERANGE:
+                            PlayerUpgrades.cannonRange++;
+                            Components.STATS.get(PlayerComponent.player).setFirerange(item.value);
                             break;
                         case HULL:
                             PlayerUpgrades.hull++;
                             Components.STATS.get(PlayerComponent.player).setMaxHull(item.value);
                             break;
                         case CARGO:
+                            PlayerUpgrades.inventory++;
+                            Components.STATS.get(PlayerComponent.player).setInventorySize((int) item.value);
                             break;
                     }
                     tab.refresh();

@@ -13,7 +13,7 @@ btnDock
   index: -1
 cannon
   rotate: false
-  xy: 469, 50
+  xy: 636, 61
   size: 29, 20
   orig: 29, 20
   offset: 0, 0
@@ -88,9 +88,44 @@ dockHull6
   orig: 45, 45
   offset: 0, 0
   index: -1
+dockInventory1
+  rotate: false
+  xy: 652, 83
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockInventory2
+  rotate: false
+  xy: 699, 83
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockInventory3
+  rotate: false
+  xy: 746, 87
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockInventory4
+  rotate: false
+  xy: 464, 72
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockInventory5
+  rotate: false
+  xy: 182, 22
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
 dockSpeed1
   rotate: false
-  xy: 229, 22
+  xy: 511, 36
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
@@ -104,70 +139,70 @@ dockSpeed2
   index: -1
 dockSpeed3
   rotate: false
-  xy: 464, 72
+  xy: 938, 132
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 dockSpeed4
   rotate: false
-  xy: 938, 132
+  xy: 511, 83
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 dockSpeed5
   rotate: false
-  xy: 511, 83
+  xy: 558, 83
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 dockSpeed6
   rotate: false
-  xy: 558, 83
+  xy: 605, 83
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 dockSteering1
   rotate: false
-  xy: 605, 83
+  xy: 229, 22
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 dockSteering2
   rotate: false
-  xy: 652, 83
+  xy: 276, 25
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 dockSteering3
   rotate: false
-  xy: 276, 25
+  xy: 464, 25
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 dockSteering4
   rotate: false
-  xy: 699, 83
+  xy: 323, 25
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 dockSteering5
   rotate: false
-  xy: 746, 87
+  xy: 370, 25
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 dockSteering6
   rotate: false
-  xy: 182, 22
+  xy: 417, 25
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
@@ -195,7 +230,7 @@ explosion
   index: 2
 explosion
   rotate: false
-  xy: 323, 29
+  xy: 558, 40
   size: 42, 41
   orig: 42, 41
   offset: 0, 0
@@ -237,21 +272,21 @@ waterSplash
   index: 3
 waterSplash
   rotate: false
-  xy: 367, 38
+  xy: 511, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
 waterSplash
   rotate: false
-  xy: 401, 38
+  xy: 545, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 4
 waterSplash
   rotate: false
-  xy: 435, 38
+  xy: 602, 49
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

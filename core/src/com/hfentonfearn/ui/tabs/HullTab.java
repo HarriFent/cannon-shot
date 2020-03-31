@@ -17,8 +17,7 @@ public class HullTab extends DockTab {
         initialize();
     }
 
-    @Override
-    protected void addItem(UpgradeItem parent, String name, String desc, int cost, float value) {
+    private void addItem(UpgradeItem parent, String name, String desc, int cost, float value) {
         items.add(new UpgradeItem(parent,name, desc, cost, value, UpgradeItem.UpgradeType.HULL));
     }
 }

@@ -38,8 +38,6 @@ public abstract class DockTab {
         dockDialog.getTabPane().setActor(tabContent);
     }
 
-    protected abstract void addItem(UpgradeItem parent, String name, String desc, int cost, float value);
-
     protected ImageButton createButton(int index, UpgradeItem item) {
         ImageButton imageButton = new ImageButton(skin);
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle(imageButton.getStyle());
@@ -102,7 +100,7 @@ public abstract class DockTab {
             tabContent.row();
             index++;
         }
-    };
+    }
 
     public Table getTabContent() {
         return tabContent;

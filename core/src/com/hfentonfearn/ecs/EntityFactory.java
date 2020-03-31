@@ -69,7 +69,7 @@ public class EntityFactory {
                 .buildPhysics(DynamicBody).addFixture(MATERIAL_WOOD).bodyLoader(AssetLoader.enemyShip.loader, "enemyship", 0.65f).create().getBody()
                 .damping(DAMPING_ANGULAR, DAMPING_LINEAR)
                 .sprite(AssetLoader.enemyShip.ship)
-                .shipStats().currency(0).hull(hull).cannonFire(200,6f).create()
+                .shipStats().currency(MathUtils.random(200,600)).hull(hull).cannonFire(DEFAULT_ENEMY_FIRERATE, DEFAULT_ENEMY_FIRERANGE).create()
                 .addToEngine();
         Components.PHYSICS.get(entity).getBody().setTransform(position.cpy(), MathUtils.random(4));
         return entity;

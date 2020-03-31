@@ -14,7 +14,6 @@ import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.ShipStatisticComponent;
 import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.utils.AssetLoader;
-import com.hfentonfearn.utils.Components;
 
 public class EnemySpawningSystem extends EntitySystem {
 
@@ -29,8 +28,7 @@ public class EnemySpawningSystem extends EntitySystem {
     public void update(float deltaTime) {
         int numOfEnemies = enemies.size();
         if (numOfEnemies < 30) {
-            Entity newShip = EntityFactory.createEnemyShip(getValidSpawnPoint(), MathUtils.random(30,50));
-            Components.CURRENCY.get(newShip).currency = MathUtils.random(200,600);
+            EntityFactory.createEnemyShip(getValidSpawnPoint(), MathUtils.random(30,50));
         }
     }
 

@@ -30,8 +30,13 @@ public class Constants {
     public static final float DEFAULT_SPEED = 20f;
     public static final float DEFAULT_STEERING = 0.035f;
     public static final float DEFAULT_HULL = 80f;
-    public static final int DEFAULT_FIRERATE = 100;
-    public static final float DEFAULT_FIRERANGE = 7f;
+    public static final int DEFAULT_FIRERATE = 300;
+    public static final float DEFAULT_FIRERANGE = 6f;
     public static final int DEFAULT_INVENTORY_SIZE = 3;
+
+    //Default Enemy Ship Stats
+    public static final int DEFAULT_ENEMY_FIRERATE  = 300;
+    public static final float DEFAULT_ENEMY_FIRERANGE  = 6;
+
 
 }

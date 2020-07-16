@@ -25,6 +25,9 @@ public class DeveloperInputProcessor extends InputAdapter {
             case Keys.F5:
                 DeveloperTools.spawnEnemyAtCursor();
                 return true;
+            case Keys.F6:
+                DeveloperTools.giveMoney();
+                return true;
         }
         return false;
     }

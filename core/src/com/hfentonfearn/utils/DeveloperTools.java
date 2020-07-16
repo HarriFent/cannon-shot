@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.hfentonfearn.GameManager;
+import com.hfentonfearn.components.CurrencyComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.entitysystems.CameraSystem;
@@ -53,5 +54,10 @@ public class DeveloperTools {
     public static void openDockDialog() {
         PooledEngine engine = GameManager.getEngine();
         new DockDialog(AssetLoader.skin, engine.getSystem(GUISystem.class)).show(engine.getSystem(GUISystem.class).getStage());
+    }
+
+    public static void giveMoney() {
+        CurrencyComponent cur = Components.CURRENCY.get(PlayerComponent.player);
+        cur.currency += 1000;
     }
 }

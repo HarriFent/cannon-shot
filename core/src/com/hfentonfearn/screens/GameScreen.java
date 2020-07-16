@@ -33,7 +33,7 @@ public class GameScreen extends AbstractScreen {
         multiplexer = engine.getSystem(InputSystem.class).getMultiplexer();
         multiplexer.addProcessor(engine.getSystem(GUISystem.class).getStage());
         if (build == BUILD.DEV) {
-            DEBUGMODE = true;
+            //DEBUGMODE = true;
             multiplexer.addProcessor(new DeveloperInputProcessor());
         }
     }

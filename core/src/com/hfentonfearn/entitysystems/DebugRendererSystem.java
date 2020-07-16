@@ -16,6 +16,8 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.Array;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.SpriteComponent;
+import com.hfentonfearn.objects.PlayerUpgrades;
+import com.hfentonfearn.ui.tabs.SpeedTab;
 import com.hfentonfearn.utils.Components;
 
 import static com.hfentonfearn.GameManager.GameConfig.BUILD;
@@ -107,16 +109,21 @@ public class DebugRendererSystem extends EntitySystem {
     private Array<String> updateDebugStrings() {
         Array<String> output = new Array<>();
         output.add("DEBUG MODE");
-        //output.add("F1 = ");
+        output.add("SpeedCurrentIndex: " + PlayerUpgrades.speed);
+        //drawControls(output);
+        for (String str : strings)
+            output.add(str);
+        strings = new Array<>();
+        return output;
+    }
+
+    private void drawControls(Array<String> output) {
         output.add("CONTROLS    B = Toggle Debug mode, Q = Zoom in, E = Zoom out, Esc = Pause (Breaks Game atm)");
         output.add("F1 = Increase player speed stat");
         output.add("F2 = Decrease player speed stat");
         output.add("F4 = Spawns an Dead Enemy Ship at the mouse position");
         output.add("F5 = Spawns an Enemy Ship at the mouse position");
-        for (String str : strings)
-            output.add(str);
-        strings = new Array<>();
-        return output;
+        output.add("Mouse position: (" + Gdx.input.getX() + ", " + Gdx.input.getY() + ")" );
     }
 
     public static void addDebug(String string) {

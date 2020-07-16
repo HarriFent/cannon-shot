@@ -47,11 +47,11 @@ public class PauseDialog extends Dialog {
             }
         });
 
-        getButtonTable().add(mainMenuButton).pad(5);
+        getButtonTable().add(mainMenuButton).pad(5).prefWidth(200);
         getButtonTable().row();
-        getButtonTable().add(closeButton);
+        getButtonTable().add(closeButton).prefWidth(200);
         getButtonTable().row();
-        getButtonTable().add(exitButton).pad(5);
+        getButtonTable().add(exitButton).pad(5).prefWidth(200);
 
     }
 }

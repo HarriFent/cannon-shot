@@ -14,7 +14,6 @@ import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.components.ShipStatisticComponent;
 import com.hfentonfearn.ecs.EntityFactory;
 import com.hfentonfearn.utils.AssetLoader;
-import com.hfentonfearn.utils.Components;
 
 public class EnemySpawningSystem extends EntitySystem {
 
@@ -29,8 +28,7 @@ public class EnemySpawningSystem extends EntitySystem {
     public void update(float deltaTime) {
         int numOfEnemies = enemies.size();
         if (numOfEnemies < 30) {
-            Entity newShip = EntityFactory.createEnemyShip(getValidSpawnPoint(), MathUtils.random(30,50));
-            Components.CURRENCY.get(newShip).currency = MathUtils.random(200,600);
+            EntityFactory.createEnemyShip(getValidSpawnPoint(), MathUtils.random(30,50));
         }
     }
 
@@ -42,10 +40,12 @@ public class EnemySpawningSystem extends EntitySystem {
     private Vector2 getValidSpawnPoint() {
         while (true) {
             Vector2 spawnPoint = new Vector2(MathUtils.random(AssetLoader.map.width), MathUtils.random(AssetLoader.map.height));
-            for (MapObject obj : AssetLoader.map.spawnzones) {
-                RectangleMapObject object = (RectangleMapObject) obj;
-                if (object.getRectangle().contains(spawnPoint))
-                    return spawnPoint;
+            for (MapObject obj : AssetLoader.map.zones) {
+                if (obj.getProperties().get("type", String.class).equalsIgnoreCase("enemy_spawn")) {
+                    RectangleMapObject object = (RectangleMapObject) obj;
+                    if (object.getRectangle().contains(spawnPoint))
+                        return spawnPoint;
+                }
             }
         }
     }

@@ -20,18 +20,20 @@ public class CollisionSystem extends IteratingSystem {
         for (Entity entityB : Components.COLLISION.get(entityA).collisionEntities){
             switch (entityA.flags) {
                 case PLAYER:
-                    if (entityB.flags == DYINGSHIP) {
-                        int booty = Components.CURRENCY.get(entityB).currency;
-                        if (booty > 0) {
-                            EntityFactory.createParticle(Components.PHYSICS.get(entityA).getPosition(), ParticleSystem.ParticleType.MONEY,0);
-                            Components.CURRENCY.get(entityB).currency--;
-                            Components.CURRENCY.get(entityA).currency++;
-                        }
+                    switch (entityB.flags) {
+                        case DYINGSHIP:
+                            int booty = Components.CURRENCY.get(entityB).currency;
+                            if (booty > 0) {
+                                EntityFactory.createParticle(Components.PHYSICS.get(entityA).getPosition(), ParticleSystem.ParticleType.MONEY,0);
+                                Components.CURRENCY.get(entityB).currency--;
+                                Components.CURRENCY.get(entityA).currency++;
+                            }
+                            break;
                     }
+
                 case ENEMY:
                     switch (entityB.flags) {
                         case LAND:
-                        case SCENERY:
                         case CANNONBALL:
                         case ENEMY:
                         case PLAYER:

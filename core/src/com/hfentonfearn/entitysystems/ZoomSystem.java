@@ -36,7 +36,6 @@ public class ZoomSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
-        DebugRendererSystem.addDebug("Cloud num: ", clouds != null ? clouds.length : 0);
         timeToCameraZoomTarget -= deltaTime;
         camera.zoom = Interpolation.fade.apply(cameraZoomOrigin, cameraZoomTarget, getProgress());
     }

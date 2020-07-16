@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.hfentonfearn.GameManager;
 import com.hfentonfearn.components.CannonFiringComponent;
 import com.hfentonfearn.components.PhysicsComponent;
 import com.hfentonfearn.components.ShipStatisticComponent;
@@ -17,6 +18,7 @@ public class CannonFiringSystem extends IteratingSystem {
 
     private CameraSystem cam;
     private Vector2 playerPos;
+    private boolean halted;
 
     public CannonFiringSystem() {
         super(Family.all(PhysicsComponent.class, ShipStatisticComponent.class, CannonFiringComponent.class).get());
@@ -50,7 +52,7 @@ public class CannonFiringSystem extends IteratingSystem {
         Ellipse firingEllipse = new Ellipse(physics.getPosition().cpy().sub(size.cpy().scl(0.5f)),size.cpy());
         DebugRendererSystem.addShape(firingEllipse, Color.RED, physics.getBody().getAngle());*/
 
-        if (fireComp.firing && fireComp.timer == 0) {
+        if (fireComp.firing && fireComp.timer == 0 && !halted) {
             Vector2 cannonBallPos = getCannonBallPos(Components.SPRITE.get(entity).getSize().cpy().scl(0.6f),
                     physics.getPosition(),
                     physics.getBody().getAngle(),
@@ -75,4 +77,16 @@ public class CannonFiringSystem extends IteratingSystem {
         //return playerPos;
     }
 
+    @Override
+    public boolean checkProcessing () {
+        return !GameManager.isPaused();
+    }
+
+    public void stopFiring() {
+        halted = true;
+    }
+
+    public void startFiring() {
+        halted = false;
+    }
 }

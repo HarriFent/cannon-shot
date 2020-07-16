@@ -74,26 +74,32 @@ public class ShipStatisticComponent implements Component , Poolable {
     //Setters
     public void setInventorySize(int inventorySize) {
         this.inventorySize = inventorySize;
+        changed = true;
     }
 
     public void setFirerange(float firerange) {
         this.firerange = firerange;
+        changed = true;
     }
 
     public void setFirerate(int firerate) {
         this.firerate = firerate;
+        changed = true;
     }
 
     public void setMaxHull(float maxHull) {
         this.maxHull = maxHull;
+        changed = true;
     }
 
     public void setSpeed(float speed) {
         this.speed = speed;
+        changed = true;
     }
 
     public void setSteering(float steering) {
         this.steering = steering;
+        changed = true;
     }
 
     /**

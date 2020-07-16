@@ -3,8 +3,11 @@ package com.hfentonfearn.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -23,12 +26,11 @@ public class AssetLoader implements Disposable {
         return manager;
     }
 
-    public static final String TEXTURE_ATLAS_OBJECTS = "cannon-shot.atlas";
-    public static final String TEXTURE_ATLAS_PARTICLES = "particles.atlas";
-    public static final String SKIN = "skin/level-plane-ui.json";
+    public static final String TEXTURE_ATLAS_OBJECTS = "atlas/cannon-shot.atlas";
+    public static final String TEXTURE_ATLAS_PARTICLES = "atlas/particles.atlas";
+    public static final String SKIN = "skin/skin2.json";
     public static final String MAP = "tiledMap/world1.tmx";
 
-    public static AssetHotkey hotkey;
     public static AssetFonts fonts;
     public static AssetMap map;
     public static AssetMiniMap minimap;
@@ -39,6 +41,7 @@ public class AssetLoader implements Disposable {
     public static AssetProjectiles projectiles;
     public static AssetEffects effects;
     public static AssetParticles particles;
+    public static AssetActions actions;
 
     public static Skin skin;
 
@@ -53,16 +56,16 @@ public class AssetLoader implements Disposable {
         TextureAtlas atlas = manager.get(TEXTURE_ATLAS_OBJECTS);
 
         skin = manager.get(SKIN);
-        hotkey = new AssetHotkey(atlas);
         fonts = new AssetFonts(skin);
         map = new AssetMap();
         minimap = new AssetMiniMap();
         playerShip = new AssetPlayerShip(atlas);
         enemyShip = new AssetEnemyShip(atlas);
-        ui = new AssetsUI();
+        ui = new AssetsUI(atlas);
         clouds = new AssetCloud(atlas);
         projectiles = new AssetProjectiles(atlas);
         effects = new AssetEffects(atlas);
+        actions = new AssetActions(atlas);
 
         particles = new AssetParticles(manager.get(TEXTURE_ATLAS_PARTICLES));
     }
@@ -113,8 +116,7 @@ public class AssetLoader implements Disposable {
         public final BitmapFont font;
 
         public AssetFonts (Skin skin) {
-            TextureRegion region = skin.getAtlas().findRegion("font-export");
-            font = new BitmapFont(Gdx.files.internal("skin/font-export.fnt"), region);
+            font = skin.getFont("default");
         }
 
     }
@@ -122,9 +124,36 @@ public class AssetLoader implements Disposable {
     public static class AssetsUI {
 
         public Texture mainMenu;
+        public DockUI docks;
 
-        public AssetsUI () {
+        public AssetsUI (TextureAtlas atlas) {
             mainMenu = new Texture(Gdx.files.internal("ui/MainMenu.png"));
+            docks = new DockUI(atlas);
+        }
+
+        public static class DockUI {
+
+            public final AtlasRegion[] upgBtnSpeed = new AtlasRegion[6];
+            public final AtlasRegion[] upgBtnSteering = new AtlasRegion[6];
+            public final AtlasRegion[] upgBtnHull = new AtlasRegion[6];
+            public final AtlasRegion[] upgBtnInventory = new AtlasRegion[6];
+            public final AtlasRegion[] upgBtnFireRate = new AtlasRegion[6];
+            public final AtlasRegion[] upgBtnFireRange = new AtlasRegion[6];
+
+            public DockUI(TextureAtlas atlas) {
+                for (int i = 0; i < upgBtnSpeed.length; i++)
+                    upgBtnSpeed[i] = atlas.findRegion("dockSpeed" + (i+1));
+                for (int i = 0; i < upgBtnSteering.length; i++)
+                    upgBtnSteering[i] = atlas.findRegion("dockSteering" + (i+1));
+                for (int i = 0; i < upgBtnHull.length; i++)
+                    upgBtnHull[i] = atlas.findRegion("dockHull" + (i+1));
+                for (int i = 0; i < upgBtnInventory.length; i++)
+                    upgBtnInventory[i] = atlas.findRegion("dockInventory" + (i+1));
+                for (int i = 0; i < upgBtnFireRate.length; i++)
+                    upgBtnFireRate[i] = atlas.findRegion("dockFireRate" + (i+1));
+                for (int i = 0; i < upgBtnFireRange.length; i++)
+                    upgBtnFireRange[i] = atlas.findRegion("dockFireRange" + (i+1));
+            }
         }
     }
 
@@ -147,21 +176,13 @@ public class AssetLoader implements Disposable {
         public final TiledMap tiledMap;
         public final int width;
         public final int height;
-        public final MapObjects spawnzones;
+        public final MapObjects zones;
 
         public AssetMap () {
             tiledMap = new TmxMapLoader().load(MAP);
             width = tiledMap.getProperties().get("width", Integer.class) * tiledMap.getProperties().get("tilewidth", Integer.class);
             height = tiledMap.getProperties().get("height", Integer.class) * tiledMap.getProperties().get("tileheight", Integer.class);
-            spawnzones = tiledMap.getLayers().get("spawnzones").getObjects();
-        }
-    }
-
-    public static class AssetHotkey {
-        public final NinePatch button;
-
-        public AssetHotkey (TextureAtlas atlas) {
-            button = atlas.createPatch("button");
+            zones = tiledMap.getLayers().get("zones").getObjects();
         }
     }
 
@@ -191,10 +212,12 @@ public class AssetLoader implements Disposable {
     public static class AssetEffects {
         public final Animation<TextureRegion> cannonSplash;
         public final Animation<TextureRegion> cannonExplosion;
+        public final AtlasRegion dockZone;
 
         public AssetEffects(TextureAtlas atlas) {
             cannonSplash = new Animation<TextureRegion>(0.06f, atlas.findRegions("waterSplash"));
             cannonExplosion = new Animation<TextureRegion>(0.08f, atlas.findRegions("explosion"));
+            dockZone = atlas.findRegion("dockZone");
         }
     }
 
@@ -203,6 +226,14 @@ public class AssetLoader implements Disposable {
 
         public AssetParticles(TextureAtlas atlas) {
             this.atlas = atlas;
+        }
+    }
+
+    public static class AssetActions {
+        public final AtlasRegion dock;
+
+        public AssetActions(TextureAtlas atlas) {
+            dock = atlas.findRegion("btnDock");
         }
     }
 

@@ -20,7 +20,6 @@ public class InputSystem extends EntitySystem implements InputProcessor {
 
     private InputMultiplexer multiplexer;
     private GUISystem guiSystem;
-    private CannonFiringSystem cannonShootingSystem;
     private Entity player;
 
     public InputSystem (GUISystem guiSystem) {
@@ -30,7 +29,6 @@ public class InputSystem extends EntitySystem implements InputProcessor {
     @Override
     public void addedToEngine (Engine engine) {
         super.addedToEngine(engine);
-        cannonShootingSystem = engine.getSystem(CannonFiringSystem.class);
         initalizeInput();
     }
 
@@ -71,9 +69,11 @@ public class InputSystem extends EntitySystem implements InputProcessor {
                 return true;
 
             case Input.Keys.ESCAPE:
-                GameManager.pause();
-                PauseDialog dialog = new PauseDialog(AssetLoader.skin);
-                dialog.show(guiSystem.getStage());
+                if (!GameManager.isPaused()) {
+                    GameManager.pause();
+                    PauseDialog dialog = new PauseDialog(AssetLoader.skin);
+                    dialog.show(guiSystem.getStage());
+                }
                 return true;
 
         }

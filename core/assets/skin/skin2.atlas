@@ -1,0 +1,99 @@
+
+skin2.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+base
+  rotate: false
+  xy: 1, 224
+  size: 32, 32
+  split: 13, 13, 13, 13
+  pad: 16, 14, 15, 15
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+base-disabled
+  rotate: false
+  xy: 306, 270
+  size: 32, 32
+  split: 13, 13, 13, 13
+  pad: 16, 14, 15, 15
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+base-down
+  rotate: false
+  xy: 272, 304
+  size: 32, 32
+  split: 13, 13, 13, 13
+  pad: 16, 14, 15, 15
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+base-down-inv
+  rotate: false
+  xy: 1, 156
+  size: 32, 32
+  split: 5, 5, 5, 5
+  pad: 4, 4, 4, 4
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+base-down-tab
+  rotate: false
+  xy: 69, 224
+  size: 32, 32
+  split: 11, 11, 9, 5
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+base-inv
+  rotate: false
+  xy: 306, 304
+  size: 32, 32
+  split: 5, 5, 5, 5
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+base-over
+  rotate: false
+  xy: 1, 190
+  size: 32, 32
+  split: 13, 13, 13, 13
+  pad: 16, 14, 15, 15
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+base-tab
+  rotate: false
+  xy: 35, 163
+  size: 32, 32
+  split: 11, 11, 9, 5
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+normal
+  rotate: false
+  xy: 1, 258
+  size: 269, 78
+  orig: 269, 78
+  offset: 0, 0
+  index: -1
+window
+  rotate: false
+  xy: 35, 197
+  size: 32, 59
+  split: 13, 13, 37, 13
+  pad: 15, 15, 40, 17
+  orig: 32, 59
+  offset: 0, 0
+  index: -1
+window-inv
+  rotate: false
+  xy: 272, 270
+  size: 32, 32
+  split: 11, 11, 11, 11
+  orig: 32, 32
+  offset: 0, 0
+  index: -1

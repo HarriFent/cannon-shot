@@ -1,0 +1,363 @@
+
+cannon-shot.png
+size: 1024,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+btnDock
+  rotate: false
+  xy: 54, 50
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+cannon
+  rotate: false
+  xy: 613, 14
+  size: 29, 20
+  orig: 29, 20
+  offset: 0, 0
+  index: -1
+cannonBall
+  rotate: false
+  xy: 613, 2
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+cloud1
+  rotate: false
+  xy: 270, 119
+  size: 238, 135
+  orig: 238, 135
+  offset: 0, 0
+  index: -1
+cloud2
+  rotate: false
+  xy: 2, 116
+  size: 266, 138
+  orig: 266, 138
+  offset: 0, 0
+  index: -1
+cloud3
+  rotate: false
+  xy: 510, 130
+  size: 228, 124
+  orig: 228, 124
+  offset: 0, 0
+  index: -1
+dockFireRange1
+  rotate: false
+  xy: 938, 132
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockFireRange2
+  rotate: false
+  xy: 887, 94
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockFireRange3
+  rotate: false
+  xy: 840, 47
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockFireRange4
+  rotate: false
+  xy: 182, 69
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockFireRange5
+  rotate: false
+  xy: 122, 8
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockFireRate1
+  rotate: false
+  xy: 276, 72
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockFireRate2
+  rotate: false
+  xy: 323, 72
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockFireRate3
+  rotate: false
+  xy: 370, 72
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockFireRate4
+  rotate: false
+  xy: 417, 72
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockFireRate5
+  rotate: false
+  xy: 464, 72
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockHull1
+  rotate: false
+  xy: 558, 83
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockHull2
+  rotate: false
+  xy: 605, 83
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockHull3
+  rotate: false
+  xy: 652, 83
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockHull4
+  rotate: false
+  xy: 699, 83
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockHull5
+  rotate: false
+  xy: 746, 87
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockHull6
+  rotate: false
+  xy: 182, 22
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockInventory1
+  rotate: false
+  xy: 464, 25
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockInventory2
+  rotate: false
+  xy: 511, 36
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockInventory3
+  rotate: false
+  xy: 558, 36
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockInventory4
+  rotate: false
+  xy: 229, 22
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockInventory5
+  rotate: false
+  xy: 605, 36
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSpeed1
+  rotate: false
+  xy: 793, 40
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSpeed2
+  rotate: false
+  xy: 229, 69
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSpeed3
+  rotate: false
+  xy: 276, 25
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSpeed4
+  rotate: false
+  xy: 323, 25
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSpeed5
+  rotate: false
+  xy: 370, 25
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSpeed6
+  rotate: false
+  xy: 417, 25
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSteering1
+  rotate: false
+  xy: 652, 36
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSteering2
+  rotate: false
+  xy: 699, 36
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSteering3
+  rotate: false
+  xy: 840, 94
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSteering4
+  rotate: false
+  xy: 746, 40
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSteering5
+  rotate: false
+  xy: 511, 83
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockSteering6
+  rotate: false
+  xy: 793, 87
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+dockZone
+  rotate: false
+  xy: 740, 134
+  size: 60, 120
+  orig: 60, 120
+  offset: 0, 0
+  index: -1
+explosion
+  rotate: false
+  xy: 938, 179
+  size: 74, 75
+  orig: 74, 75
+  offset: 0, 0
+  index: 3
+explosion
+  rotate: false
+  xy: 120, 55
+  size: 60, 59
+  orig: 60, 59
+  offset: 0, 0
+  index: 2
+explosion
+  rotate: false
+  xy: 887, 51
+  size: 42, 41
+  orig: 42, 41
+  offset: 0, 0
+  index: 1
+hullLarge
+  rotate: false
+  xy: 2, 6
+  size: 50, 108
+  orig: 50, 108
+  offset: 0, 0
+  index: -1
+sailWhite
+  rotate: false
+  xy: 54, 2
+  size: 66, 46
+  orig: 66, 46
+  offset: 0, 0
+  index: -1
+shipBlack
+  rotate: false
+  xy: 802, 141
+  size: 66, 113
+  orig: 66, 113
+  offset: 0, 0
+  index: -1
+shipBlackDead
+  rotate: false
+  xy: 870, 141
+  size: 66, 113
+  orig: 66, 113
+  offset: 0, 0
+  index: -1
+waterSplash
+  rotate: false
+  xy: 985, 145
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 3
+waterSplash
+  rotate: false
+  xy: 511, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 4
+waterSplash
+  rotate: false
+  xy: 545, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2
+waterSplash
+  rotate: false
+  xy: 579, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 1

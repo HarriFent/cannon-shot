@@ -94,8 +94,7 @@ public class EntityRenderSystem extends IteratingSystem implements Disposable {
             shapeRenderer.setColor(Color.GRAY);
             shapeRenderer.rect(pos.x - 25,pos.y + 60,50,6);
             shapeRenderer.setColor(Color.RED);
-            int width = (int)(50.0 * Components.HEALTH.get(entity).percentage());
-            width = width > 50 ? 50 : width;
+            int width = Components.HEALTH.get(entity).max <= 0 ? 50 : (int)(50.0 * Components.HEALTH.get(entity).percentage());
             shapeRenderer.rect(pos.x - 25,pos.y + 60,width,6);
         }
     }

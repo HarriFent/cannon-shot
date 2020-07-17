@@ -463,7 +463,7 @@ public class EntityFactory {
         }
 
         public ShipStatisticBuilder hull(float hull) {
-            Components.HEALTH.get(entity).value = hull;
+            Components.HEALTH.get(entity).set(hull);
             shipStats.setMaxHull(hull);
             return this;
         }

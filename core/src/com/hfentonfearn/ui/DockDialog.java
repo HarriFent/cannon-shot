@@ -12,6 +12,7 @@ import com.hfentonfearn.components.CurrencyComponent;
 import com.hfentonfearn.components.HealthComponent;
 import com.hfentonfearn.components.PlayerComponent;
 import com.hfentonfearn.entitysystems.GUISystem;
+import com.hfentonfearn.objects.PlayerUpgrades;
 import com.hfentonfearn.ui.tabs.*;
 import com.hfentonfearn.utils.Components;
 
@@ -91,7 +92,23 @@ public class DockDialog extends Window {
             }
         });
 
-        contentTable.add(repairButton).prefWidth(200).left().colspan(4);
+        TextButton upgradeButton = new TextButton("Upgrade All",skin);
+        upgradeButton.pad(10);
+        upgradeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                PlayerUpgrades.fullUpgrade();
+                Components.STATS.get(PlayerComponent.player).setSpeed(60);
+                Components.STATS.get(PlayerComponent.player).setSteering(0.2f);
+                Components.STATS.get(PlayerComponent.player).setFirerange(14f);
+                Components.STATS.get(PlayerComponent.player).setFirerate(75);
+                Components.STATS.get(PlayerComponent.player).setInventorySize(12);
+                Components.STATS.get(PlayerComponent.player).setMaxHull(200f);
+            }
+        });
+
+        contentTable.add(repairButton).prefWidth(200).left().colspan(1);
+        contentTable.add(upgradeButton).prefWidth(200).left().colspan(3);
         contentTable.add(closeButton).right();
     }
 

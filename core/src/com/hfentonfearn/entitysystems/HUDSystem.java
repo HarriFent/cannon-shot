@@ -57,7 +57,7 @@ public class HUDSystem extends EntitySystem {
         shapeRenderer.rect(WINDOW_WIDTH - width - 10,WINDOW_HEIGHT - 30, width, 20 );
         shapeRenderer.setColor(Color.RED);
         float x = 1;
-        while (x <= health.value) {
+        while (x <= health.getDisplayValue()) {
             shapeRenderer.rect(WINDOW_WIDTH - (x * barWidth) - 10,WINDOW_HEIGHT - 28, barWidth - 2, 16 );
             x++;
         }
